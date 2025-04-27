@@ -9,6 +9,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 #include "libft/libft.h"
+#include <sys/types.h>
+#include <sys/wait.h>
 
 typedef struct s_token_data
 {
@@ -27,6 +29,12 @@ typedef struct s_history
 	int capacity;
 }	t_history;
 
+void	ft_execute(char *argv, t_history *history ,char **envp);
+int check_his(char *token, t_history *history);
+void	error(void);
+void	ft_free(char **str);
+char	*find_path(char *cmd, char **envp);
+t_list *ft_parser(char **toknize);
 t_history	*init_history(void);
 int			ft_strcmp(char *s1, char *s2);
 void		add_to_history(t_history *history, char *line);
@@ -34,8 +42,7 @@ void		print_history(t_history *history);
 void		free_history(t_history *history);
 void sigint_handler(int sig);
 void setup_signals(void);
-void ft_propt(void);
-
+void ft_propt(char **envp);
 void free_char_array(char **tokens);
 char **ft_tokenize(const char *input);
 

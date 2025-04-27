@@ -4,7 +4,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -Ilibft
 RLFLAGS = -lreadline
 
-SRCS = main.c signals.c add_to_history.c tokenize.c utilis.c
+SRCS = main.c signals.c add_to_history.c tokenize.c utilis.c parser.c ft_execution.c 
 OBJS = $(SRCS:.c=.o)
 
 LIBFT_DIR = libft
@@ -13,7 +13,7 @@ LIBFT_LIB = $(LIBFT_DIR)/libft.a
 all: $(NAME)
 
 $(LIBFT_LIB):
-	make -C $(LIBFT_DIR); 
+	make bonus -C $(LIBFT_DIR); 
 
 $(NAME): $(OBJS) $(LIBFT_LIB)
 	$(CC) $(CFLAGS) $(OBJS) $(RLFLAGS) $(LIBFT_LIB) -o $(NAME)

@@ -1,5 +1,6 @@
 #include "minishell.h"
 
+
 void sigint_handler(int sig)
 {
     (void)sig;
@@ -15,11 +16,13 @@ void setup_signals(void)
     signal(SIGQUIT, SIG_IGN);  
 }
 
-void ft_propt(void)
+void ft_propt(char **envp)
 {
+    t_list *new ;
+    int i ;
     t_history *history;
     char **token;
-
+    pid_t pid ;
     history = init_history();
     while (1)
     {
@@ -33,15 +36,23 @@ void ft_propt(void)
         }
         if (*input)
         {
-            int i ;
             add_history(input);
             add_to_history(history, input);
             token = ft_tokenize(input);
-            
+            pid = fork();
+            if(pid == 0)
+               ft_execute(input, history, envp);
+            else 
+               waitpid(pid, NULL, 0);
+
+            new = ft_parser(token);
+            i = 0;
+            while(new)
+            {
+              printf("%s\n", new->content);
+              new = new->next;
+            }
         }
-        if(ft_strcmp(input,"history") == 0)
-            print_history(history);
-       // printf("You entered: %s\n", input);
         free(input); 
     }
 

@@ -26,3 +26,13 @@ void free_char_array(char **ptr)
     }
     free(ptr);
 }
+
+int check_his(char *token, t_history *history)
+{
+   if(ft_strcmp(token, "history") == 0)
+   {
+        print_history(history);
+        return (1);
+   }
+   return (0);
+}
