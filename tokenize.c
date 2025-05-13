@@ -77,11 +77,11 @@ char **ft_tokenize(const char *input)
     while (input[data.i])
     {
         handle_quotes(input, &data);
-        if (!data.in_quotes && (ft_isspace(input[data.i]) || ft_isseparator(input[data.i])))
+        if (!data.in_quotes && (ft_isspace(input[data.i])))
         {
             add_token(&data, input, data.start, data.i);
-            if (ft_isseparator(input[data.i]))
-                add_token(&data, input, data.i, data.i + 1);
+            // if (ft_isseparator(input[data.i]))
+            //     add_token(&data, input, data.i, data.i + 1);
             data.start = data.i + 1;
         }
         data.i++;
