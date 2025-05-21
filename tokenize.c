@@ -33,12 +33,12 @@ static void add_token(t_token_data *data, const char *input, int start, int end)
 static int ft_count_token(const char *input)
 {
     int count, i, in_quotes;
-    char quote_char;
+    char save_char;
 
     count = 0;
     i = 0;
     in_quotes = 0;
-    quote_char = '\0';
+    save_char = '\0';
 
     input = ft_strtrim(input, " ");
 
@@ -46,27 +46,24 @@ static int ft_count_token(const char *input)
     {
         if (input[i] == '"' || input[i] == '\'')
         {
-            if (in_quotes && input[i] == quote_char)
-            {
-                count++;
-                in_quotes = 0;
-            }
-            else if (!in_quotes)
-            {
-                in_quotes = 1;
-                quote_char = input[i];
-            }
+            save_char = input[i];
+            while (input[++i] != save_char)
+                ;
         }
-        if (!in_quotes )
+        if (ft_isspace(input[i]))
         {
-            if (ft_isspace(input[i]))
-            {
-                while (ft_isspace(input[i]))
-                    i++;
-                count += 1;
-            }
-            if (ft_isseparator(input[i]))
-                count += 2;
+            count += 1;
+            while (ft_isspace(input[i]))
+                i++;
+            continue;
+        }
+        if (ft_isseparator(input[i]))
+        {
+            count += 2;
+            save_char = input[i];
+            while (input[++i] == save_char)
+                ;
+            continue;
         }
         i++;
     }
@@ -78,7 +75,7 @@ static int ft_count_token(const char *input)
 
 int is_delimiter(char c)
 {
-    if (ft_isspace(c) || ft_isseparator(c) || c == '\'' || c == '"')
+    if (ft_isspace(c) || ft_isseparator(c))
         return (1);
     return (0);
 }
