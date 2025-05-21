@@ -6,6 +6,8 @@
 *.ko
 *.obj
 *.elf
+minishell
+a.out
 
 # Linker output
 *.ilk

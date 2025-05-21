@@ -39,6 +39,9 @@ static int ft_count_token(const char *input)
     i = 0;
     in_quotes = 0;
     quote_char = '\0';
+
+    input = ft_strtrim(input, " ");
+
     while (input[i])
     {
         if (input[i] == '"' || input[i] == '\'')
@@ -54,8 +57,17 @@ static int ft_count_token(const char *input)
                 quote_char = input[i];
             }
         }
-        if (!in_quotes && (ft_isspace(input[i]) || ft_isseparator(input[i])))
-            count++;
+        if (!in_quotes )
+        {
+            if (ft_isspace(input[i]))
+            {
+                while (ft_isspace(input[i]))
+                    i++;
+                count += 1;
+            }
+            if (ft_isseparator(input[i]))
+                count += 2;
+        }
         i++;
     }
     if (i > 0 && !ft_isspace(input[i - 1]))
@@ -76,7 +88,7 @@ char **ft_tokenize(const char *input)
     t_token_data data;
     ft_memset(&data, 0, sizeof(t_token_data));
 
-    data.tokens = malloc(sizeof(char *) * (ft_count_token(input) + 2));
+    data.tokens = malloc(sizeof(char *) * (ft_count_token(input) + 1));
     if (!data.tokens)
         return (NULL);
 

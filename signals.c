@@ -18,6 +18,18 @@ void setup_signals(void)
     signal(SIGQUIT, SIG_IGN);  
 }
 
+int is_only_spaces(char *str)
+{
+    int i = 0;
+    while (str[i] != '\0' )
+    {
+        if (!ft_isspace(str[i]))
+            return (0);
+        i++;
+    }
+    return (1);
+}
+
 void ft_propt(char **envp)
 {
     int i;
@@ -38,16 +50,11 @@ void ft_propt(char **envp)
         input = readline("minishell$ ");
         if (!input)
         {
-            // if (ft_strcmp(input, "exit") == 0)
-            // {
-            //     free_history(history);
-            //     free_char_array(token);
-            //     printf("exit\n");
-            //     exit(0);
-            // }
-            // printf("exit\n");
             break;
         }
+        
+        if (is_only_spaces(input))
+            continue;
 
         if (*input)
         {
