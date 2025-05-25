@@ -6,7 +6,7 @@ RLFLAGS = -lreadline
 
 SRCS = main.c signals.c add_to_history.c tokenize.c utilis.c parser.c \
      ft_execution.c redirection.c builtin_functions.c environment_variables.c \
-	 utilis_builtin.c
+	 utilis_builtin.c quotes.c
 OBJS = $(SRCS:.c=.o)
 
 LIBFT_DIR = libft

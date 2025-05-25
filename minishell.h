@@ -93,4 +93,8 @@ char *get_string_before_char(const char *input_str, char c);
 void run_builtin_funciton(char **command, t_variables **env, t_variables **local_env);
 int is_builtin_functions(char *str);
 
+
+// quotes
+char *handel_quotes(char *input, t_variables *env, t_variables *local_env);
+
 #endif

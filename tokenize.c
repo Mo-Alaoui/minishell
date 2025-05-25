@@ -32,12 +32,11 @@ static void add_token(t_token_data *data, const char *input, int start, int end)
 
 static int ft_count_token(const char *input)
 {
-    int count, i, in_quotes;
+    int count, i;
     char save_char;
 
     count = 0;
     i = 0;
-    in_quotes = 0;
     save_char = '\0';
 
     input = ft_strtrim(input, " ");

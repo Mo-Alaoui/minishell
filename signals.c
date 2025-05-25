@@ -34,9 +34,9 @@ void ft_propt(char **envp)
 {
     int i;
     t_variables *env;
-    t_variables *local_env;
+    t_variables *local_env = NULL;
     t_history *history;
-    t_list *new;
+    t_list *new = NULL;
     pid_t pid;
     char **token;
     char *var_name;
@@ -46,7 +46,7 @@ void ft_propt(char **envp)
     while (1)
     {
         char *input;
-
+        
         input = readline("minishell$ ");
         if (!input)
         {
@@ -54,14 +54,14 @@ void ft_propt(char **envp)
         }
         
         if (is_only_spaces(input))
-            continue;
-
+        continue;
+        
         if (*input)
         {
             add_history(input);
             add_to_history(history, input);
             token = ft_tokenize(input);
-
+            
             i = 0;
             while (token[i])
             {
@@ -70,8 +70,15 @@ void ft_propt(char **envp)
                 {
                     if (ft_strcmp(token[0], "export") == 0 || get_env_variable(env, var_name) != NULL)
                         add_variable(&env, token[i]);                
-                   add_variable(&local_env, token[i]); 
+                    add_variable(&local_env, token[i]); 
                 }
+                i++;
+            } 
+            
+            i = 0;
+            while(token[i])
+            {
+                token[i] = handel_quotes(token[i], env, local_env);
                 i++;
             }
 
@@ -88,6 +95,10 @@ void ft_propt(char **envp)
                     waitpid(pid, NULL, 0);
 
                 new = ft_parser(token);
+                if (!new)
+                {
+                    (void)new;
+                }
             }
         }
         free(input); 

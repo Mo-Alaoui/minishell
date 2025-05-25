@@ -117,6 +117,9 @@ int add_variable(t_variables **env_list, char *input)
 
 char *get_env_variable(t_variables *env_list, char *name)
 {
+    if (!name)
+        return (NULL);
+
     t_variables *current;
     
     current = env_list;
