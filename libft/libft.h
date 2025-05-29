@@ -24,7 +24,7 @@ typedef struct s_list
 }			t_list;
 
 int ft_isseparator(char c);
-void print_array_char(const char **arr);
+
 int ft_isspace(char c);
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);

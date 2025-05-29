@@ -45,24 +45,34 @@ char	*find_path(char *cmd, char **envp)
 	return (cmd);
 }
 
-void	ft_execute(char *argv, t_history *history ,char **envp)
+void	ft_execute(char *argv, char **token ,t_variables *env , t_variables *local_env ,t_history *history ,char **envp)
 {
 	char	**cmd;
 	char	*path;
 	int		i;
+
+	if(ft_strcmp(token[0], "touch") == 0)
+		ft_execute_2(token, envp);
+	if (is_builtin_functions(argv))
+	{
+		if(run_builtin_funciton(token, &env, &local_env) != 0)
+			exit(0);
+	}
     if(check_his(argv, history) == 1)
 	     exit(0);
 	i = 0;
 	cmd = ft_split(argv, ' ');
 	path = find_path(cmd[0], envp);
-	if (path == 0)
+	if (is_directory(cmd[0]) == 1)
 	{
-		ft_free(cmd);
-		error();
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd[0], 2);
+		ft_putendl_fd(": Is a directory", 2);
+		exit(126);
 	}
 	if (execve(path, cmd, envp) == -1)
 	{
-		ft_putstr_fd("pipex: command not found: ", 2);
+		ft_putstr_fd("minishell: command not found: ", 2);
 		ft_putendl_fd(cmd[0], 2);
 		while (cmd[i] != 0)
 			free(cmd[i++]);
@@ -70,3 +80,22 @@ void	ft_execute(char *argv, t_history *history ,char **envp)
 		exit(127);
 	}
 }
+
+void	ft_execute_2(char **token  ,char **envp)
+{
+	char	*path;
+	int		i;
+
+	i = 0;
+	path = find_path(token[0], envp);
+	if (execve(path, token, envp) == -1)
+	{
+		ft_putstr_fd("minishell: command not found: ", 2);
+		ft_putendl_fd(token[0], 2);
+		while (token[i] != 0)
+			free(token[i++]);
+		free(token);
+		exit(127);
+	}
+}
+

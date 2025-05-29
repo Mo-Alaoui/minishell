@@ -1,14 +1,72 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <limits.h>
-#include "libft/libft.h"
 #include "minishell.h"
 
-// void ft_exit(void)
-// {
-//     g_terminate_program = 0;
-// }
+int	numeric_argument(char *str)
+{
+	int	i;
+
+	i = 0;
+	while ((str[i] >= 9 && str[i] <= 13) || (str[i] == 32))
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	while (str[i] != '\0')
+	{
+		if (str[i] >= '0' && str[i] <= '9')
+			i++;
+		else
+			return (1);
+	}
+	return (0);
+}
+
+void	exit_utils(char **args, int len_args)
+{
+    int exit_n;
+	if (len_args == 2)
+	{
+		exit_n = (ft_atoi(args[1]) % 256);
+		if (exit_n < 0)
+			exit_n = exit_n + 256;
+		printf("exit\n");
+		exit(exit_n);
+	}
+	else
+	{
+		ft_putstr_fd("exit\nminishell: exit: too many arguments\n", 2);
+		g_terminate_program = 1;
+		return ;
+	}
+}
+
+void	ft_exit(char **args)
+{
+	int	len_args;
+
+	len_args = 1;
+	if (args)
+		while (args[len_args])
+			len_args++;
+	if (len_args == 1)
+	{
+		printf("exit\n");
+        exit(g_terminate_program);
+	}
+	else
+	{    
+		if (numeric_argument(args[1]) == 1)
+		{
+            if(args[1])
+            printf("exit\nminishell: exit: ");
+            printf("%s", args[1]);
+            printf(": numeric argument required\n");
+
+			g_terminate_program = 2;
+			exit(g_terminate_program);
+		}
+		exit_utils(args, len_args);
+	}
+}
+
 
 void ft_pwd(void)
 {
@@ -100,6 +158,11 @@ void ft_unset(t_variables **env, char **name)
     }
 }
 
+int is_separitor(char c)
+{
+    return (c == '>' || c == '<' || c == '|');
+}
+
 void ft_echo(char **arg, t_variables **env, t_variables **local_env)
 {
     int newline = 1;
@@ -112,8 +175,7 @@ void ft_echo(char **arg, t_variables **env, t_variables **local_env)
         newline = 0;
         i++;
     }
-
-    while (arg[i])
+    while (arg[i] && !is_separitor(arg[i][0]))
     {
         if (!first)
             printf(" ");
@@ -121,6 +183,8 @@ void ft_echo(char **arg, t_variables **env, t_variables **local_env)
 
         if (arg[i][0] == '$')
         {
+            if(arg[i][1] == '?')
+                printf("%d",g_terminate_program);
             val = get_env_variable(*local_env, ++arg[i]);
             if (val == NULL)
                 val = get_env_variable(*env, arg[i]);
