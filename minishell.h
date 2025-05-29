@@ -79,13 +79,14 @@ void ft_echo(char **arg, t_variables **env, t_variables **local_env);
 void free_env_variables(t_variables *env_list);
 t_variables *init_env_variables(char **envp);
 char *get_env_variable(t_variables *env_list, char *name);
-int add_variable(t_variables **env_list, char *input);
-t_variables *add_new_var(char *input);
 int is_valid_var_name(char *name);
 int is_alnum_underscore(char c);
 int is_alpha(char c);
-char *variable_value(char *input);
 char *var_name(char *input);
+int add_variable(t_variables **env, t_variables **local_env, char *input);
+t_variables *add_new_var(t_variables **env, t_variables **local_env, char *input);
+char *variable_value(t_variables **env, t_variables **local_env, char *input);
+
 
 
 // utilis_builtin

@@ -20,9 +20,20 @@ char *replace_token(const char *str, t_variables *env, t_variables *local_env)
     int j;
     while (str[i])
     {
-        if (str[i] == '$' && (ft_isalnum(str[i + 1]) || str[i + 1] == '_')) 
+        if (str[i] == '$' && (ft_isalnum(str[i + 1]) || str[i + 1] == '_' || str[i + 1] == '?') && !ft_isdigit(str[i + 1])) 
         {
             j = i + 1;
+            
+            if (str[j] == '?')
+            {
+                char *g_num_str = ft_itoa(g_terminate_program);
+                int len = ft_strlen(g_num_str);
+                ft_memcpy(result + ri, g_num_str, len);
+                ri += len;
+                i += 2;
+                continue;
+            }
+
             while (ft_isalnum(str[j]) || str[j] == '_')
                 j++;
 
@@ -30,7 +41,7 @@ char *replace_token(const char *str, t_variables *env, t_variables *local_env)
             ft_memcpy(temp, str + i + 1, j - i - 1);
             temp[j - i - 1] = '\0';
 
-            
+
             char *rep;
             rep = get_env_variable(local_env, temp);
             if (!rep)

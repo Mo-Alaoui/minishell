@@ -1,5 +1,5 @@
 #include "minishell.h"
-int g_terminate_program = 0;
+int g_terminate_program = 10;
 
 void handel_redirection(char **token);
 
@@ -69,8 +69,8 @@ void ft_propt(char **envp)
                 if (var_name != NULL)
                 {
                     if (ft_strcmp(token[0], "export") == 0 || get_env_variable(env, var_name) != NULL)
-                        add_variable(&env, token[i]);                
-                    add_variable(&local_env, token[i]); 
+                        add_variable(&env, &local_env, token[i]);                
+                    add_variable(&local_env, &env, token[i]); 
                 }
                 i++;
             } 

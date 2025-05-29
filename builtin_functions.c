@@ -81,7 +81,7 @@ int ft_cd(const char *path)
 {
     const char *target;
     target = path;
-
+    
     if (!target)
     {
         target = getenv("HOME");
@@ -91,11 +91,15 @@ int ft_cd(const char *path)
             return -1;
         }
     }
+    if (target[0] == '\0')
+    {
+        return (0);
+    }
     if (chdir(target) != 0)
     {
         perror("cd");
         return -1;
-    }
+    }   
     return 0;
 }
 
@@ -123,7 +127,7 @@ void ft_export(t_variables **env, t_variables **local_env, char *command)
     if (value != NULL)
     {
         res = ft_strjoin(ft_strjoin(command, "="), value);
-        add_variable(env, res);   
+        add_variable(env, env, res);   
     }
 }
 
@@ -160,15 +164,26 @@ void ft_unset(t_variables **env, char **name)
 
 void ft_echo(char **arg, t_variables **env, t_variables **local_env)
 {
+    (void)env;
+    (void)local_env;
+
     int newline = 1;
     int first = 1;
     int i = 1;
-    char *val;
+    int j = 0;
 
-    if (arg[i] && ft_strcmp(arg[i], "-n") == 0)
+    while (arg[i] && arg[i][j++] == '-')
     {
-        newline = 0;
+        
+        while (arg[i][j] && arg[i][j] == 'n')
+            j++;
+        if (arg[i][j] == '\0')
+            newline = 0;
+        else
+            break;
+
         i++;
+        j = 0;
     }
 
     while (arg[i])
@@ -176,19 +191,7 @@ void ft_echo(char **arg, t_variables **env, t_variables **local_env)
         if (!first)
             printf(" ");
         first = 0;
-
-        if (arg[i][0] == '$')
-        {
-            val = get_env_variable(*local_env, ++arg[i]);
-            if (val == NULL)
-                val = get_env_variable(*env, arg[i]);
-            if (val)
-                printf("%s", val);
-        }
-        else
-        {
-            printf("%s", arg[i]);
-        }
+        printf("%s", arg[i]);
         i++;
     }
     if (newline)

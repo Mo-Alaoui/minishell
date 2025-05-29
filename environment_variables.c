@@ -11,7 +11,18 @@ char *var_name(char *input)
     return (ft_substr(input, 0, i));
 }
 
-char *variable_value(char *input)
+void print_variables_list(t_variables *head)
+{
+        printf("in in \n");
+
+    while (head)
+    {
+        printf("Name: %s, Value: %s\n", head->variable_name, head->value);
+        head = head->next;
+    }
+}
+
+char *variable_value(t_variables **env, t_variables **local_env, char *input)
 {
     int i;
 
@@ -20,7 +31,12 @@ char *variable_value(char *input)
         i++;
     
     if (input[i] == '=')
-        return (ft_substr(input, i + 1, ft_strlen(input) - i - 1));
+    {
+        char *tmp = ft_substr(input, i + 1, ft_strlen(input) - i - 1);        
+        tmp = handel_quotes(tmp, *env, *local_env);
+    
+        return (tmp);
+    }
     return (ft_strdup(""));
 }
 
@@ -50,7 +66,7 @@ int is_valid_var_name(char *name)
     return (1);
 }
 
-t_variables *add_new_var(char *input)
+t_variables *add_new_var(t_variables **env, t_variables **local_env, char *input)
 {
     t_variables *new_var;
     char *name;
@@ -73,28 +89,28 @@ t_variables *add_new_var(char *input)
     }
     
     new_var->variable_name = name;
-    new_var->value = variable_value(input);
+    new_var->value = variable_value(env, local_env, input);
     new_var->next = NULL;
     
     return (new_var);
 }
 
-int add_variable(t_variables **env_list, char *input)
+int add_variable(t_variables **env, t_variables **local_env, char *input)
 {
     t_variables *new_var;
     t_variables *current;
     
-    new_var = add_new_var(input);
+    new_var = add_new_var(env, local_env, input);
     if (!new_var)
         return (-1);
     
-    if (!*env_list)
+    if (!*env)
     {
-        *env_list = new_var;
+        *env = new_var;
         return (0);
     }
     
-    current = *env_list;
+    current = *env;
     while (current)
     {
         if (ft_strcmp(current->variable_name, new_var->variable_name) == 0)
@@ -142,7 +158,7 @@ t_variables *init_env_variables(char **envp)
     i = 0;
     while (envp[i])
     {
-        add_variable(&env_list, envp[i]);
+        add_variable(&env_list, &env_list, envp[i]);
         i++;
     }
     
