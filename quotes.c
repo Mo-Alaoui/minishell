@@ -67,8 +67,43 @@ char *replace_token(const char *str, t_variables *env, t_variables *local_env)
     return result;
 }
 
- void replacement_strings(char **words, t_variables *env, t_variables *local_env)
- {
+int is_special_characters(char *str)
+{
+    if (!ft_strcmp(str, "$") || !ft_strcmp(str, "\\") || !ft_strcmp(str, "#") 
+         || !ft_strcmp(str, "=") || !ft_strcmp(str, "[") || !ft_strcmp(str, "]") 
+         || !ft_strcmp(str, "!") || !ft_strcmp(str, ">") || !ft_strcmp(str, "<") 
+         || !ft_strcmp(str, ">>") || !ft_strcmp(str, "<<") || !ft_strcmp(str, "|")
+         || !ft_strcmp(str, ";") || !ft_strcmp(str, "{") || !ft_strcmp(str, "}")
+         || !ft_strcmp(str, "(") || !ft_strcmp(str, ")") || !ft_strcmp(str, "*")
+         || !ft_strcmp(str, "~") || !ft_strcmp(str, "&") || !ft_strcmp(str, "?"))
+    {
+        return (1);
+    }
+    return (0);
+}
+
+char *handel_special_characters(char *str)
+{
+    int len = ft_strlen(str);
+    char *ret = malloc((len + 3) * sizeof(char));
+    if (!ret)
+        return NULL;
+
+    int i = 0;
+    int j = 0;
+    ret[i++] = '\'';
+    while (j < len)
+    {
+        ret[i++] = str[j];       
+        j++;
+    }
+    ret[i++] = '\'';  
+    ret[i] = '\0';
+    return ret;
+}
+
+void replacement_strings(char **words, t_variables *env, t_variables *local_env)
+{
      
      if (!words)
         return ;
@@ -77,7 +112,11 @@ char *replace_token(const char *str, t_variables *env, t_variables *local_env)
     
     while (words[i])
     {
-        if (words[i][0] != '\'')
+        if (is_special_characters(words[i]))
+        {
+            words[i] = handel_special_characters(words[i]);
+        }
+        else if (words[i][0] != '\'')
         {
             if (words[i][0] == '"')
             {
@@ -91,9 +130,7 @@ char *replace_token(const char *str, t_variables *env, t_variables *local_env)
         }
         i++;
     }
- }
-
-
+}
 
 static void free_words(char **ret, int count)
 {
