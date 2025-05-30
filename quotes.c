@@ -6,11 +6,52 @@
 #include "libft/libft.h"
 #include "minishell.h"
 
+int get_size(const char *str, t_variables *env, t_variables *local_env)
+{
+    int len = 0;
+    int i = 0;
+
+    while (str[i])
+    {
+        if (str[i] == '$')
+        {
+            int j = i + 1;
+            while (str[j] && (ft_isalnum(str[j]) || str[j] == '_'))
+                j++;
+
+            if (j > i + 1)
+            {
+                char tmp[256];
+                int var_name_len = j - i - 1;
+                ft_memcpy(tmp, str + i + 1, var_name_len);
+                tmp[var_name_len] = '\0';  
+                
+                char *env_value = get_env_variable(env, tmp);
+                if (!env_value)
+                    env_value = get_env_variable(local_env, tmp);
+                if (env_value)
+                    len += ft_strlen(env_value);
+                
+                i = j;  
+            }
+            else
+            {
+                len++;
+                i++;
+            }
+        }
+        else
+        {
+            len++; 
+            i++;
+        }
+    }
+    return (len);
+}
+
 char *replace_token(const char *str, t_variables *env, t_variables *local_env) 
 {
-    // int final_size = get_size(str, env, local_env);
-    int final_size = 2097152;
-
+    int final_size = get_size(str, env, local_env);
     char *result = (char *)malloc(final_size + 1);
     if (!result) 
         return NULL;
@@ -195,12 +236,6 @@ char **split_by_quotes(char *token, int max_parts)
     ret[ret_count] = NULL;
     return ret;
 }
-
-// void print_array_char(char **arr)
-// {
-//     for (int i = 0; arr && arr[i]; i++)
-//         printf("%s\n", arr[i]);
-// }
 
 char *join_strings(char **words)
 {
