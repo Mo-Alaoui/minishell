@@ -198,14 +198,26 @@ char *is_valid_input(char **tokens)
 		{
             
 			if (!tokens[i + 1])
+            {
+                return ("hna 1");
 				return (tokens[i]);
+            }
 			if (is_metachar(tokens[i + 1]))
+            {
+                return ("hna 2");
                 return (tokens[i + 1]);
+            }
 		}
-        if(is_character(tokens[i][2]) == 1)
-                return(tokens[i]);
+        //if(is_character(tokens[i][2]) == 1)
+        //{
+       //         return ("hna 3");
+       // //        return(tokens[i]);
+       // }
         if((tokens[1] == NULL && is_character(tokens[0][0]) == 1))
+        {
+                return ("hna 4");
                 return(tokens[i]);
+        }
 	i++;
 	}
 	return NULL; 

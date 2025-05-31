@@ -109,10 +109,18 @@ void ft_propt(char **envp)
             pid = fork();
             if(pid == 0)
             {
+                signal(SIGINT, SIG_DFL);
+                signal(SIGQUIT, SIG_DFL);
                 if(check_input_type(token) == 3)
+                {
+                    printf("-> 1 hna\n");
                     exit(if_its_pipe_red(token, env, local_env, history,envp));
+                }
                 if(check_input_type(token) == 2)
+                {
+                    printf("-> 2 hna\n");
                     exit(if_its_pipe(parser->new_pip, token, env, local_env, history, envp));
+                }
                 if(check_input_type(token) == 0)
                 {
                     printf("-> 3 hna\n");
@@ -146,6 +154,7 @@ void ft_propt(char **envp)
                     }
                     else if(check_red(token) == 4)
                     {
+                        setup_signals();
                         if(flag != 0)
                             ft_execute(parser->joined, parser->clean, env, local_env, history, envp);
                         else
@@ -160,13 +169,19 @@ void ft_propt(char **envp)
                 }
             }
             else
+            {
+                signal(SIGINT, SIG_IGN);
                 waitpid(pid, &status, 0);
+                signal(SIGINT, sigint_handler);
+            }
             if (WIFEXITED(status))
                 g_terminate_program = WEXITSTATUS(status);
             else
                 g_terminate_program = 1;
         }
         if(ft_strcmp(token[0], "exit") == 0)
+            run_builtin_funciton(token, &env, &local_env);
+       if(ft_strcmp(token[0], "exit") == 0 && token[1] != NULL && ft_strcmp(token[1] , "'|'"))
             run_builtin_funciton(token, &env, &local_env);
     }
     ft_lstclear(&parser->new_pip, free);

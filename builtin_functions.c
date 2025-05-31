@@ -22,7 +22,7 @@ int	numeric_argument(char *str)
 void	exit_utils(char **args, int len_args)
 {
     int exit_n;
-	if (len_args == 2)
+	if (len_args == 2 && ft_strcmp(args[1] , "'|'") != 0)
 	{
 		exit_n = (ft_atoi(args[1]) % 256);
 		if (exit_n < 0)
@@ -30,12 +30,13 @@ void	exit_utils(char **args, int len_args)
 		printf("exit\n");
 		exit(exit_n);
 	}
-	else
+	else if(ft_strcmp(args[1] , "'|'") != 0)
 	{
 		ft_putstr_fd("exit\nminishell: exit: too many arguments\n", 2);
 		g_terminate_program = 1;
 		return ;
 	}
+    return;
 }
 
 void	ft_exit(char **args)
@@ -53,7 +54,7 @@ void	ft_exit(char **args)
 	}
 	else
 	{    
-		if (numeric_argument(args[1]) == 1)
+		if (numeric_argument(args[1]) == 1 && ft_strcmp(args[1], "'|'") != 0)
 		{
             if(args[1])
             printf("exit\nminishell: exit: ");

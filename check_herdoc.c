@@ -3,54 +3,66 @@
 int check_herdoc(char **toknize, char **envp)
 {
     (void) envp;
-    int i ;
+    int i = 0;
     char *line;
+    char *delimiter;
     int fd[2];
+    int last_fd ;
+    last_fd = -1;
+
+    while (toknize[i])
+    {
+        if (ft_strcmp(toknize[i], "'<<'") == 0 && toknize[i + 1])
+        {
+            if (pipe(fd) == -1)
+                return (1);
+
+            char *delimiter = toknize[i + 1];
+
+            while (1)
+            {
+                line = readline("heredoc> ");
+                if (!line || ft_strcmp(line, delimiter) == 0)
+                {
+                    free(line);
+                    break;
+                }
+                write(fd[1], line, ft_strlen(line));
+                write(fd[1], "\n", 1);
+                free(line);
+            }
+            close(fd[1]);
+            if (last_fd != -1)
+                close(last_fd);
+
+           
+            last_fd = fd[0];
+
+            i += 1;
+        }
+    i++;
+    }
     i = 0;
     while(toknize[i])
         i++;
     i--;
     while(i >= 0)
     {
-        ///printf("->>%s\n", toknize[i]);
-        if(ft_strcmp(toknize[i], "'<<'") == 0)
-        {
-           // printf("%d\n",i);
-            if((pipe(fd)) == -1)
-                error();
-            while(1)
+            if(ft_strcmp(toknize[i], "'>'") == 0 || ft_strcmp(toknize[i], "'>>'") == 0)
             {
-                line = readline("heredoc>");
-                if(ft_strcmp(line, toknize[i + 1]) == 0)
-                {
-                    printf("---->%s\n",toknize[i + 1]);
-                    break;
-                }
-                write(fd[1] , line, ft_strlen(line));
-                write(fd[1],"\n",1);
-                free(line);
+                redirect_output(toknize[i + 1], 0);
+                break;
             }
-            free(line);
-            close(fd[1]);
-            dup2(fd[0],0);
-            close(fd[0]);
-            while(toknize[i])
-                i++;
-            i--;
-            while(i >= 0)
-            {
-                if(ft_strcmp(toknize[i], "'>'") == 0 || ft_strcmp(toknize[i], "'>>'") == 0)
-                {
-                    redirect_output(toknize[i + 1], 0);
-                    break;
-                }
-            i--;
-            }
-            return (1);
-        }
-    --i;
+    i--;
     }
-    return 0;   
+    // Connect last heredoc pipe to stdin
+    if (last_fd != -1)
+    {
+        dup2(last_fd, STDIN_FILENO);
+        close(last_fd);
+        return 1;
+    }
+    return 0;
 }
 
 int check_red(char **tokenize)

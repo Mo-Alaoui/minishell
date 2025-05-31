@@ -21,7 +21,7 @@ int if_its_pipe(t_list *new_pip,char **token,  t_variables *env, t_variables *lo
     {
         j = k;
 		while (token[j] && strcmp(token[j], "'|'") != 0)
-			j++;
+            j++;
 		segment = ft_subarray(token, k, j);
         cleaned = remove_redir_tokens(segment);
         pipe(fd);
