@@ -7,11 +7,11 @@ t_all *init_all(char **token)
         return NULL;
     parser->clean = remove_redir_tokens(token);
     parser->joined = ft_join_with_space(parser->clean);
-    parser->new_pip = ft_parser(token, "|");
-    parser->new_her = ft_parser(token, "<<");
-    parser->new_red_in = ft_parser(token, "<");
-    parser->new_red_out = ft_parser(token, ">");
-    parser->new_red_outA = ft_parser(token, ">>");
+    parser->new_pip = ft_parser(token, "'|'");
+    parser->new_her = ft_parser(token, "'<<'");
+    parser->new_red_in = ft_parser(token, "'<'");
+    parser->new_red_out = ft_parser(token, "'>'");
+    parser->new_red_outA = ft_parser(token, "'>>'");
     parser->new_in_out = ft_parser2(token);
     return parser;
 }

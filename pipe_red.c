@@ -41,7 +41,7 @@ char **remove_redir_tokens(char **tokens)
 	i = 0;
 	while(tokens[i])
 	{
-		if (strcmp(tokens[i], "<") == 0 || strcmp(tokens[i], "<<") == 0 || strcmp(tokens[i], ">") == 0 || strcmp(tokens[i], ">>") == 0)
+		if (strcmp(tokens[i], "'<'") == 0 || strcmp(tokens[i], "'<<'") == 0 || strcmp(tokens[i], "'>'") == 0 || strcmp(tokens[i], "'>>'") == 0)
 			i++;
 		else
 			count++;
@@ -52,7 +52,7 @@ char **remove_redir_tokens(char **tokens)
 	i = 0;
 	while (tokens[i])
 	{
-		if (strcmp(tokens[i], "<") == 0 || strcmp(tokens[i], "<<") == 0 || strcmp(tokens[i], ">") == 0 || strcmp(tokens[i], ">>") == 0)
+		if (strcmp(tokens[i], "'<'") == 0 || strcmp(tokens[i], "'<<'") == 0 || strcmp(tokens[i], "'>'") == 0 || strcmp(tokens[i], "'>>'") == 0)
 			i++;
 		else
 			args[j++] = ft_strdup(tokens[i]);
@@ -72,7 +72,7 @@ char *check_herdoc1(char **segment)
 		i--;
 		while(i >= 0)
 		{
-			if((ft_strcmp(segment[i], "<<")) == 0)
+			if((ft_strcmp(segment[i], "'<<'")) == 0)
 			{
 				heredoc_delim = segment[i + 1];
 				break;
@@ -131,7 +131,7 @@ int if_its_pipe_red(char **tokens, t_variables *env, t_variables *local_env, t_h
 	{
 		has_herdoc = 0;   
 		j = i;
-		while (tokens[j] && strcmp(tokens[j], "|") != 0)
+		while (tokens[j] && strcmp(tokens[j], "'|'") != 0)
 			j++;
 		char **segment = ft_subarray(tokens, i, j);
 		char **cleaned = remove_redir_tokens(segment);
@@ -160,7 +160,7 @@ int if_its_pipe_red(char **tokens, t_variables *env, t_variables *local_env, t_h
 			close(fd[1]);
 			if (has_herdoc)
 				close(heredoc_fd[0]); 
-			ft_execute(joined , segment, env, local_env, history, envp);
+			ft_execute(joined , cleaned, env, local_env, history, envp);
 		}
 		pids[k++] = pid ;
 		if (prev_fd != -1)

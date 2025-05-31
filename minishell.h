@@ -122,4 +122,6 @@ int is_builtin_functions(char *str);
 char *is_valid_input(char **tokens);
 int is_metachar(char *s);
 int is_directory(const char *path);
+    // quotes//
+char *handel_quotes(char *input, t_variables *env, t_variables *local_env);
 #endif

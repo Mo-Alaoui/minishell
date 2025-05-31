@@ -10,6 +10,7 @@ int if_its_pipe(t_list *new_pip,char **token,  t_variables *env, t_variables *lo
     pid_t pid;
     int status ;
     char **segment;
+    char **cleaned;
     int last_status ;
     last_status = 0;
     int pids[ft_lstsize(new_pip)];
@@ -19,9 +20,10 @@ int if_its_pipe(t_list *new_pip,char **token,  t_variables *env, t_variables *lo
     while (new_pip)
     {
         j = k;
-		while (token[j] && strcmp(token[j], "|") != 0)
+		while (token[j] && strcmp(token[j], "'|'") != 0)
 			j++;
 		segment = ft_subarray(token, k, j);
+        cleaned = remove_redir_tokens(segment);
         pipe(fd);
         pid = fork();
         if (pid == 0)
@@ -37,7 +39,7 @@ int if_its_pipe(t_list *new_pip,char **token,  t_variables *env, t_variables *lo
             }
             close(fd[0]);
             close(fd[1]);
-            ft_execute(new_pip->content, segment, env, local_env, history, envp);
+            ft_execute(new_pip->content, cleaned, env, local_env, history, envp);
         }
         pids[i++] = pid;
         if (prev_fd != -1)
@@ -71,13 +73,13 @@ int check_input_type(char **token)
 
     while (token[i])
     {
-        if (ft_strcmp(token[i], "|") == 0)
+        if (ft_strcmp(token[i], "'|'") == 0)
             has_pipe = 1;
         else if (
-            ft_strcmp(token[i], "<") == 0 ||
-            ft_strcmp(token[i], "<<") == 0 ||
-            ft_strcmp(token[i], ">") == 0 ||
-            ft_strcmp(token[i], ">>") == 0
+            ft_strcmp(token[i], "'<'") == 0 ||
+            ft_strcmp(token[i], "'<<'") == 0 ||
+            ft_strcmp(token[i], "'>'") == 0 ||
+            ft_strcmp(token[i], "'>>'") == 0
         )
             has_redir = 1;
         i++;
@@ -97,9 +99,9 @@ void ft_helper1(char **token)
     int i = 0 ;
     while(token[i])
     {
-        if(ft_strcmp(token[i], ">") == 0)
+        if(ft_strcmp(token[i], "'>'") == 0)
             redirect_output(token[i + 1], 0);
-        if(ft_strcmp(token[i], ">>") == 0)
+        if(ft_strcmp(token[i], "'>>'") == 0)
             redirect_output(token[i + 1], 1);
         i++;
     }
@@ -110,7 +112,7 @@ void ft_helper(char **token)
     int i = 0 ;
     while(token[i])
     {
-        if(ft_strcmp(token[i], "<") == 0)
+        if(ft_strcmp(token[i], "'<'") == 0)
             redirect_input(token[i + 1]);
         i++;
     }
