@@ -100,6 +100,7 @@ void	ft_exit(char **args);
 void ft_pwd(void);
 int ft_cd(const char *path);
 void print_array_char(const char **arr);
+char **variables_to_array(t_variables *head);
 void ft_env(t_variables **env);
 void ft_export(t_variables **env, t_variables **local_env, char *command);
 void ft_unset(t_variables **env, char **name);

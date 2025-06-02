@@ -52,8 +52,9 @@ void	ft_execute(char *argv, char **token , t_all *parser , char **envp)
 	int		i;
 	if(ft_strcmp(token[0], "touch") == 0 || ft_strcmp(token[0], "awk") == 0)
 		ft_execute_2(token, envp);
-	if (is_builtin_functions(argv))
+	if (is_builtin_functions(argv) || is_builtin_functions(token[0]))
 	{
+		printf("dkhel->>>%s\n%s\n",token[0],argv);
 		if(run_builtin_funciton(token, &parser->env, &parser->local_env) != 0)
 			exit(0);
 	}

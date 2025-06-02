@@ -100,10 +100,10 @@ void ft_child(t_all *parser, char **token, int flag, char **envp)
                     {
                         if(ft_strcmp(token[0], "exit") == 0)
                             exit(0);
-                        ft_execute(parser->new_pip->content, token, parser, envp);
+                        ft_execute(parser->new_pip->content, parser->clean, parser, envp);
                     }
                 }
-    }
+            }
   void ft_ft(char *check)
                 {
                 int i ;
@@ -127,12 +127,14 @@ void ft_propt(char **envp)
     char  **token ;
     char *input ;
     int flag = 0;;
+    char **envp_p;
     int i;
     int status = 0;
     char *check;
     parser = malloc(sizeof(t_all));
     parser->history = init_history();
     parser->env = init_env_variables(envp);
+    envp_p = variables_to_array(parser->env);
     while (1)
     {
         input = readline("minishell>$ ");
@@ -166,7 +168,7 @@ void ft_propt(char **envp)
             parser->local_env = ft_check_export(token, parser->env);
             pid = fork();
             if(pid == 0)
-                ft_child(parser, token, flag, envp);
+                ft_child(parser, token, flag, envp_p);
             else
             {
                 signal(SIGINT, SIG_IGN);
