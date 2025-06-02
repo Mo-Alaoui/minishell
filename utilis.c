@@ -1,10 +1,7 @@
 #include "minishell.h"
 
-t_all *init_all(char **token)
+void init_all(t_all *parser, char **token)
 {
-    t_all *parser = malloc(sizeof(t_all));
-    if (!parser)
-        return NULL;
     parser->clean = remove_redir_tokens(token);
     parser->joined = ft_join_with_space(parser->clean);
     parser->new_pip = ft_parser(token, "'|'");
@@ -13,7 +10,6 @@ t_all *init_all(char **token)
     parser->new_red_out = ft_parser(token, "'>'");
     parser->new_red_outA = ft_parser(token, "'>>'");
     parser->new_in_out = ft_parser2(token);
-    return parser;
 }
 
 void free_char_array(char **ptr)
@@ -79,13 +75,4 @@ int redirect_output(const char *filename, int append)
     }
     close(fd);
     return (0);
-}
-
-int is_directory(const char *path)
-{
-	struct stat path_stat;
-
-	if (stat(path, &path_stat) == 0)
-		return S_ISDIR(path_stat.st_mode);
-	return 0;
 }

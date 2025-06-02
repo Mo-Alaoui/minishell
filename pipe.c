@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int if_its_pipe(t_list *new_pip,char **token,  t_variables *env, t_variables *local_env, t_history *history, char **envp)
+int if_its_pipe(t_list *new_pip,char **token, t_all *parser, char **envp)
 {
     int fd[2];
     int i ;
@@ -9,8 +9,6 @@ int if_its_pipe(t_list *new_pip,char **token,  t_variables *env, t_variables *lo
     int prev_fd = -1;
     pid_t pid;
     int status ;
-    char **segment;
-    char **cleaned;
     int last_status ;
     last_status = 0;
     int pids[ft_lstsize(new_pip)];
@@ -22,8 +20,8 @@ int if_its_pipe(t_list *new_pip,char **token,  t_variables *env, t_variables *lo
         j = k;
 		while (token[j] && strcmp(token[j], "'|'") != 0)
             j++;
-		segment = ft_subarray(token, k, j);
-        cleaned = remove_redir_tokens(segment);
+		parser->segment = ft_subarray(token, k, j);
+        parser->clean = remove_redir_tokens(parser->segment);
         pipe(fd);
         pid = fork();
         if (pid == 0)
@@ -39,12 +37,12 @@ int if_its_pipe(t_list *new_pip,char **token,  t_variables *env, t_variables *lo
             }
             close(fd[0]);
             close(fd[1]);
-            ft_execute(new_pip->content, cleaned, env, local_env, history, envp);
+            ft_execute(new_pip->content, parser->clean, parser, envp);
         }
         pids[i++] = pid;
         if (prev_fd != -1)
             close(prev_fd); 
-        close(fd[1]);       
+        close(fd[1]);
         prev_fd = fd[0];    
         new_pip = new_pip->next;
         if (token[j])

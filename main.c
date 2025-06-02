@@ -51,23 +51,90 @@ int is_only_spaces(char *str)
     return (1);
 }
 
+void ft_child(t_all *parser, char **token, int flag, char **envp)
+    {
+                signal(SIGINT, SIG_DFL);
+                signal(SIGQUIT, SIG_DFL);
+                if(check_input_type(token) == 3)
+                    exit(if_its_pipe_red(token, parser, envp));
+                if(check_input_type(token) == 2)
+                    exit(if_its_pipe(parser->new_pip, token, parser, envp));
+                if(check_input_type(token) == 0)
+                {
+                    if(check_herdoc(token, envp) == 1)
+                    {
+                       if(flag != 0)
+                            ft_execute(parser->joined, token, parser, envp);
+                        else
+                            ft_execute(parser->new_her->content, token, parser, envp);
+                    }
+                    else if(check_red(token) == 1)
+                    {
+                        if(flag != 0)
+                            ft_execute(parser->joined, token, parser, envp);
+                        else
+                            ft_execute(parser->new_red_in->content, token, parser, envp);
+                    }
+                    else if(check_red(token) == 2)
+                    {
+                        if(flag != 0)
+                            ft_execute(parser->joined, parser->clean, parser, envp);
+                        else
+                            ft_execute(parser->new_red_out->content, parser->clean, parser, envp);
+                    }
+                    else if(check_red(token) == 3)
+                    {
+                        if(flag != 0)
+                            ft_execute(parser->joined, parser->clean, parser, envp);
+                        else
+                            ft_execute(parser->new_red_outA->content, parser->clean, parser, envp);
+                    }
+                    else if(check_red(token) == 4)
+                    {
+                        if(flag != 0)
+                            ft_execute(parser->joined, parser->clean, parser, envp);
+                        else
+                            ft_execute(parser->new_in_out->content, parser->clean, parser, envp);
+                    }
+                    else
+                    {
+                        if(ft_strcmp(token[0], "exit") == 0)
+                            exit(0);
+                        ft_execute(parser->new_pip->content, token, parser, envp);
+                    }
+                }
+    }
+  void ft_ft(char *check)
+                {
+                int i ;
+                ft_putstr_fd("minishell: syntax error near unexpected token ", 2);
+                i = 0;
+                while(check[i] != 0)
+                {
+                    if(check[i] == '\'')
+                        i++;
+                    if(check[i] == 0)
+                        break;
+                    write(2,&check[i],1);
+                i++;
+                }
+                write(2,"\n",1);
+                }
 void ft_propt(char **envp)
 {
     pid_t pid ;
-    t_variables *env;
-    t_variables *local_env;
-    t_history *history;
     t_all *parser ;
     char  **token ;
-    int flag;
+    char *input ;
+    int flag = 0;;
     int i;
     int status = 0;
     char *check;
-    history = init_history();
-    env = init_env_variables(envp);
+    parser = malloc(sizeof(t_all));
+    parser->history = init_history();
+    parser->env = init_env_variables(envp);
     while (1)
     {
-        char *input ;
         input = readline("minishell>$ ");
         if (!input )
         {
@@ -79,95 +146,27 @@ void ft_propt(char **envp)
         if (*input)
         {
             add_history(input);
-            add_to_history(history, input);
+            add_to_history(parser->history, input);
             token = ft_tokenize(input);
             i = 0;
             while(token[i])
             {
-                token[i] = handel_quotes(token[i], env, local_env);
+                token[i] = handel_quotes(token[i], parser->env, parser->local_env);
                 i++;
             }
             check = is_valid_input(token);
             if(check != NULL)
             {
-                write(2,"minishell: syntax error near unexpected token ",46);
-                i = 0;
-                while(check[i] != 0)
-                {
-                    if(check[i] == '\'')
-                        i++;
-                    write(2,&check[i],1);
-                i++;
-                }
-                write(2,"\n",1);
+                ft_ft(check);
                 g_terminate_program = 2;
                 continue;
             }
             flag = check_parser(token);
-            parser = init_all(token);
-            local_env = ft_check_export(token, env);
+            init_all(parser, token);
+            parser->local_env = ft_check_export(token, parser->env);
             pid = fork();
             if(pid == 0)
-            {
-                signal(SIGINT, SIG_DFL);
-                signal(SIGQUIT, SIG_DFL);
-                if(check_input_type(token) == 3)
-                {
-                    printf("-> 1 hna\n");
-                    exit(if_its_pipe_red(token, env, local_env, history,envp));
-                }
-                if(check_input_type(token) == 2)
-                {
-                    printf("-> 2 hna\n");
-                    exit(if_its_pipe(parser->new_pip, token, env, local_env, history, envp));
-                }
-                if(check_input_type(token) == 0)
-                {
-                    printf("-> 3 hna\n");
-                    if(check_herdoc(token, envp) == 1)
-                    {
-                       if(flag != 0)
-                            ft_execute(parser->joined, token, env, local_env, history, envp);
-                        else
-                            ft_execute(parser->new_her->content, token, env, local_env, history, envp);
-                    }
-                    else if(check_red(token) == 1)
-                    {
-                        if(flag != 0)
-                            ft_execute(parser->joined, token, env, local_env, history, envp);
-                        else
-                            ft_execute(parser->new_red_in->content, token, env, local_env, history, envp);
-                    }
-                    else if(check_red(token) == 2)
-                    {
-                        if(flag != 0)
-                            ft_execute(parser->joined, parser->clean, env, local_env, history, envp);
-                        else
-                            ft_execute(parser->new_red_out->content, parser->clean, env, local_env, history, envp);
-                    }
-                    else if(check_red(token) == 3)
-                    {
-                        if(flag != 0)
-                            ft_execute(parser->joined, parser->clean, env, local_env, history, envp);
-                        else
-                            ft_execute(parser->new_red_outA->content, parser->clean, env, local_env, history, envp);
-                    }
-                    else if(check_red(token) == 4)
-                    {
-                        setup_signals();
-                        if(flag != 0)
-                            ft_execute(parser->joined, parser->clean, env, local_env, history, envp);
-                        else
-                            ft_execute(parser->new_in_out->content,  parser->clean, env, local_env, history, envp);
-                    }
-                    else
-                    {
-                        if(ft_strcmp(token[0], "exit") == 0)
-                            exit(0);
-                        ft_execute(parser->new_pip->content, token, env, local_env, history, envp);
-                    }
-                }
-            }
+                ft_child(parser, token, flag, envp);
             else
             {
                 signal(SIGINT, SIG_IGN);
@@ -180,12 +179,12 @@ void ft_propt(char **envp)
                 g_terminate_program = 1;
         }
         if(ft_strcmp(token[0], "exit") == 0)
-            run_builtin_funciton(token, &env, &local_env);
+            run_builtin_funciton(token, &parser->env, &parser->local_env);
        if(ft_strcmp(token[0], "exit") == 0 && token[1] != NULL && ft_strcmp(token[1] , "'|'"))
-            run_builtin_funciton(token, &env, &local_env);
+            run_builtin_funciton(token, &parser->env, &parser->env);
     }
     ft_lstclear(&parser->new_pip, free);
-    free_history(history);
+    free_history(parser->history);
     free_char_array(token);
 }
 

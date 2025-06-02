@@ -17,7 +17,7 @@ int check_herdoc(char **toknize, char **envp)
             if (pipe(fd) == -1)
                 return (1);
 
-            char *delimiter = toknize[i + 1];
+            delimiter = toknize[i + 1];
 
             while (1)
             {
@@ -35,9 +35,7 @@ int check_herdoc(char **toknize, char **envp)
             if (last_fd != -1)
                 close(last_fd);
 
-           
             last_fd = fd[0];
-
             i += 1;
         }
     i++;

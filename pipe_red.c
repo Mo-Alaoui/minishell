@@ -62,62 +62,50 @@ char **remove_redir_tokens(char **tokens)
 	return args;
 }
 
-char *check_herdoc1(char **segment)
+int wait_loop(char **segment)
 {
-		char *heredoc_delim = NULL;
-		int i;
-		i = 0;
-		while(segment[i])
-			i++;
-		i--;
-		while(i >= 0)
-		{
-			if((ft_strcmp(segment[i], "'<<'")) == 0)
+			int s ;
+			char *line;
+			char *heredoc_delim ;
+			int heredoc_fd[2];
+			int last_heredoc_fd = -1;
+			s = 0;
+			while (segment[s])
 			{
-				heredoc_delim = segment[i + 1];
-				break;
+				if (ft_strcmp(segment[s], "'<<'") == 0 && segment[s + 1])
+				{
+					if (pipe(heredoc_fd) == -1)
+						error();
+					heredoc_delim = segment[s + 1];
+					while (1)
+					{
+						line = readline("heredoc> ");
+						if (!line || ft_strcmp(line, heredoc_delim) == 0)
+						{
+							free(line);
+							break;
+						}
+						write(heredoc_fd[1], line, ft_strlen(line));
+						write(heredoc_fd[1], "\n", 1);
+						free(line);
+					}
+					close(heredoc_fd[1]);
+					if (last_heredoc_fd != -1)
+						close(last_heredoc_fd);
+					last_heredoc_fd = heredoc_fd[0];
+					s += 1;
+				}
+				s++;
 			}
-			i--;
-		}
-		return (heredoc_delim);
+	return (last_heredoc_fd);
 }
 
-void wait_loop(char *line , char *heredoc_delim , int heredoc_fd[2])
-{
-	pipe(heredoc_fd);
-	while(1)
-	{
-		line = readline("heredoc> ");
-		if(!line || ft_strcmp(line, heredoc_delim) == 0)
-		{
-			free(line);
-			break;
-		}
-		write(heredoc_fd[1], line, ft_strlen(line));
-		write(heredoc_fd[1], "\n", 1);
-		free(line);
-	}
-	close(heredoc_fd[1]);
-}
-
-int ft_len(char **s)
-{
-    int i;
-    i = 0 ;
-    while(s[i])
-        i++;
-    return (i);
-}
-
-int if_its_pipe_red(char **tokens, t_variables *env, t_variables *local_env, t_history *history, char **envp)
+int if_its_pipe_red(char **tokens, t_all *parser, char **envp)
 {
 	int fd[2];
-	int heredoc_fd[2];
-	int has_herdoc ;
 	int status ;
+	int last_heredoc_fd = -1;
 	int last_status ;
-	char *line = NULL;
-	char *heredoc_delim ;
 	int prev_fd = -1;
 	pid_t pid;
 	int pids[ft_len(tokens)];
@@ -128,28 +116,24 @@ int if_its_pipe_red(char **tokens, t_variables *env, t_variables *local_env, t_h
 	k = 0;
 	last_status = 0;
 	while (tokens[i])
-	{
-		has_herdoc = 0;   
+	{  
 		j = i;
 		while (tokens[j] && strcmp(tokens[j], "'|'") != 0)
 			j++;
-		char **segment = ft_subarray(tokens, i, j);
-		char **cleaned = remove_redir_tokens(segment);
-		char *joined = ft_join_with_space(cleaned);
-		heredoc_delim = check_herdoc1(segment);
-		if(heredoc_delim != NULL)
-			has_herdoc = 1;
-		if(has_herdoc)
-			wait_loop(line, heredoc_delim, heredoc_fd);
-		pipe(fd);
+		parser->segment = ft_subarray(tokens, i, j);
+		parser->clean = remove_redir_tokens(parser->segment);
+		parser->joined = ft_join_with_space(parser->clean);
+		last_heredoc_fd = wait_loop(parser->segment);
+		if(pipe(fd) == -1)
+			error();
 		pid = fork();
 		if (pid == 0)
 		{
             ft_helper(tokens);
             ft_helper1(tokens);
-			if (has_herdoc)
-        		dup2(heredoc_fd[0], 0);
-			if (prev_fd != -1 && !has_herdoc)
+			if (last_heredoc_fd != -1)
+				dup2(last_heredoc_fd, 0);
+			if (prev_fd != -1)
 			{
 				dup2(prev_fd, 0);
 				close(prev_fd);
@@ -158,18 +142,20 @@ int if_its_pipe_red(char **tokens, t_variables *env, t_variables *local_env, t_h
 				dup2(fd[1], 1);
 			close(fd[0]);
 			close(fd[1]);
-			if (has_herdoc)
-				close(heredoc_fd[0]); 
-			ft_execute(joined , cleaned, env, local_env, history, envp);
+			if (last_heredoc_fd != 1)
+				close(last_heredoc_fd); 
+			ft_execute(parser->joined , parser->clean, parser, envp);
 		}
 		pids[k++] = pid ;
 		if (prev_fd != -1)
 			close(prev_fd);
-		if (has_herdoc)
-			close(heredoc_fd[0]);
+		if (last_heredoc_fd != 1)
+			close(last_heredoc_fd);
 		close(fd[1]);
 		prev_fd = fd[0];
-		free(joined);
+		free(parser->joined);
+		free_char_array(parser->segment);
+		free_char_array(parser->clean);
 
 		if (tokens[j])
 			i = j + 1;

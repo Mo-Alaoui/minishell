@@ -54,13 +54,17 @@ typedef struct s_all
     t_list *new_in_out;
     char **clean;
     char *joined;
+    char **segment;
+    t_variables *env;
+    t_variables *local_env;
+    t_history *history;
 } t_all ;
 
 int check_red(char **tokenize);
 int redirect_output(const char *filename, int append);
 int redirect_input(char *filename);
 int check_herdoc(char **toknize, char **envp);
-void	ft_execute(char *argv, char **token ,t_variables *env , t_variables *local_env ,t_history *history ,char **envp);
+void	ft_execute(char *argv, char **token ,t_all *parser,char **envp);
 void	ft_execute_2(char **token, char **envp);
 int check_his(char *token, t_history *history);
 void	error(void);
@@ -80,18 +84,17 @@ void free_char_array(char **tokens);
 char **ft_tokenize(const char *input);
 
         //handle_pipe//
-t_all *init_all(char **token);
-////void child_process(char *argv, t_history *history, int *fd, char **envp);
-///void	inter_cmd(t_history *history ,char *argv, char **envp, int *fd);
+void init_all(t_all *parser,char **token);
 char **ft_subarray(char **tokens, int start, int end);
-int if_its_pipe(t_list *new_pip, char **token, t_variables *env, t_variables *local_env, t_history *history, char **envp);
+int if_its_pipe(t_list *new_pip,char **token, t_all *parser, char **envp);
 char **remove_redir_tokens(char **tokens);
 int check_input_type(char **token);
 char *ft_join_with_space(char **tokens);
 int check_parser(char **token);
 void ft_helper1(char **token);
+int ft_len(char **s);
 void ft_helper(char **token);
-int if_its_pipe_red(char **tokens, t_variables *env, t_variables *local_env, t_history *history, char **envp);
+int if_its_pipe_red(char **tokens, t_all *parser, char **envp);
       // builtin functions//
 void	ft_exit(char **args);
 void ft_pwd(void);
@@ -121,7 +124,15 @@ int is_builtin_functions(char *str);
     //valide_input//
 char *is_valid_input(char **tokens);
 int is_metachar(char *s);
+int is_metachar2(char *s);
 int is_directory(const char *path);
     // quotes//
 char *handel_quotes(char *input, t_variables *env, t_variables *local_env);
+int is_special_characters(char *str);
+void replacement_strings(char **words, t_variables *env, t_variables *local_env);
+char *handel_special_characters(char *str);
+char *replace_token(const char *str, t_variables *env, t_variables *local_env);
+ // for norminette ///
+void ft_child(t_all *parser, char **token, int flag, char **envp);
+void ft_ft(char *check);
 #endif
