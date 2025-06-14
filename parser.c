@@ -45,7 +45,7 @@ t_list *ft_parser2(char **tokenize)
 
     while (tokenize[i])
     {
-        if (ft_strcmp(tokenize[i], "<") == 0 || ft_strcmp(tokenize[i] , ">") == 0 || ft_strcmp(tokenize[i] , "|") == 0)
+        if (ft_strcmp(tokenize[i], "'<'") == 0 || ft_strcmp(tokenize[i] , "'>'") == 0 || ft_strcmp(tokenize[i] , "'|'") == 0)
         {
             new = ft_lstnew(str);
             ft_lstadd_back(&head, new);
@@ -57,7 +57,7 @@ t_list *ft_parser2(char **tokenize)
         free(tmp);
 
 
-        if (tokenize[i + 1] && ft_strcmp(tokenize[i + 1], "<") != 0 && ft_strcmp(tokenize[i + 1], ">") != 0 && ft_strcmp(tokenize[i + 1], "|") != 0 )
+        if (tokenize[i + 1] && ft_strcmp(tokenize[i + 1], "'<'") != 0 && ft_strcmp(tokenize[i + 1], "'>'") != 0 && ft_strcmp(tokenize[i + 1], "'|'") != 0 )
         {
             tmp = str;
             str = ft_strjoin(str, " ");
