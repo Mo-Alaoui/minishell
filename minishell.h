@@ -59,6 +59,18 @@ typedef struct s_all
     t_variables *local_env;
     t_history *history;
 } t_all ;
+    //struct for pipes nourminette//
+typedef struct s_norm
+{
+    int fd[2];
+    int i ;
+    int  j;
+    int k ;
+    int prev_fd;
+    pid_t pid;
+    int		*pids;
+    int		last_heredoc_fd;
+} t_norm ;
 
 int check_red(char **tokenize);
 int redirect_output(const char *filename, int append);
@@ -94,7 +106,7 @@ int check_parser(char **token);
 void ft_helper1(char **token);
 int ft_len(char **s);
 void ft_helper(char **token);
-int if_its_pipe_red(char **tokens, t_all *parser, char **envp);
+int if_its_pipe_red(char **tokens, t_list *new_pip, t_all *parser, char **envp);
       // builtin functions//
 void	ft_exit(char **args);
 void ft_pwd(void);
@@ -136,4 +148,7 @@ char *replace_token(const char *str, t_variables *env, t_variables *local_env);
  // for norminette ///
 void ft_child(t_all *parser, char **token, int flag, char **envp);
 void ft_ft(char *check);
+int	ft_stor_status(int *pids, int i);
+void	init(t_norm *norm, t_list *new_pip , int flag , char **tokens);
+void	ft_ft4(char **token, t_all *parser, t_norm *norm);
 #endif

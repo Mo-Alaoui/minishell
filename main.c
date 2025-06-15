@@ -61,7 +61,7 @@ void	ft_child(t_all *parser, char **token, int flag, char **envp)
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	if (check_input_type(token) == 3)
-		exit(if_its_pipe_red(token, parser, envp));
+		exit(if_its_pipe_red(token, parser->new_pip, parser, envp));
 	if (check_input_type(token) == 2)
 		exit(if_its_pipe(parser->new_pip, token, parser, envp));
 	if (check_input_type(token) == 0)
@@ -90,7 +90,6 @@ void	ft_child(t_all *parser, char **token, int flag, char **envp)
 		}
 		else if (check_red(token) == 3)
 		{
-			printf("->>>kandkhel");
 			if (flag != 0)
 				ft_execute(parser->joined, parser->clean, parser, envp);
 			else
@@ -143,7 +142,6 @@ void	ft_propt(char **envp)
 	char	*check;
 
 	flag = 0;
-	;
 	status = 0;
 	parser = malloc(sizeof(t_all));
 	parser->history = init_history();
@@ -169,12 +167,6 @@ void	ft_propt(char **envp)
 			{
 				token[i] = handel_quotes(token[i], parser->env,
 						parser->local_env);
-				i++;
-			}
-			i = 0;
-			while(token[i])
-			{
-				printf("%s\n", token[i]);
 				i++;
 			}
 			check = is_valid_input(token);
