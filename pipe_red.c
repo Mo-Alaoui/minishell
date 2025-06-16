@@ -131,10 +131,10 @@ int	ft_ft5(char **tokens, t_all *parser, t_norm *norm)
 	return (last_heredoc_fd);
 }
 
-void	ft_child2(char **tokens, int last_heredoc_fd, t_norm *norm)
+void	ft_child2(char **tokens, t_all *parser, int last_heredoc_fd, t_norm *norm)
 {
-	ft_helper(tokens);
-	ft_helper1(tokens);
+	ft_helper(parser->segment);
+	ft_helper1(parser->segment);
 	if (last_heredoc_fd != -1)
 		dup2(last_heredoc_fd, 0);
 	if (norm->prev_fd != -1)
@@ -161,7 +161,7 @@ int	if_its_pipe_red(char **tokens, t_list *new_pip, t_all *parser, char **envp)
 		norm->last_heredoc_fd = ft_ft5(tokens, parser, norm);
 		if (norm->pid == 0)
 		{
-			ft_child2(tokens, norm->last_heredoc_fd, norm);
+			ft_child2(tokens, parser ,norm->last_heredoc_fd, norm);
 			ft_execute(parser->joined, parser->clean, parser, envp);
 		}
 		norm->pids[norm->i++] = norm->pid;

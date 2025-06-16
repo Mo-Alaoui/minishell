@@ -93,7 +93,21 @@ static int	ft_ft2(char **tokenize, int i, int flag)
 	int	j;
 
 	if (flag == 1)
-		redirect_input(tokenize[i + 1]);
+	{
+			j = i;
+		while (tokenize[j])
+			j++;
+		j--;
+		while(j >= 0)
+		{
+			if(ft_strcmp(tokenize[j], "'<'") == 0)
+			{
+					redirect_input(tokenize[j + 1]);
+					break;
+			}
+		j--;
+		}
+	}
 	j = i;
 	while (tokenize[j])
 		j++;
@@ -103,11 +117,23 @@ static int	ft_ft2(char **tokenize, int i, int flag)
 		if (ft_strcmp(tokenize[j], "'>'") == 0)
 		{
 			redirect_output(tokenize[j + 1], 0);
+			while(j >= 0)
+			{
+				if (ft_strcmp(tokenize[j], "'<'") == 0)
+					redirect_input(tokenize[j + 1]);
+				--j;
+			}
 			return (4);
 		}
 		else if (ft_strcmp(tokenize[j], "'>>'") == 0)
 		{
 			redirect_output(tokenize[j + 1], 1);
+			while(j >= 0)
+			{
+				if (ft_strcmp(tokenize[j], "'<'") == 0)
+					redirect_input(tokenize[j + 1]);
+				--j;
+			}
 			return (4);
 		}
 		j--;

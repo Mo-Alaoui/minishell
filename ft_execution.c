@@ -54,15 +54,17 @@ void	ft_execute(char *argv, char **token , t_all *parser , char **envp)
 		ft_execute_2(token, envp);
 	if (is_builtin_functions(argv) || is_builtin_functions(token[0]))
 	{
-		printf("dkhel->>>%s\n%s\n",token[0],argv);
+		if(ft_strcmp(token[0], "exit") == 0 || ft_strcmp(token[0], "unset") == 0 || ft_strcmp(token[0], "cd") == 0)
+			exit(0);
 		if(run_builtin_funciton(token, &parser->env, &parser->local_env) != 0)
 			exit(0);
 	}
     if(check_his(argv, parser->history) == 1)
 	     exit(0);
 	cmd = ft_split(argv, ' ');
+	loop>%s\n",cmd[0]);
 	path = find_path(cmd[0], envp);
-	if (is_directory(cmd[0]) == 1)
+	if (is_directory(cmd[0]) == 1 && ft_strcmp(cmd[0], "..") != 0)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd[0], 2);

@@ -80,7 +80,6 @@ void ft_pwd(void)
 
 int ft_cd(const char *path)
 {
-    printf("------[%s]\n", path);
     const char *target;
     target = path;
 

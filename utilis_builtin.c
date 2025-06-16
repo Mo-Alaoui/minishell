@@ -105,10 +105,7 @@ int  run_builtin_funciton(char **command, t_variables **env, t_variables **local
     if (ft_strcmp(command[0], "echo") == 0)
         ft_echo(command, env, local_env);
     else if (ft_strcmp(command[0], "cd") == 0)
-    {
-        //printf("------[%s]\n", *(command + 1));
         ft_cd(*(command + 1));
-    }
     else if (ft_strcmp(command[0], "pwd") == 0)
         ft_pwd();
     else if (ft_strcmp(command[0], "export") == 0)
@@ -123,9 +120,7 @@ int  run_builtin_funciton(char **command, t_variables **env, t_variables **local
             }
         }
         else
-        {
             print_exported_env_vars(env);
-        }
     }
     else if (ft_strcmp(command[0], "unset") == 0)
     {

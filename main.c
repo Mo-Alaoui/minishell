@@ -60,6 +60,7 @@ void	ft_child(t_all *parser, char **token, int flag, char **envp)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+
 	if (check_input_type(token) == 3)
 		exit(if_its_pipe_red(token, parser->new_pip, parser, envp));
 	if (check_input_type(token) == 2)
@@ -76,9 +77,9 @@ void	ft_child(t_all *parser, char **token, int flag, char **envp)
 		else if (check_red(token) == 1)
 		{
 			if (flag != 0)
-				ft_execute(parser->joined, token, parser, envp);
+				ft_execute(parser->joined, parser->clean, parser, envp);
 			else
-				ft_execute(parser->new_red_in->content, token, parser, envp);
+				ft_execute(parser->new_red_in->content, parser->clean, parser, envp);
 		}
 		else if (check_red(token) == 2)
 		{
@@ -105,11 +106,7 @@ void	ft_child(t_all *parser, char **token, int flag, char **envp)
 					envp);
 		}
 		else
-		{
-			if (ft_strcmp(token[0], "exit") == 0)
-				exit(0);
 			ft_execute(parser->new_pip->content, parser->clean, parser, envp);
-		}
 	}
 }
 void	ft_ft(char *check)
@@ -179,6 +176,7 @@ void	ft_propt(char **envp)
 			flag = check_parser(token);
 			init_all(parser, token);
 			parser->local_env = ft_check_export(token, parser->env);
+			envp_p = variables_to_array(parser->env);
 			pid = fork();
 			if (pid == 0)
 				ft_child(parser, token, flag, envp_p);
@@ -193,8 +191,14 @@ void	ft_propt(char **envp)
 			else
 				g_terminate_program = 1;
 		}
-		if (ft_strcmp(token[0], "exit") == 0)
+		if(ft_strcmp(token[0], "cd") == 0 && check_input_type(token) == 0)
 			run_builtin_funciton(token, &parser->env, &parser->local_env);
+		if (ft_strcmp(token[0], "exit") == 0 || (ft_strcmp(token[0], "unset") == 0 && check_input_type(token) == 0))
+		{
+			run_builtin_funciton(token, &parser->env, &parser->local_env);
+			if((ft_strcmp(token[0], "unset") == 0 && check_input_type(token) == 0))
+				envp_p = variables_to_array(parser->env);
+		}
 		if (ft_strcmp(token[0], "exit") == 0 && token[1] != NULL
 			&& ft_strcmp(token[1], "'|'"))
 			run_builtin_funciton(token, &parser->env, &parser->env);

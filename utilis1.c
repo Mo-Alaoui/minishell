@@ -55,6 +55,8 @@ char	*is_valid_input(char **tokens)
 			return (tokens[i]);
 		if ((tokens[1] == NULL && is_character(tokens[0][0]) == 1))
 			return (tokens[i]);
+		if(ft_strcmp(tokens[i], "';'") == 0)
+			return(";");
 		i++;
 	}
 	return (NULL);
