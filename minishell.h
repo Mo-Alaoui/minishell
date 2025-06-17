@@ -124,7 +124,6 @@ char *get_env_variable(t_variables *env_list, char *name);
 int add_variable(t_variables **env_list, char *input);
 t_variables *add_new_var(char *input);
 int is_valid_var_name(char *name);
-int is_alnum_underscore(char c);
 int is_alpha(char c);
 char *variable_value(char *input);
 char *var_name(char *input);
