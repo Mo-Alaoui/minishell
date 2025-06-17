@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohalaou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:23:36 by mohalaou          #+#    #+#             */
-/*   Updated: 2024/11/10 09:30:21 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/17 14:59:20 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef struct s_list
 }			t_list;
 
 int ft_isseparator(char c);
-void print_array_char( char **arr);
+int ft_total_strings(char **s);
 int ft_isspace(char c);
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);

@@ -2,10 +2,10 @@
 
 int is_builtin_functions(char *str)
 {
-    if (  !ft_strcmp(str, "echo") || !ft_strcmp(str, "cd") 
+    if (  !ft_strncmp(str, "echo", 4) || !ft_strncmp(str, "cd", 2) 
        || !ft_strcmp(str, "export") || !ft_strcmp(str, "pwd")
        || !ft_strcmp(str, "unset") || !ft_strcmp(str, "env")
-       || !ft_strcmp(str, "exit")) 
+       || !ft_strncmp(str, "exit", 4)) 
     {
         return (1);
     }
@@ -83,7 +83,6 @@ void sort_ascii(char **arr)
     }
 }
 
-
 void print_exported_env_vars(t_variables **env)
 {
     if (!env || !*env)
@@ -99,46 +98,42 @@ void print_exported_env_vars(t_variables **env)
     }
 }
 
-void run_builtin_funciton(char **argv, t_variables **env, t_variables **local_env)
+int  run_builtin_funciton(char **command, t_variables **env, t_variables **local_env)
 {
     int i;
 
-    if (ft_strcmp(*argv, "echo") == 0)
-        ft_echo(argv, env, local_env);
-    if (ft_strcmp(*argv, "cd") == 0)
-    {
-        ft_cd(*(argv + 1));
-    }
-    if (ft_strcmp(*argv, "pwd") == 0)
+    if (ft_strcmp(command[0], "echo") == 0)
+        ft_echo(command);
+    else if (ft_strcmp(command[0], "cd") == 0)
+        ft_cd(*(command + 1));
+    else if (ft_strcmp(command[0], "pwd") == 0)
         ft_pwd();
-    if (ft_strcmp(*argv, "export") == 0)
+    else if (ft_strcmp(command[0], "export") == 0)
     {
         i = 1;
-        if (argv[i])
+        if (command[i])
         {
-            while (argv[i])
+            while (command[i])
             {
-                ft_export(env, local_env, argv[i]);
+                ft_export(env, local_env, command[i]);
                 i++;
             }
         }
         else
-        {
             print_exported_env_vars(env);
-        }
-        
     }
-    if (ft_strcmp(*argv, "unset") == 0)
+    else if (ft_strcmp(command[0], "unset") == 0)
     {
-        if (*argv)
-            ft_unset(env, argv);
+        if (command[1])
+            ft_unset(env, command);
     }
-    if (ft_strcmp(*argv, "env") == 0)
+    else if (ft_strcmp(command[0], "env") == 0)
         ft_env(env);
-    if (ft_strcmp(*argv, "exit") == 0)
-    {
-        ft_exit(argv);
-    }
+    else if (ft_strcmp(command[0], "exit") == 0)
+        ft_exit(command);
+    else
+        return(0);
+    return(1);
 }
 
 char *get_string_before_char(const char *input_str, char c) 

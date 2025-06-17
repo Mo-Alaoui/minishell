@@ -46,8 +46,15 @@ static int ft_count_token(const char *input)
         if (input[i] == '"' || input[i] == '\'')
         {
             save_char = input[i];
-            while (input[++i] != save_char)
-                ;
+            while (input[i] != save_char)
+            {
+                i++;
+                if (input[i] == '\0')
+                {
+                    count += 1;
+                    break;
+                }    
+            }
         }
         if (ft_isspace(input[i]))
         {
@@ -84,9 +91,12 @@ char **ft_tokenize(const char *input)
     t_token_data data;
     ft_memset(&data, 0, sizeof(t_token_data));
 
-    data.tokens = malloc(sizeof(char *) * (ft_count_token(input) + 1));
+    int len = ft_count_token(input);
+    data.tokens = malloc(sizeof(char *) * (len + 1));
     if (!data.tokens)
         return (NULL);
+
+    
 
     while (input[data.i])
     {
@@ -115,8 +125,14 @@ char **ft_tokenize(const char *input)
         }
         data.i++;
     }
+
+    if (data.in_quotes == 1)
+    {
+        printf("Error : unclosed quotes\n");
+        return (NULL);
+    }
+
     add_token(&data, input, data.start, data.i);
     data.tokens[data.token_count] = NULL;
     return (data.tokens);
 }
-

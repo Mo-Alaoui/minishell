@@ -1,9 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-#include <readline/readline.h>
-#include "libft/libft.h"
 #include "minishell.h"
 
 int get_size(const char *str, t_variables *env, t_variables *local_env)
@@ -267,4 +261,3 @@ char *handel_quotes(char *input, t_variables *env, t_variables *local_env)
     
     return (input);
 }
-

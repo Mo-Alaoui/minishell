@@ -2,5 +2,5 @@
 
 int ft_isseparator(char c)
 {
-    return (c == '|' || c == '>' || c == '<');
+    return (c == ';' || c == '|' || c == '>' || c == '<');
 }

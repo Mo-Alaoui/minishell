@@ -22,7 +22,7 @@ int	numeric_argument(char *str)
 void	exit_utils(char **args, int len_args)
 {
     int exit_n;
-	if (len_args == 2)
+	if (len_args == 2 && ft_strcmp(args[1] , "'|'") != 0)
 	{
 		exit_n = (ft_atoi(args[1]) % 256);
 		if (exit_n < 0)
@@ -30,18 +30,18 @@ void	exit_utils(char **args, int len_args)
 		printf("exit\n");
 		exit(exit_n);
 	}
-	else
+	else if(ft_strcmp(args[1] , "'|'") != 0)
 	{
 		ft_putstr_fd("exit\nminishell: exit: too many arguments\n", 2);
 		g_terminate_program = 1;
 		return ;
 	}
+    return;
 }
 
 void	ft_exit(char **args)
 {
 	int	len_args;
-
 
 	len_args = 1;
 	if (args)
@@ -53,9 +53,10 @@ void	ft_exit(char **args)
         exit(g_terminate_program);
 	}
 	else
-	{
-		if (numeric_argument(args[1]) == 1)
+	{    
+		if (numeric_argument(args[1]) == 1 && ft_strcmp(args[1], "'|'") != 0)
 		{
+            if(args[1])
             printf("exit\nminishell: exit: ");
             printf("%s", args[1]);
             printf(": numeric argument required\n");
@@ -76,6 +77,7 @@ void ft_pwd(void)
     else
         perror("pwd");
 }
+
 
 int ft_cd(const char *path)
 {
@@ -127,7 +129,7 @@ void ft_export(t_variables **env, t_variables **local_env, char *command)
     if (value != NULL)
     {
         res = ft_strjoin(ft_strjoin(command, "="), value);
-        add_variable(env, env, res);   
+        add_variable(env, res);   
     }
 }
 
@@ -162,11 +164,8 @@ void ft_unset(t_variables **env, char **name)
     }
 }
 
-void ft_echo(char **arg, t_variables **env, t_variables **local_env)
+void ft_echo(char **arg)
 {
-    (void)env;
-    (void)local_env;
-
     int newline = 1;
     int first = 1;
     int i = 1;
