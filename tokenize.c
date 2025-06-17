@@ -32,30 +32,45 @@ static void add_token(t_token_data *data, const char *input, int start, int end)
 
 static int ft_count_token(const char *input)
 {
-    int count, i, in_quotes;
-    char quote_char;
+    int count, i;
+    char save_char;
 
     count = 0;
     i = 0;
-    in_quotes = 0;
-    quote_char = '\0';
+    save_char = '\0';
+
+    input = ft_strtrim(input, " ");
+
     while (input[i])
     {
         if (input[i] == '"' || input[i] == '\'')
         {
-            if (in_quotes && input[i] == quote_char)
+            save_char = input[i];
+            while (input[i] != save_char)
             {
-                count++;
-                in_quotes = 0;
-            }
-            else if (!in_quotes)
-            {
-                in_quotes = 1;
-                quote_char = input[i];
+                i++;
+                if (input[i] == '\0')
+                {
+                    count += 1;
+                    break;
+                }    
             }
         }
-        if (!in_quotes && (ft_isspace(input[i]) || ft_isseparator(input[i])))
-            count++;
+        if (ft_isspace(input[i]))
+        {
+            count += 1;
+            while (ft_isspace(input[i]))
+                i++;
+            continue;
+        }
+        if (ft_isseparator(input[i]))
+        {
+            count += 2;
+            save_char = input[i];
+            while (input[++i] == save_char)
+                ;
+            continue;
+        }
         i++;
     }
     if (i > 0 && !ft_isspace(input[i - 1]))
@@ -66,7 +81,7 @@ static int ft_count_token(const char *input)
 
 int is_delimiter(char c)
 {
-    if (ft_isspace(c) || ft_isseparator(c) || c == '\'' || c == '"')
+    if (ft_isspace(c) || ft_isseparator(c))
         return (1);
     return (0);
 }
@@ -76,9 +91,12 @@ char **ft_tokenize(const char *input)
     t_token_data data;
     ft_memset(&data, 0, sizeof(t_token_data));
 
-    data.tokens = malloc(sizeof(char *) * (ft_count_token(input) + 2));
+    int len = ft_count_token(input);
+    data.tokens = malloc(sizeof(char *) * (len + 1));
     if (!data.tokens)
         return (NULL);
+
+    
 
     while (input[data.i])
     {
@@ -107,6 +125,13 @@ char **ft_tokenize(const char *input)
         }
         data.i++;
     }
+
+    if (data.in_quotes == 1)
+    {
+        printf("Error : unclosed quotes\n");
+        return (NULL);
+    }
+
     add_token(&data, input, data.start, data.i);
     data.tokens[data.token_count] = NULL;
     return (data.tokens);

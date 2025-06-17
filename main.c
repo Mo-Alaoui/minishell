@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: saamouss <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/18 00:37:32 by saamouss          #+#    #+#             */
+/*   Updated: 2025/06/18 00:37:41 by saamouss         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int			g_terminate_program = 0;
@@ -68,47 +80,20 @@ void	ft_child(t_all *parser, char **token, int flag, char **envp)
 	if (check_input_type(token) == 0)
 	{
 		if (check_herdoc(token, envp) == 1)
-		{
-			if (flag != 0)
-				ft_execute(parser->joined, token, parser, envp);
-			else
-				ft_execute(parser->new_her->content, token, parser, envp);
-		}
+			ft_call(parser, flag ,envp);
 		else if (check_red(token) == 1)
-		{
-			if (flag != 0)
-				ft_execute(parser->joined, parser->clean, parser, envp);
-			else
-				ft_execute(parser->new_red_in->content, parser->clean, parser, envp);
-		}
+			ft_call1(parser, flag ,envp);
 		else if (check_red(token) == 2)
-		{
-			if (flag != 0)
-				ft_execute(parser->joined, parser->clean, parser, envp);
-			else
-				ft_execute(parser->new_red_out->content, parser->clean, parser,
-					envp);
-		}
+			ft_call2(parser, flag ,envp);
 		else if (check_red(token) == 3)
-		{
-			if (flag != 0)
-				ft_execute(parser->joined, parser->clean, parser, envp);
-			else
-				ft_execute(parser->new_red_outA->content, parser->clean, parser,
-					envp);
-		}
+			ft_call3(parser, flag ,envp);
 		else if (check_red(token) == 4)
-		{
-			if (flag != 0)
-				ft_execute(parser->joined, parser->clean, parser, envp);
-			else
-				ft_execute(parser->new_in_out->content, parser->clean, parser,
-					envp);
-		}
+			ft_call4(parser, flag ,envp);
 		else
 			ft_execute(parser->new_pip->content, parser->clean, parser, envp);
 	}
 }
+
 void	ft_ft(char *check)
 {
 	int	i;
@@ -159,11 +144,15 @@ void	ft_propt(char **envp)
 			add_history(input);
 			add_to_history(parser->history, input);
 			token = ft_tokenize(input);
+
+			if (!token)
+				continue;
+
 			i = 0;
 			while (token[i])
 			{
 				token[i] = handel_quotes(token[i], parser->env,
-						parser->local_env);
+					parser->local_env);
 				i++;
 			}
 			check = is_valid_input(token);

@@ -62,7 +62,6 @@ void	ft_execute(char *argv, char **token , t_all *parser , char **envp)
     if(check_his(argv, parser->history) == 1)
 	     exit(0);
 	cmd = ft_split(argv, ' ');
-	loop>%s\n",cmd[0]);
 	path = find_path(cmd[0], envp);
 	if (is_directory(cmd[0]) == 1 && ft_strcmp(cmd[0], "..") != 0)
 	{

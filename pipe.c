@@ -42,7 +42,7 @@ void	init(t_norm *norm, t_list *new_pip , int flag , char **tokens)
     }
     else
     {
-        norm->pids = malloc(sizeof(ft_len(tokens)));
+        norm->pids = malloc(sizeof(ft_total_strings(tokens)));
     }
     norm->last_heredoc_fd = -1;
 	norm->prev_fd = -1;

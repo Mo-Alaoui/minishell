@@ -104,7 +104,6 @@ int check_input_type(char **token);
 char *ft_join_with_space(char **tokens);
 int check_parser(char **token);
 void ft_helper1(char **token);
-int ft_len(char **s);
 void ft_helper(char **token);
 int if_its_pipe_red(char **tokens, t_list *new_pip, t_all *parser, char **envp);
       // builtin functions//
@@ -116,7 +115,7 @@ char **variables_to_array(t_variables *head);
 void ft_env(t_variables **env);
 void ft_export(t_variables **env, t_variables **local_env, char *command);
 void ft_unset(t_variables **env, char **name);
-void ft_echo(char **arg, t_variables **env, t_variables **local_env);
+void ft_echo(char **arg);
 
     // env_var funciton //
 void free_env_variables(t_variables *env_list);
@@ -148,7 +147,16 @@ char *replace_token(const char *str, t_variables *env, t_variables *local_env);
  // for norminette ///
 void ft_child(t_all *parser, char **token, int flag, char **envp);
 void ft_ft(char *check);
+ int	ft_ft1(char **toknize, int last_fd);
+int	ft_ft2(char **tokenize, int i, int flag);
+int	ft_ft3(char **tokenize, int i);
+ void	ft_ft6(char **tokenize, int j);
 int	ft_stor_status(int *pids, int i);
 void	init(t_norm *norm, t_list *new_pip , int flag , char **tokens);
 void	ft_ft4(char **token, t_all *parser, t_norm *norm);
+void ft_call(t_all *parser , int flag ,char **envp);
+void ft_call1(t_all *parser , int flag ,char **envp);
+void ft_call2(t_all *parser , int flag ,char **envp);
+void ft_call3(t_all *parser , int flag ,char **envp);
+void ft_call4(t_all *parser , int flag ,char **envp);
 #endif

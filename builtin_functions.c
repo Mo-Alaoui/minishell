@@ -78,11 +78,12 @@ void ft_pwd(void)
         perror("pwd");
 }
 
+
 int ft_cd(const char *path)
 {
     const char *target;
     target = path;
-
+    
     if (!target)
     {
         target = getenv("HOME");
@@ -92,11 +93,15 @@ int ft_cd(const char *path)
             return -1;
         }
     }
+    if (target[0] == '\0')
+    {
+        return (0);
+    }
     if (chdir(target) != 0)
     {
         perror("cd");
         return -1;
-    }
+    }   
     return 0;
 }
 
@@ -159,11 +164,8 @@ void ft_unset(t_variables **env, char **name)
     }
 }
 
-void ft_echo(char **arg, t_variables **env, t_variables **local_env)
+void ft_echo(char **arg)
 {
-    (void)env;
-    (void)local_env;
-
     int newline = 1;
     int first = 1;
     int i = 1;

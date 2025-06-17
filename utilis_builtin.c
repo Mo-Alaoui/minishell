@@ -103,7 +103,7 @@ int  run_builtin_funciton(char **command, t_variables **env, t_variables **local
     int i;
 
     if (ft_strcmp(command[0], "echo") == 0)
-        ft_echo(command, env, local_env);
+        ft_echo(command);
     else if (ft_strcmp(command[0], "cd") == 0)
         ft_cd(*(command + 1));
     else if (ft_strcmp(command[0], "pwd") == 0)

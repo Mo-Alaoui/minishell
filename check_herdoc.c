@@ -1,42 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_herdoc.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: saamouss <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/17 23:00:10 by saamouss          #+#    #+#             */
+/*   Updated: 2025/06/17 23:00:13 by saamouss         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
-
-int	ft_ft3(char **tokenize, int i)
-{
-	if (ft_strcmp(tokenize[i], "'>'") == 0)
-	{
-		redirect_output(tokenize[i + 1], 0);
-		return (1);
-	}
-	else if (ft_strcmp(tokenize[i], "'>>'") == 0)
-	{
-		redirect_output(tokenize[i + 1], 1);
-		return (1);
-	}
-	return (0);
-}
-
-static int	ft_ft1(char **toknize, int last_fd)
-{
-	int	i;
-
-	i = 0;
-	while (toknize[i])
-		i++;
-	i--;
-	while (i >= 0)
-	{
-		if (ft_ft3(toknize, i) == 1)
-			break ;
-		i--;
-	}
-	if (last_fd != -1)
-	{
-		dup2(last_fd, STDIN_FILENO);
-		close(last_fd);
-		return (1);
-	}
-	return (0);
-}
 
 static int	ft_loop(char **toknize, int *fd, int i)
 {
@@ -86,59 +60,6 @@ int	check_herdoc(char **toknize, char **envp)
 		i++;
 	}
 	return (ft_ft1(toknize, last_fd));
-}
-
-static int	ft_ft2(char **tokenize, int i, int flag)
-{
-	int	j;
-
-	if (flag == 1)
-	{
-			j = i;
-		while (tokenize[j])
-			j++;
-		j--;
-		while(j >= 0)
-		{
-			if(ft_strcmp(tokenize[j], "'<'") == 0)
-			{
-					redirect_input(tokenize[j + 1]);
-					break;
-			}
-		j--;
-		}
-	}
-	j = i;
-	while (tokenize[j])
-		j++;
-	j--;
-	while (j >= 0)
-	{
-		if (ft_strcmp(tokenize[j], "'>'") == 0)
-		{
-			redirect_output(tokenize[j + 1], 0);
-			while(j >= 0)
-			{
-				if (ft_strcmp(tokenize[j], "'<'") == 0)
-					redirect_input(tokenize[j + 1]);
-				--j;
-			}
-			return (4);
-		}
-		else if (ft_strcmp(tokenize[j], "'>>'") == 0)
-		{
-			redirect_output(tokenize[j + 1], 1);
-			while(j >= 0)
-			{
-				if (ft_strcmp(tokenize[j], "'<'") == 0)
-					redirect_input(tokenize[j + 1]);
-				--j;
-			}
-			return (4);
-		}
-		j--;
-	}
-	return (1);
 }
 
 int	check_red(char **tokenize)
