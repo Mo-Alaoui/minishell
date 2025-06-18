@@ -138,15 +138,23 @@ int is_metachar(char *s);
 int is_metachar2(char *s);
 int is_directory(const char *path);
     // quotes//
-char *handel_quotes(char *input, t_variables *env, t_variables *local_env);
+char *handel_quotes(char *input, t_variables *env);
 int is_special_characters(char *str);
-void replacement_strings(char **words, t_variables *env, t_variables *local_env);
+void replacement_strings(char **words, t_variables *env);
 char *handel_special_characters(char *str);
-char *replace_token(const char *str, t_variables *env, t_variables *local_env);
+char *replace_token(const char *str, t_variables *env);
  // for norminette ///
 void ft_child(t_all *parser, char **token, int flag, char **envp);
 void ft_ft(char *check);
 int	ft_stor_status(int *pids, int i);
 void	init(t_norm *norm, t_list *new_pip , int flag , char **tokens);
 void	ft_ft4(char **token, t_all *parser, t_norm *norm);
+
+// tokenize_utilis
+int	ft_count_token(const char *input);
+int	is_delimiter(char c);
+int	get_size(const char *str, t_variables *env);
+void	free_words(char **ret, int count);
+char	*join_strings(char **words);
+void	sort_ascii(char **arr);
 #endif

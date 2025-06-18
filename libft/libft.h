@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:23:36 by mohalaou          #+#    #+#             */
-/*   Updated: 2025/06/17 14:59:20 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/18 11:34:39 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef struct s_list
 	struct s_list	*next;
 }			t_list;
 
+char	*ft_strndup(const char *s, size_t n);
 int ft_isseparator(char c);
 int ft_total_strings(char **s);
 int ft_isspace(char c);

@@ -166,8 +166,7 @@ void	ft_propt(char **envp)
 			i = 0;
 			while (token[i])
 			{
-				token[i] = handel_quotes(token[i], parser->env,
-						parser->local_env);
+				token[i] = handel_quotes(token[i], parser->env);
 				i++;
 			}
 			check = is_valid_input(token);

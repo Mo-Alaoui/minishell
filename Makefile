@@ -4,8 +4,12 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -Ilibft 
 RLFLAGS = -lreadline
 
-SRCS = main.c add_to_history.c tokenize.c utilis.c utilis1.c parser.c quotes.c ft_execution.c check_herdoc.c pipe.c pipe_red.c  builtin_functions.c environment_variables.c \
-	 utilis_builtin.c builtin_functions_utilis.c environment_variables_utilis.c
+
+SRCS = add_to_history.c builtin_functions_utilis.c builtin_functions.c check_herdoc.c \
+       environment_variables_utilis.c environment_variables.c ft_execution.c main.c \
+       parser.c pipe_red.c pipe.c quotes_utilis.c quotes.c tokenize_utilis.c tokenize.c \
+	   utilis_builtin_two.c utilis_builtin.c utilis.c utilis1.c 
+	      
 OBJS = $(SRCS:.c=.o)
 
 LIBFT_DIR = libft
