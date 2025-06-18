@@ -1,8 +1,25 @@
 #include "minishell.h"
 
+void	error(void)
+{
+	perror("error found");
+	exit(127);
+}
+
+void	ft_free(char **str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != 0)
+		free(str[i++]);
+	free(str);
+}
+
 t_list *ft_parser(char **tokenize, char *s)
 {
     int i = 0;
+    char *tmp ;
     char *str = ft_strdup("");
     t_list *head = NULL;
     t_list *new;
@@ -16,7 +33,7 @@ t_list *ft_parser(char **tokenize, char *s)
             str = ft_strdup("");     
             i++;
         }
-        char *tmp = str;
+        tmp = str;
         str = ft_strjoin(str, tokenize[i]); 
         free(tmp);
 
