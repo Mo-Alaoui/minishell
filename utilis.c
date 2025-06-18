@@ -2,6 +2,8 @@
 
 void	init_all(t_all *parser, char **token)
 {
+	parser->flag = 0;
+	parser->status = 0;
 	parser->clean = remove_redir_tokens(token);
 	parser->joined = ft_join_with_space(parser->clean);
 	parser->new_pip = ft_parser(token, "'|'");
@@ -44,14 +46,15 @@ int	redirect_input(char *filename)
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 	{
-		perror("open input");
-		return (-1);
+		ft_putstr_fd("minishell: No such file or directory: ", 2);
+		ft_putendl_fd(filename, 2);
+		exit(1);
 	}
 	if (dup2(fd, STDIN_FILENO) < 0)
 	{
 		perror("dup2 input");
 		close(fd);
-		return (-1);
+		exit(1);
 	}
 	close(fd);
 	return (0);
@@ -67,7 +70,7 @@ int	redirect_output(const char *filename, int append)
 		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
-		perror("open output");
+		error();
 		return (-1);
 	}
 	if (dup2(fd, STDOUT_FILENO) < 0)
