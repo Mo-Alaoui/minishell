@@ -188,4 +188,8 @@ void					ft_call1(t_all *parser, int flag, char **envp);
 void					ft_call2(t_all *parser, int flag, char **envp);
 void					ft_call3(t_all *parser, int flag, char **envp);
 void					ft_call4(t_all *parser, int flag, char **envp);
+	int ft_ver(t_all *parser);
+	void ft_for_leaks(t_all *parser, char **token);
+		char **force_quote(char **token , t_all *parser);
+		void	ft_check_builtin(char **token, t_all *parser, char **envp_p);
 #endif

@@ -71,6 +71,16 @@ char	**remove_redir_tokens(char **tokens)
 	return (args);
 }
 
+int	wait_loop1(char *line, char *heredoc_delim)
+{
+	if (!line || ft_strcmp(line, heredoc_delim) == 0)
+	{
+		free(line);
+		return (1);
+	}
+	return (0);
+}
+
 int	wait_loop(char **segment)
 {
 	int		s;
@@ -91,11 +101,8 @@ int	wait_loop(char **segment)
 			while (1)
 			{
 				line = readline("heredoc> ");
-				if (!line || ft_strcmp(line, heredoc_delim) == 0)
-				{
-					free(line);
+				if (wait_loop1(line, heredoc_delim) == 1)
 					break ;
-				}
 				write(heredoc_fd[1], line, ft_strlen(line));
 				write(heredoc_fd[1], "\n", 1);
 				free(line);
@@ -131,7 +138,8 @@ int	ft_ft5(char **tokens, t_all *parser, t_norm *norm)
 	return (last_heredoc_fd);
 }
 
-void	ft_child2(char **tokens, t_all *parser, int last_heredoc_fd, t_norm *norm)
+void	ft_child2(char **tokens, t_all *parser, int last_heredoc_fd,
+		t_norm *norm)
 {
 	ft_helper(parser->segment);
 	ft_helper1(parser->segment);
@@ -161,7 +169,7 @@ int	if_its_pipe_red(char **tokens, t_list *new_pip, t_all *parser, char **envp)
 		norm->last_heredoc_fd = ft_ft5(tokens, parser, norm);
 		if (norm->pid == 0)
 		{
-			ft_child2(tokens, parser ,norm->last_heredoc_fd, norm);
+			ft_child2(tokens, parser, norm->last_heredoc_fd, norm);
 			ft_execute(parser->joined, parser->clean, parser, envp);
 		}
 		norm->pids[norm->i++] = norm->pid;

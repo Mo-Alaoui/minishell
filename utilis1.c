@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utilis1.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: saamouss <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/19 16:55:14 by saamouss          #+#    #+#             */
+/*   Updated: 2025/06/19 16:55:17 by saamouss         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	is_directory(const char *path)
@@ -51,12 +63,12 @@ char	*is_valid_input(char **tokens)
 			if (is_metachar(tokens[i + 1]))
 				return (tokens[i + 1]);
 		}
-		if (is_character(tokens[i][0]) == 1)
-			return (tokens[i]);
+		// if (tokens[i][0] == '\'' && )
+		// return (tokens[i]);
 		if ((tokens[1] == NULL && is_character(tokens[0][0]) == 1))
 			return (tokens[i]);
-		if(ft_strcmp(tokens[i], "';'") == 0)
-			return(";");
+		if (ft_strcmp(tokens[i], "';'") == 0)
+			return (";");
 		i++;
 	}
 	return (NULL);
