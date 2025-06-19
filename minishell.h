@@ -20,12 +20,35 @@
 extern int g_terminate_program;
 #endif
 
+typedef struct s_process_var
+{
+	char	*g_num_str;
+	char	temp[256];
+	char	*rep;
+	int		j;
+} t_process_var;
+
 typedef struct s_variables
 {
     char *variable_name;
     char *value;
     struct s_variables *next;
 }  t_variables;
+
+typedef struct S_split_variables
+{
+	int i;
+	int start;
+	int ret_count;
+	
+}	t_split_variables;
+
+typedef struct s_token_variables
+{
+	int i;
+	int ri;
+	char *result;
+}	t_token_variables;
 
 typedef struct s_token_data
 {
@@ -124,13 +147,14 @@ char *get_env_variable(t_variables *env_list, char *name);
 int add_variable(t_variables **env_list, char *input);
 t_variables *add_new_var(char *input);
 int is_valid_var_name(char *name);
+int is_alnum_underscore(char c);
 int is_alpha(char c);
 char *variable_value(char *input);
 char *var_name(char *input);
 
     // utilis_builtin//
 char *get_string_before_char(const char *input_str, char c);
-int  run_builtin_funciton(char **command, t_variables **env, t_variables **local_env);
+int  run_builtin_function(char **command, t_variables **env, t_variables **local_env);
 int is_builtin_functions(char *str);
     //valide_input//
 char *is_valid_input(char **tokens);
@@ -138,11 +162,12 @@ int is_metachar(char *s);
 int is_metachar2(char *s);
 int is_directory(const char *path);
     // quotes//
-char *handel_quotes(char *input, t_variables *env);
 int is_special_characters(char *str);
-void replacement_strings(char **words, t_variables *env);
 char *handel_special_characters(char *str);
-char *replace_token(const char *str, t_variables *env);
+char	*replace_token(const char *str, t_variables *env);
+void	replacement_strings(char **words, t_variables *env);
+char	*handel_quotes(char *input, t_variables *env);
+
  // for norminette ///
 void ft_child(t_all *parser, char **token, int flag, char **envp);
 void ft_ft(char *check);
@@ -150,11 +175,12 @@ int	ft_stor_status(int *pids, int i);
 void	init(t_norm *norm, t_list *new_pip , int flag , char **tokens);
 void	ft_ft4(char **token, t_all *parser, t_norm *norm);
 
-// tokenize_utilis
-int	ft_count_token(const char *input);
-int	is_delimiter(char c);
+
 int	get_size(const char *str, t_variables *env);
 void	free_words(char **ret, int count);
 char	*join_strings(char **words);
+void	add_token(t_token_data *data, const char *input, int start, int end);
+void	process_token_character(const char *input, t_token_data *data);
 void	sort_ascii(char **arr);
+
 #endif

@@ -5,32 +5,21 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/18 14:28:03 by mohalaou          #+#    #+#             */
-/*   Updated: 2025/06/18 14:57:27 by mohalaou         ###   ########.fr       */
+/*   Created: 2025/06/19 16:20:05 by mohalaou          #+#    #+#             */
+/*   Updated: 2025/06/19 16:30:19 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	handle_quotes(const char *input, t_token_data *data)
+void	add_token(t_token_data *data, const char *input, int start, int end)
 {
-	if (input[data->i] == '"' || input[data->i] == '\'')
-	{
-		if (data->in_quotes && input[data->i] == data->quote_char)
-			data->in_quotes = 0;
-		else if (!data->in_quotes)
-		{
-			data->in_quotes = 1;
-			data->quote_char = input[data->i];
-		}
-	}
-}
+	int	num;
 
-static void	add_token(t_token_data *data, const char *input, int start, int end)
-{
+	num = end - start;
 	if (end > start)
 	{
-		data->tokens[data->token_count] = strndup(input + start, end - start);
+		data->tokens[data->token_count] = ft_strndup(input + start, num);
 		if (!data->tokens[data->token_count])
 		{
 			while (data->token_count--)
@@ -42,34 +31,62 @@ static void	add_token(t_token_data *data, const char *input, int start, int end)
 	}
 }
 
-static void	handle_separator_token(const char *input, t_token_data *data)
+static void	skip_quote(const char *input, int *i, int *count)
 {
-	char	check_sepa;
-	int		j;
+	char	quote;
 
-	check_sepa = input[data->i];
-	if (ft_isseparator(check_sepa))
+	quote = '\0';
+	quote = input[*i];
+	while (input[++(*i)] != quote)
 	{
-		j = 0;
-		while (input[data->i + 1] == check_sepa)
+		if (input[*i] == '\0')
 		{
-			j++;
-			data->i++;
+			(*count)++;
+			return ;
 		}
-		add_token(data, input, data->i - j, data->i + 1);
 	}
 }
 
-static char	**finalize_tokens(t_token_data *data, const char *input)
+static int	handle_whitespace_separator(const char *input, int *i, int *count)
 {
-	if (data->in_quotes)
+	char	sep;
+
+	sep = '\0';
+	if (ft_isspace(input[*i]))
 	{
-		printf("Error : unclosed quotes\n");
-		return (NULL);
+		*count += 1;
+		while (ft_isspace(input[*i]))
+			(*i)++;
+		return (1);
 	}
-	add_token(data, input, data->start, data->i);
-	data->tokens[data->token_count] = NULL;
-	return (data->tokens);
+	if (ft_isseparator(input[*i]))
+	{
+		*count += 2;
+		sep = input[*i];
+		while (input[++(*i)] == sep)
+			;
+		return (1);
+	}
+	return (0);
+}
+
+static int	ft_count_token(const char *input)
+{
+	int count, (i);
+	count = 0;
+	i = 0;
+	input = ft_strtrim(input, " ");
+	while (input[i])
+	{
+		if (input[i] == '"' || input[i] == '\'')
+			skip_quote(input, &i, &count);
+		if (handle_whitespace_separator(input, &i, &count))
+			continue ;
+		i++;
+	}
+	if (i > 0 && !ft_isspace(input[i - 1]))
+		count++;
+	return (count);
 }
 
 char	**ft_tokenize(const char *input)
@@ -77,24 +94,22 @@ char	**ft_tokenize(const char *input)
 	t_token_data	data;
 	int				len;
 
-	len = ft_count_token(input);
 	ft_memset(&data, 0, sizeof(t_token_data));
+	len = ft_count_token(input);
 	data.tokens = malloc(sizeof(char *) * (len + 1));
 	if (!data.tokens)
 		return (NULL);
 	while (input[data.i])
 	{
-		handle_quotes(input, &data);
-		if (!data.in_quotes && is_delimiter(input[data.i]))
-		{
-			if (input[data.i] == '\'' || input[data.i] == '"')
-				add_token(&data, input, data.start, data.i + 1);
-			else
-				add_token(&data, input, data.start, data.i);
-			handle_separator_token(input, &data);
-			data.start = data.i + 1;
-		}
+		process_token_character(input, &data);
 		data.i++;
 	}
-	return (finalize_tokens(&data, input));
+	if (data.in_quotes == 1)
+	{
+		printf("Error : unclosed quotes\n");
+		return (NULL);
+	}
+	add_token(&data, input, data.start, data.i);
+	data.tokens[data.token_count] = NULL;
+	return (data.tokens);
 }

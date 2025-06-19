@@ -195,16 +195,16 @@ void	ft_propt(char **envp)
 				g_terminate_program = 1;
 		}
 		if(ft_strcmp(token[0], "cd") == 0 && check_input_type(token) == 0)
-			run_builtin_funciton(token, &parser->env, &parser->local_env);
+			run_builtin_function(token, &parser->env, &parser->local_env);
 		if (ft_strcmp(token[0], "exit") == 0 || (ft_strcmp(token[0], "unset") == 0 && check_input_type(token) == 0))
 		{
-			run_builtin_funciton(token, &parser->env, &parser->local_env);
+			run_builtin_function(token, &parser->env, &parser->local_env);
 			if((ft_strcmp(token[0], "unset") == 0 && check_input_type(token) == 0))
 				envp_p = variables_to_array(parser->env);
 		}
 		if (ft_strcmp(token[0], "exit") == 0 && token[1] != NULL
 			&& ft_strcmp(token[1], "'|'"))
-			run_builtin_funciton(token, &parser->env, &parser->env);
+			run_builtin_function(token, &parser->env, &parser->env);
 	}
 	ft_lstclear(&parser->new_pip, free);
 	free_history(parser->history);

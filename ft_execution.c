@@ -56,7 +56,7 @@ void	ft_execute(char *argv, char **token , t_all *parser , char **envp)
 	{
 		if(ft_strcmp(token[0], "exit") == 0 || ft_strcmp(token[0], "unset") == 0 || ft_strcmp(token[0], "cd") == 0)
 			exit(0);
-		if(run_builtin_funciton(token, &parser->env, &parser->local_env) != 0)
+		if(run_builtin_function(token, &parser->env, &parser->local_env) != 0)
 			exit(0);
 	}
     if(check_his(argv, parser->history) == 1)

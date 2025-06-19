@@ -6,75 +6,24 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 14:58:08 by mohalaou          #+#    #+#             */
-/*   Updated: 2025/06/18 15:31:55 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/19 16:31:00 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	skip_quote(const char *input, int *i, int *count)
+static void	handle_quotes(const char *input, t_token_data *data)
 {
-	char	quote;
-
-	quote = input[*i];
-	while (input[++(*i)] != quote)
+	if (input[data->i] == '"' || input[data->i] == '\'')
 	{
-		if (input[*i] == '\0')
+		if (data->in_quotes && input[data->i] == data->quote_char)
+			data->in_quotes = 0;
+		else if (!data->in_quotes)
 		{
-			(*count)++;
-			return ;
+			data->in_quotes = 1;
+			data->quote_char = input[data->i];
 		}
 	}
-}
-
-static int	handle_whitespace(const char *input, int *i, int *count)
-{
-	if (!ft_isspace(input[*i]))
-		return (0);
-	while (ft_isspace(input[*i]))
-		(*i)++;
-	(*count)++;
-	return (1);
-}
-
-static int	handle_separator(const char *input, int *i, int *count)
-{
-	char	sep;
-
-	sep = input[*i];
-	if (!ft_isseparator(sep))
-		return (0);
-	(*i)++;
-	while (input[*i] == sep)
-		(*i)++;
-	*count += 2;
-	return (1);
-}
-
-int	ft_count_token(const char *input)
-{
-	int	count;
-	int	i;
-
-	count = 0;
-	i = 0;
-	input = ft_strtrim(input, " ");
-	while (input[i])
-	{
-		if (input[i] == '"' || input[i] == '\'')
-			skip_quote(input, &i, &count);
-		else
-		{
-			if (handle_whitespace(input, &i, &count))
-				continue ;
-			if (handle_separator(input, &i, &count))
-				continue ;
-			i++;
-		}
-	}
-	if (i > 0 && !ft_isspace(input[i - 1]))
-		count++;
-	return (count);
 }
 
 int	is_delimiter(char c)
@@ -82,4 +31,44 @@ int	is_delimiter(char c)
 	if (ft_isspace(c) || ft_isseparator(c))
 		return (1);
 	return (0);
+}
+
+static void	handle_delimiter_logic(const char *input, t_token_data *data)
+{
+	if (input[data->i] == '\'' || input[data->i] == '"')
+		add_token(data, input, data->start, data->i + 1);
+	else
+		add_token(data, input, data->start, data->i);
+}
+
+static void	handle_separator_sequence(const char *input, t_token_data *data)
+{
+	char	check_sepa;
+	int		j;
+
+	check_sepa = input[data->i];
+	if (ft_isseparator(check_sepa))
+	{
+		j = 0;
+		while (input[data->i + 1] == check_sepa)
+		{
+			j++;
+			data->i++;
+		}
+		add_token(data, input, data->i - j, data->i + 1);
+	}
+}
+
+void	process_token_character(const char *input, t_token_data *data)
+{
+	handle_quotes(input, data);
+	if (!data->in_quotes)
+	{
+		if (is_delimiter(input[data->i]))
+		{
+			handle_delimiter_logic(input, data);
+			handle_separator_sequence(input, data);
+			data->start = data->i + 1;
+		}
+	}
 }
