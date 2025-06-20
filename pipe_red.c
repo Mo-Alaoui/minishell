@@ -1,121 +1,55 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipe_red.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: saamouss <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/20 18:24:09 by saamouss          #+#    #+#             */
+/*   Updated: 2025/06/20 18:24:10 by saamouss         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-char	**ft_subarray(char **tokens, int start, int end)
+int	wait_loop2(t_norm1 *norm1)
 {
-	char	**sub;
-	int		i;
-
-	sub = malloc(sizeof(char *) * (end - start + 1));
-	i = 0;
-	while (start < end)
-		sub[i++] = ft_strdup(tokens[start++]);
-	sub[i] = NULL;
-	return (sub);
-}
-
-char	*ft_join_with_space(char **tokens)
-{
-	char	*res;
-	char	*tmp;
-	int		i;
-
-	res = ft_strdup("");
-	i = 0;
-	while (tokens[i])
-	{
-		tmp = res;
-		res = ft_strjoin(res, tokens[i]);
-		free(tmp);
-		if (tokens[i + 1])
-		{
-			tmp = res;
-			res = ft_strjoin(res, " ");
-			free(tmp);
-		}
-		i++;
-	}
-	return (res);
-}
-
-char	**remove_redir_tokens(char **tokens)
-{
-	int		count;
-	char	**args;
-	int		i;
-	int		j;
-
-	count = 0;
-	i = 0;
-	while (tokens[i])
-	{
-		if (strcmp(tokens[i], "'<'") == 0 || strcmp(tokens[i], "'<<'") == 0
-			|| strcmp(tokens[i], "'>'") == 0 || strcmp(tokens[i], "'>>'") == 0)
-			i++;
-		else
-			count++;
-		i++;
-	}
-	args = malloc(sizeof(char *) * (count + 1));
-	j = 0;
-	i = 0;
-	while (tokens[i])
-	{
-		if (strcmp(tokens[i], "'<'") == 0 || strcmp(tokens[i], "'<<'") == 0
-			|| strcmp(tokens[i], "'>'") == 0 || strcmp(tokens[i], "'>>'") == 0)
-			i++;
-		else
-			args[j++] = ft_strdup(tokens[i]);
-		i++;
-	}
-	args[j] = NULL;
-	return (args);
-}
-
-int	wait_loop1(char *line, char *heredoc_delim)
-{
-	if (!line || ft_strcmp(line, heredoc_delim) == 0)
-	{
-		free(line);
+	norm1->line = readline("heredoc> ");
+	if (wait_loop1(norm1->line, norm1->heredoc_delim) == 1)
 		return (1);
-	}
+	write(norm1->heredoc_fd[1], norm1->line, ft_strlen(norm1->line));
+	write(norm1->heredoc_fd[1], "\n", 1);
+	free(norm1->line);
 	return (0);
 }
 
 int	wait_loop(char **segment)
 {
 	int		s;
-	char	*line;
-	char	*heredoc_delim;
-	int		heredoc_fd[2];
-	int		last_heredoc_fd;
+	t_norm1	*norm1;
 
-	last_heredoc_fd = -1;
+	norm1 = malloc(sizeof(t_norm1));
+	norm1->last_heredoc_fd = -1;
 	s = 0;
 	while (segment[s])
 	{
 		if (ft_strcmp(segment[s], "'<<'") == 0 && segment[s + 1])
 		{
-			if (pipe(heredoc_fd) == -1)
+			if (pipe(norm1->heredoc_fd) == -1)
 				error();
-			heredoc_delim = segment[s + 1];
+			norm1->heredoc_delim = segment[s + 1];
 			while (1)
 			{
-				line = readline("heredoc> ");
-				if (wait_loop1(line, heredoc_delim) == 1)
+				if (wait_loop2(norm1) == 1)
 					break ;
-				write(heredoc_fd[1], line, ft_strlen(line));
-				write(heredoc_fd[1], "\n", 1);
-				free(line);
 			}
-			close(heredoc_fd[1]);
-			if (last_heredoc_fd != -1)
-				close(last_heredoc_fd);
-			last_heredoc_fd = heredoc_fd[0];
+			norm1->last_heredoc_fd = ft_close(norm1->last_heredoc_fd,
+					norm1->heredoc_fd);
 			s += 1;
 		}
 		s++;
 	}
-	return (last_heredoc_fd);
+	return (norm1->last_heredoc_fd);
 }
 
 int	ft_ft5(char **tokens, t_all *parser, t_norm *norm)

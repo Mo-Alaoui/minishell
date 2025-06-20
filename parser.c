@@ -12,22 +12,6 @@
 
 #include "minishell.h"
 
-void	error(void)
-{
-	perror("error found");
-	exit(1);
-}
-
-void	ft_free(char **str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] != 0)
-		free(str[i++]);
-	free(str);
-}
-
 char	*force_check(char **tokenize, char *str, char *tmp, int i)
 {
 	if (tokenize[i + 1] && ft_strcmp(tokenize[i + 1], "'<'") != 0

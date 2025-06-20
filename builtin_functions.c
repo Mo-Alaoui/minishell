@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_functions.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/17 18:06:29 by mohalaou          #+#    #+#             */
+/*   Updated: 2025/06/17 18:35:16 by mohalaou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	numeric_argument(char *str)
@@ -21,8 +33,9 @@ int	numeric_argument(char *str)
 
 void	exit_utils(char **args, int len_args)
 {
-    int exit_n;
-	if (len_args == 2 && ft_strcmp(args[1] , "'|'") != 0)
+	int	exit_n;
+
+	if (len_args == 2 && ft_strcmp(args[1], "'|'") != 0)
 	{
 		exit_n = (ft_atoi(args[1]) % 256);
 		if (exit_n < 0)
@@ -30,13 +43,13 @@ void	exit_utils(char **args, int len_args)
 		printf("exit\n");
 		exit(exit_n);
 	}
-	else if(ft_strcmp(args[1] , "'|'") != 0)
+	else if (ft_strcmp(args[1], "'|'") != 0)
 	{
 		ft_putstr_fd("exit\nminishell: exit: too many arguments\n", 2);
 		g_terminate_program = 1;
 		return ;
 	}
-    return;
+	return ;
 }
 
 void	ft_exit(char **args)
@@ -50,17 +63,16 @@ void	ft_exit(char **args)
 	if (len_args == 1)
 	{
 		printf("exit\n");
-        exit(g_terminate_program);
+		exit(g_terminate_program);
 	}
 	else
-	{    
+	{
 		if (numeric_argument(args[1]) == 1 && ft_strcmp(args[1], "'|'") != 0)
 		{
-            if(args[1])
-            printf("exit\nminishell: exit: ");
-            printf("%s", args[1]);
-            printf(": numeric argument required\n");
-
+			if (args[1])
+				printf("exit\nminishell: exit: ");
+			printf("%s", args[1]);
+			printf(": numeric argument required\n");
 			g_terminate_program = 2;
 			exit(g_terminate_program);
 		}
@@ -68,131 +80,38 @@ void	ft_exit(char **args)
 	}
 }
 
-
-void ft_pwd(void)
+void	ft_pwd(void)
 {
-    char cwd[4096];
-    if (getcwd(cwd, sizeof(cwd)) != NULL)
-        printf("%s\n", cwd);
-    else
-        perror("pwd");
+	char	cwd[4096];
+
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
+		printf("%s\n", cwd);
+	else
+		perror("pwd");
 }
 
-
-int ft_cd(const char *path)
+int	ft_cd(const char *path)
 {
-    const char *target;
-    target = path;
-    
-    if (!target)
-    {
-        target = getenv("HOME");
-        if (!target)
-        {
-            printf("cd: HOME not set\n");
-            return -1;
-        }
-    }
-    if (target[0] == '\0')
-    {
-        return (0);
-    }
-    if (chdir(target) != 0)
-    {
-        perror("cd");
-        return -1;
-    }   
-    return 0;
-}
+	const char *target;
 
-void ft_env(t_variables **env)
-{
-    t_variables *current;
-
-    if (!env || !*env)
-        return;
-
-    current = *env;
-    while (current)
-    {
-        printf("%s=%s\n", current->variable_name, current->value);
-        current = current->next;
-    }
-}
-
-void ft_export(t_variables **env, t_variables **local_env, char *command)
-{
-    char *value;
-    char *res;
-
-    value = get_env_variable(*local_env, command);
-    if (value != NULL)
-    {
-        res = ft_strjoin(ft_strjoin(command, "="), value);
-        add_variable(env, res);   
-    }
-}
-
-void ft_unset(t_variables **env, char **name)
-{
-    t_variables *current;
-    t_variables *previous;
-
-    while ((*++name))
-    {           
-        current = *env;
-        previous = NULL;
-
-        while (current)
-        {
-            if (ft_strcmp(current->variable_name, *name) == 0)
-            {
-                if (previous)
-                    previous->next = current->next;
-                else
-                    *env = current->next;
-
-                free(current->variable_name);
-                free(current->value);
-                free(current);
-                break;
-            }
-
-            previous = current;
-            current = current->next;
-        }
-    }
-}
-
-void ft_echo(char **arg)
-{
-    int newline = 1;
-    int first = 1;
-    int i = 1;
-    int j = 0;
-
-    while (arg[i] && arg[i][j++] == '-')
-    {
-        
-        while (arg[i][j] && arg[i][j] == 'n')
-            j++;
-        if (arg[i][j] == '\0')
-            newline = 0;
-        else
-            break;
-
-        i++;
-        j = 0;
-    }
-
-    while (arg[i])
-    {
-        if (!first)
-            printf(" ");
-        first = 0;
-        printf("%s", arg[i]);
-        i++;
-    }
-    if (newline)
-        printf("\n");
+	target = path;
+	if (!target)
+	{
+		target = getenv("HOME");
+		if (!target)
+		{
+			printf("cd: HOME not set\n");
+			return (-1);
+		}
+	}
+	if (target[0] == '\0')
+	{
+		return (0);
+	}
+	if (chdir(target) != 0)
+	{
+		perror("cd");
+		return (-1);
+	}
+	return (0);
 }

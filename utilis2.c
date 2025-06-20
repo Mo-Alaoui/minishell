@@ -36,7 +36,6 @@ int	ft_ver(t_all *parser)
 	if (!parser->input)
 	{
 		printf("exit\n");
-		printf("hna ah\n");
 		exit(0);
 	}
 	if (is_only_spaces(parser->input))
@@ -64,27 +63,15 @@ void	ft_ft(char *check)
 void	ft_check_builtin(char **token, t_all *parser, char **envp_p)
 {
 	if (ft_strcmp(token[0], "cd") == 0 && check_input_type(token) == 0)
-		run_builtin_funciton(token, &parser->env, &parser->local_env);
-	if ((ft_strcmp(token[0], "exit") == 0 && token[1] == NULL) || (ft_strcmp(token[0], "unset") == 0
-			&& check_input_type(token) == 0))
+		run_builtin_function(token, &parser->env, &parser->local_env);
+	if ((ft_strcmp(token[0], "exit") == 0 && token[1] == NULL)
+		|| (ft_strcmp(token[0], "unset") == 0 && check_input_type(token) == 0))
 	{
-		run_builtin_funciton(token, &parser->env, &parser->local_env);
+		run_builtin_function(token, &parser->env, &parser->local_env);
 		if ((ft_strcmp(token[0], "unset") == 0 && check_input_type(token) == 0))
 			envp_p = variables_to_array(parser->env);
 	}
 	if (ft_strcmp(token[0], "exit") == 0 && token[1] != NULL
 		&& ft_strcmp(token[1], "'|'"))
-		run_builtin_funciton(token, &parser->env, &parser->env);
-}
-char	**force_quote(char **token, t_all *parser)
-{
-	int	i;
-
-	i = 0;
-	while (token[i])
-	{
-		token[i] = handel_quotes(token[i], parser->env, parser->local_env);
-		i++;
-	}
-	return (token);
+		run_builtin_function(token, &parser->env, &parser->env);
 }

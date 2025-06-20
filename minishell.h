@@ -39,6 +39,29 @@ typedef struct s_variables
 	struct s_variables	*next;
 }						t_variables;
 
+typedef struct s_split_variables
+{
+	int					i;
+	int					start;
+	int					ret_count;
+
+}						t_split_variables;
+
+typedef struct s_token_variables
+{
+	int					i;
+	int					ri;
+	char				*result;
+}						t_token_variables;
+
+typedef struct s_process_var
+{
+	char				*g_num_str;
+	char				temp[256];
+	char				*rep;
+	int					j;
+}						t_process_var;
+
 typedef struct s_token_data
 {
 	char				quote_char;
@@ -91,6 +114,15 @@ typedef struct s_norm
 	int					last_heredoc_fd;
 }						t_norm;
 
+typedef struct s_norm1
+{
+	char				*line;
+	char				*heredoc_delim;
+	int					heredoc_fd[2];
+	int					last_heredoc_fd;
+
+}						t_norm1;
+
 int						check_red(char **tokenize);
 int						redirect_output(const char *filename, int append);
 int						redirect_input(char *filename);
@@ -99,6 +131,8 @@ void					ft_execute(char *argv, char **token, t_all *parser,
 							char **envp);
 void					ft_execute_2(char **token, char **envp);
 int						check_his(char *token, t_history *history);
+void					ft_child(t_all *parser, char **token, int flag,
+							char **envp);
 void					error(void);
 void					ft_free(char **str);
 char					*find_path(char *cmd, char **envp);
@@ -154,23 +188,21 @@ char					*var_name(char *input);
 
 // utilis_builtin//
 char					*get_string_before_char(const char *input_str, char c);
-int						run_builtin_funciton(char **command, t_variables **env,
+int						run_builtin_function(char **command, t_variables **env,
 							t_variables **local_env);
 int						is_builtin_functions(char *str);
+t_variables				*ft_check_export(char **token, t_variables *env);
 // valide_input//
 char					*is_valid_input(char **tokens);
 int						is_metachar(char *s);
 int						is_metachar2(char *s);
 int						is_directory(const char *path);
 // quotes//
-char					*handel_quotes(char *input, t_variables *env,
-							t_variables *local_env);
+char					*handel_quotes(char *input, t_variables *env);
 int						is_special_characters(char *str);
-void					replacement_strings(char **words, t_variables *env,
-							t_variables *local_env);
+void					replacement_strings(char **words, t_variables *env);
 char					*handel_special_characters(char *str);
-char					*replace_token(const char *str, t_variables *env,
-							t_variables *local_env);
+char					*replace_token(const char *str, t_variables *env);
 // for norminette ///
 void					ft_child(t_all *parser, char **token, int flag,
 							char **envp);
@@ -188,8 +220,33 @@ void					ft_call1(t_all *parser, int flag, char **envp);
 void					ft_call2(t_all *parser, int flag, char **envp);
 void					ft_call3(t_all *parser, int flag, char **envp);
 void					ft_call4(t_all *parser, int flag, char **envp);
-	int ft_ver(t_all *parser);
-	void ft_for_leaks(t_all *parser, char **token);
-		char **force_quote(char **token , t_all *parser);
-		void	ft_check_builtin(char **token, t_all *parser, char **envp_p);
+char					**ft_runing(t_all *parser, char *input);
+int						ft_ver(t_all *parser);
+void					ft_for_leaks(t_all *parser, char **token);
+char					**force_quote(char **token, t_all *parser);
+void					ft_check_builtin(char **token, t_all *parser,
+							char **envp_p);
+int						get_size(const char *str, t_variables *env);
+void					free_words(char **ret, int count);
+char					*join_strings(char **words);
+void					add_token(t_token_data *data, const char *input,
+							int start, int end);
+void					process_token_character(const char *input,
+							t_token_data *data);
+void					sort_ascii(char **arr);
+char					**ft_subarray(char **tokens, int start, int end);
+char					*ft_join_with_space(char **tokens);
+int						count_tok_size(char **tokens);
+char					**remove_redir_tokens(char **tokens);
+char					**remove_redir_tokens(char **tokens);
+int						wait_loop1(char *line, char *heredoc_delim);
+void					ft_seg(pid_t pid, t_all *parser);
+int						ft_close(int last_heredoc_fd, int *heredoc_fd);
+char					**force_quote(char **token, t_all *parser);
+void					ft_free(char **str);
+void					ft_helper(char **token);
+void					ft_helper1(char **token);
+int						check_input_type(char **token);
+void					ft_init_init(t_all *parser, char **envp);
+
 #endif
