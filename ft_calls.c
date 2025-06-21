@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calls.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saamouss <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 00:29:40 by saamouss          #+#    #+#             */
-/*   Updated: 2025/06/18 00:29:42 by saamouss         ###   ########.fr       */
+/*   Updated: 2025/06/21 11:46:32 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_call3(t_all *parser, int flag, char **envp)
 	if (flag != 0)
 		ft_execute(parser->joined, parser->clean, parser, envp);
 	else
-		ft_execute(parser->new_red_outA->content, parser->clean, parser, envp);
+		ft_execute(parser->new_red_out_a->content, parser->clean, parser, envp);
 }
 
 void	ft_call4(t_all *parser, int flag, char **envp)

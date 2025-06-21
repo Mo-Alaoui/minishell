@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 15:24:21 by mohalaou          #+#    #+#             */
-/*   Updated: 2025/06/19 16:48:57 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/21 15:37:59 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ int	run_builtin_function(char **cmd, t_variables **env, t_variables **local_env)
 
 char	*get_string_before_char(const char *input_str, char c)
 {
-	const char *pos;
-	char *result;
-	size_t length;
+	const char	*pos;
+	char		*result;
+	size_t		length;
 
 	pos = ft_strchr(input_str, c);
 	if (pos != NULL)

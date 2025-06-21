@@ -6,14 +6,14 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 17:07:37 by mohalaou          #+#    #+#             */
-/*   Updated: 2025/06/19 17:08:33 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/21 11:40:25 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	process_variable_token(const char *str, t_token_variables *var,
-		t_variables *env)
+	t_variables *env)
 {
 	t_process_var	v;
 
@@ -51,9 +51,9 @@ char	*replace_token(const char *str, t_variables *env)
 		return (NULL);
 	while (str[var.i])
 	{
-		if (str[var.i] == '$' && (ft_isalnum(str[var.i + 1]) || str[var.i
-				+ 1] == '_' || str[var.i + 1] == '?') && !ft_isdigit(str[var.i
-				+ 1]))
+		if (str[var.i] == '$' && (ft_isalnum(str[var.i + 1])
+				|| str[var.i + 1] == '_'
+				|| str[var.i + 1] == '?') && !ft_isdigit(str[var.i + 1]))
 			process_variable_token(str, &var, env);
 		else
 			var.result[var.ri++] = str[var.i];
@@ -65,7 +65,7 @@ char	*replace_token(const char *str, t_variables *env)
 
 char	*handel_special_characters(char *str)
 {
-	char *ret;
+	char	*ret;
 
 	int len, (i), (j);
 	len = ft_strlen(str);

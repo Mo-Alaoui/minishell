@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saamouss <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 00:37:32 by saamouss          #+#    #+#             */
-/*   Updated: 2025/06/18 00:37:41 by saamouss         ###   ########.fr       */
+/*   Updated: 2025/06/21 15:32:14 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ void	ft_propt(char **envp)
 		if (parser->token)
 			ft_check_builtin(parser->token, parser, parser->envp_p);
 	}
+	printf("\n++++++++++++++++++++++++++++++++\n");
+	printf("\n++++++++++++++++++++++++++++++++\n");
 	ft_for_leaks(parser, parser->token);
 }
 

@@ -92,7 +92,7 @@ void	ft_pwd(void)
 
 int	ft_cd(const char *path)
 {
-	const char *target;
+	const char	*target;
 
 	target = path;
 	if (!target)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilis.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saamouss <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:55:23 by saamouss          #+#    #+#             */
-/*   Updated: 2025/06/19 16:55:28 by saamouss         ###   ########.fr       */
+/*   Updated: 2025/06/21 11:46:32 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	init_all(t_all *parser, char **token)
 	parser->new_her = ft_parser(token, "'<<'");
 	parser->new_red_in = ft_parser(token, "'<'");
 	parser->new_red_out = ft_parser(token, "'>'");
-	parser->new_red_outA = ft_parser(token, "'>>'");
+	parser->new_red_out_a = ft_parser(token, "'>>'");
 	parser->new_in_out = ft_parser2(token);
 }
 

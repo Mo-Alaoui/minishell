@@ -91,8 +91,8 @@ static int	ft_count_token(const char *input)
 
 char	**ft_tokenize(const char *input)
 {
-	t_token_data data;
-	int len;
+	t_token_data	data;
+	int				len;
 
 	ft_memset(&data, 0, sizeof(t_token_data));
 	len = ft_count_token(input);

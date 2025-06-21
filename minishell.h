@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saamouss <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 23:39:48 by saamouss          #+#    #+#             */
-/*   Updated: 2025/06/18 23:39:51 by saamouss         ###   ########.fr       */
+/*   Updated: 2025/06/21 11:59:11 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ typedef struct s_all
 	t_list				*new_pip;
 	t_list				*new_her;
 	t_list				*new_red_in;
+	t_list				*new_red_out_a;
 	t_list				*new_red_out;
-	t_list				*new_red_outA;
 	t_list				*new_in_out;
 	char				**clean;
 	char				*joined;
@@ -204,8 +204,8 @@ void					replacement_strings(char **words, t_variables *env);
 char					*handel_special_characters(char *str);
 char					*replace_token(const char *str, t_variables *env);
 // for norminette ///
-void					ft_child(t_all *parser, char **token, int flag,
-							char **envp);
+// void					ft_child(t_all *parser, char **token, int flag,
+// 							char **envp);
 void					ft_ft(char *check);
 int						ft_ft1(char **toknize, int last_fd);
 int						ft_ft2(char **tokenize, int i, int flag);

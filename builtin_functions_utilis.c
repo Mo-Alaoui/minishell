@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 18:34:02 by mohalaou          #+#    #+#             */
-/*   Updated: 2025/06/17 18:34:12 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/21 12:09:41 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,9 @@ void	ft_unset(t_variables **env, char **name)
 
 void	ft_echo(char **arg)
 {
-	int newline;
-	int i;
-	int j;
+	int	newline;
+	int	i;
+	int	j;
 
 	newline = 1;
 	i = 1;

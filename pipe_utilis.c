@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utilis.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saamouss <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 19:07:43 by saamouss          #+#    #+#             */
-/*   Updated: 2025/06/20 19:07:47 by saamouss         ###   ########.fr       */
+/*   Updated: 2025/06/21 11:34:29 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,12 @@ int	check_input_type(char **token)
 		i++;
 	}
 	if (has_pipe && has_redir)
-		return (3); // pipes + redirections
+		return (3);
 	else if (has_pipe)
-		return (2); // only pipes
+		return (2);
 	else if (has_redir)
-		return (0); // only redirection
-	return (0);     // pure command with no pipe/redir
+		return (0);
+	return (0);
 }
 
 void	ft_helper1(char **token)
@@ -92,7 +92,7 @@ void	ft_helper1(char **token)
 
 void	ft_helper(char **token)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (token[i])

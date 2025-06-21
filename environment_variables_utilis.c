@@ -54,8 +54,8 @@ int	is_valid_var_name(char *name)
 
 void	free_env_variables(t_variables *env_list)
 {
-	t_variables *current;
-	t_variables *next;
+	t_variables	*current;
+	t_variables	*next;
 
 	current = env_list;
 	while (current)

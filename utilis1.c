@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilis1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saamouss <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:55:14 by saamouss          #+#    #+#             */
-/*   Updated: 2025/06/19 16:55:17 by saamouss         ###   ########.fr       */
+/*   Updated: 2025/06/21 11:37:29 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ char	*is_valid_input(char **tokens)
 			if (is_metachar(tokens[i + 1]))
 				return (tokens[i + 1]);
 		}
-		// if (tokens[i][0] == '\'' && )
-		// return (tokens[i]);
 		if ((tokens[1] == NULL && is_character(tokens[0][0]) == 1))
 			return (tokens[i]);
 		if (ft_strcmp(tokens[i], "';'") == 0)

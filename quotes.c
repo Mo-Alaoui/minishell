@@ -99,8 +99,8 @@ char	**split_by_quotes(char *token, int max_parts)
 
 char	*handel_quotes(char *input, t_variables *env)
 {
-	char **words;
-	int i;
+	char	**words;
+	int		i;
 
 	words = split_by_quotes(input, 250);
 	replacement_strings(words, env);

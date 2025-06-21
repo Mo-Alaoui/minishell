@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 15:27:00 by mohalaou          #+#    #+#             */
-/*   Updated: 2025/06/18 15:27:01 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/21 12:10:43 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,9 @@ char	**variables_to_array(t_variables *head)
 
 void	sort_ascii(char **arr)
 {
-	char *temp;
-	int i;
-	int j;
+	char	*temp;
+	int		i;
+	int		j;
 
 	if (!arr)
 		return ;

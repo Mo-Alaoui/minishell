@@ -83,8 +83,8 @@ int	get_size(const char *str, t_variables *env)
 
 char	*join_strings(char **words)
 {
-	char *res;
-	int i;
+	char	*res;
+	int		i;
 
 	i = 0;
 	res = ft_strdup("");

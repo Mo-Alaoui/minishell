@@ -91,8 +91,8 @@ char	*get_env_variable(t_variables *env_list, char *name)
 
 t_variables	*init_env_variables(char **envp)
 {
-	t_variables *env_list;
-	int i;
+	t_variables	*env_list;
+	int			i;
 
 	env_list = NULL;
 	i = 0;

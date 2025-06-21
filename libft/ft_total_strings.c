@@ -6,15 +6,16 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 14:58:38 by mohalaou          #+#    #+#             */
-/*   Updated: 2025/06/17 14:58:39 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/18 17:26:40 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int ft_total_strings(char **s)
+int	ft_total_strings(char **s)
 {
-    int i;
-    i = 0 ;
-    while(s[i])
-        i++;
-    return (i);
+	int		i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }
