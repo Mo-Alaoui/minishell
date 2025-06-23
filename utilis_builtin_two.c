@@ -12,13 +12,13 @@
 
 #include "minishell.h"
 
-void	print_exported_env_vars(t_variables **env)
+void	print_exported_env_vars(t_variables **env, t_gc *gc)
 {
 	char	**env_arr;
 
 	if (!env || !*env)
 		return ;
-	env_arr = variables_to_array(*env);
+	env_arr = variables_to_array(*env , gc);
 	sort_ascii(env_arr);
 	while (*env_arr)
 	{
@@ -27,16 +27,16 @@ void	print_exported_env_vars(t_variables **env)
 	}
 }
 
-static void	run_export(char **cmd, t_variables **env, t_variables **local_env)
+static void	run_export(char **cmd, t_variables **env, t_variables **local_env , t_gc *gc)
 {
 	int	i;
 
 	i = 1;
 	if (cmd[i])
 		while (cmd[i])
-			ft_export(env, local_env, cmd[i++]);
+			ft_export(env, local_env, cmd[i++], gc);
 	else
-		print_exported_env_vars(env);
+		print_exported_env_vars(env, gc);
 }
 
 static void	run_unset(char **cmd, t_variables **env)
@@ -45,7 +45,7 @@ static void	run_unset(char **cmd, t_variables **env)
 		ft_unset(env, cmd);
 }
 
-int	run_builtin_function(char **cmd, t_variables **env, t_variables **local_env)
+int	run_builtin_function(char **cmd, t_variables **env, t_variables **local_env , t_gc *gc)
 {
 	if (!cmd || !cmd[0])
 		return (0);
@@ -56,7 +56,7 @@ int	run_builtin_function(char **cmd, t_variables **env, t_variables **local_env)
 	else if (ft_strcmp(cmd[0], "pwd") == 0)
 		ft_pwd();
 	else if (ft_strcmp(cmd[0], "export") == 0)
-		run_export(cmd, env, local_env);
+		run_export(cmd, env, local_env , gc);
 	else if (ft_strcmp(cmd[0], "unset") == 0)
 		run_unset(cmd, env);
 	else if (ft_strcmp(cmd[0], "env") == 0)
@@ -68,7 +68,7 @@ int	run_builtin_function(char **cmd, t_variables **env, t_variables **local_env)
 	return (1);
 }
 
-char	*get_string_before_char(const char *input_str, char c)
+char	*get_string_before_char(const char *input_str, char c , t_gc *gc)
 {
 	const char	*pos;
 	char		*result;
@@ -78,7 +78,7 @@ char	*get_string_before_char(const char *input_str, char c)
 	if (pos != NULL)
 	{
 		length = pos - input_str;
-		result = (char *)malloc(length + 1);
+		result = gc_malloc(gc,length + 1);
 		if (result != NULL)
 		{
 			ft_memcpy(result, input_str, length);

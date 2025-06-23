@@ -40,13 +40,12 @@ static void	process_variable_token(const char *str, t_token_variables *var,
 	var->i = v.j - 1;
 }
 
-char	*replace_token(const char *str, t_variables *env)
+char	*replace_token(const char *str, t_variables *env , t_gc *gc)
 {
 	t_token_variables	var;
-
 	var.ri = 0;
 	var.i = 0;
-	var.result = (char *)malloc(get_size(str, env) + 1);
+	var.result = gc_malloc(gc,get_size(str, env) + 1);
 	if (!var.result)
 		return (NULL);
 	while (str[var.i])
@@ -63,13 +62,12 @@ char	*replace_token(const char *str, t_variables *env)
 	return (var.result);
 }
 
-char	*handel_special_characters(char *str)
+char	*handel_special_characters(char *str , t_gc *gc)
 {
 	char	*ret;
-
 	int len, (i), (j);
 	len = ft_strlen(str);
-	ret = malloc((len + 3) * sizeof(char));
+	ret = gc_malloc(gc,(len + 3) * sizeof(char));
 	if (!ret)
 		return (NULL);
 	i = 0;

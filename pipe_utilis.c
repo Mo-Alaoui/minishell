@@ -12,12 +12,12 @@
 
 #include "minishell.h"
 
-void	ft_init_init(t_all *parser, char **envp)
+void	ft_init_init(t_all *parser, char **envp , t_gc *gc)
 {
 	parser->flag1 = 0;
-	parser->history = init_history();
-	parser->env = init_env_variables(envp);
-	parser->envp_p = variables_to_array(parser->env);
+	parser->history = init_history(gc);
+	parser->env = init_env_variables(envp, gc);
+	parser->envp_p = variables_to_array(parser->env, gc);
 }
 
 char	**ft_runing(t_all *parser, char *input)
@@ -27,7 +27,7 @@ char	**ft_runing(t_all *parser, char *input)
 
 	add_history(input);
 	add_to_history(parser->history, input);
-	token = ft_tokenize(input);
+	token = ft_tokenize(input, &parser->gc);
 	if (!token)
 	{
 		g_terminate_program = 1;
@@ -43,7 +43,7 @@ char	**ft_runing(t_all *parser, char *input)
 	}
 	init_all(parser, token);
 	parser->flag = check_parser(token);
-	parser->local_env = ft_check_export(token, parser->env);
+	parser->local_env = ft_check_export(token, parser->env , &parser->gc);
 	return (token);
 }
 

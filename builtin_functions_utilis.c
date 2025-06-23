@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-t_variables	*ft_check_export(char **token, t_variables *env)
+t_variables	*ft_check_export(char **token, t_variables *env , t_gc *gc)
 {
 	char		*var_name;
 	t_variables	*local_env;
@@ -22,14 +22,14 @@ t_variables	*ft_check_export(char **token, t_variables *env)
 	i = 0;
 	while (token[i])
 	{
-		var_name = get_string_before_char(token[i], '=');
+		var_name = get_string_before_char(token[i], '=', gc);
 		if (var_name != NULL)
 		{
 			if (ft_strcmp(token[0], "export") == 0 || get_env_variable(env,
 					var_name) != NULL)
-				add_variable(&env, token[i]);
-			add_variable(&local_env, token[i]);
-		}
+				add_variable(&env, token[i], gc);
+			add_variable(&local_env, token[i], gc);
+		} 
 		i++;
 	}
 	if (var_name == NULL)
@@ -51,7 +51,7 @@ void	ft_env(t_variables **env)
 	}
 }
 
-void	ft_export(t_variables **env, t_variables **local_env, char *command)
+void	ft_export(t_variables **env, t_variables **local_env, char *command , t_gc *gc)
 {
 	char	*value;
 	char	*res;
@@ -60,7 +60,7 @@ void	ft_export(t_variables **env, t_variables **local_env, char *command)
 	if (value != NULL)
 	{
 		res = ft_strjoin(ft_strjoin(command, "="), value);
-		add_variable(env, res);
+		add_variable(env, res , gc);
 	}
 }
 

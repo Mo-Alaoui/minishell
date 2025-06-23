@@ -12,11 +12,10 @@
 
 #include "minishell.h"
 
-t_variables	*add_new_var(char *input)
+t_variables	*add_new_var(char *input, t_gc *gc)
 {
 	t_variables	*new_var;
 	char		*name;
-
 	if (!input)
 		return (NULL);
 	name = var_name(input);
@@ -25,7 +24,7 @@ t_variables	*add_new_var(char *input)
 		free(name);
 		return (NULL);
 	}
-	new_var = (t_variables *)malloc(sizeof(t_variables));
+	new_var = gc_malloc(gc,sizeof(t_variables));
 	if (!new_var)
 	{
 		free(name);
@@ -60,11 +59,11 @@ int	insert_or_update_variable(t_variables **env_list, t_variables *new_var)
 	return (0);
 }
 
-int	add_variable(t_variables **env_list, char *input)
+int	add_variable(t_variables **env_list, char *input , t_gc *gc)
 {
 	t_variables	*new_var;
 
-	new_var = add_new_var(input);
+	new_var = add_new_var(input, gc);
 	if (!new_var)
 		return (-1);
 	if (!*env_list)
@@ -89,7 +88,7 @@ char	*get_env_variable(t_variables *env_list, char *name)
 	return (NULL);
 }
 
-t_variables	*init_env_variables(char **envp)
+t_variables	*init_env_variables(char **envp, t_gc *gc)
 {
 	t_variables	*env_list;
 	int			i;
@@ -98,7 +97,7 @@ t_variables	*init_env_variables(char **envp)
 	i = 0;
 	while (envp[i])
 	{
-		add_variable(&env_list, envp[i]);
+		add_variable(&env_list, envp[i], gc);
 		i++;
 	}
 	return (env_list);

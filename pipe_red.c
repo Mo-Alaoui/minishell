@@ -23,12 +23,11 @@ int	wait_loop2(t_norm1 *norm1)
 	return (0);
 }
 
-int	wait_loop(char **segment)
+int	wait_loop(char **segment , t_gc *gc)
 {
 	int		s;
 	t_norm1	*norm1;
-
-	norm1 = malloc(sizeof(t_norm1));
+	norm1 = gc_malloc(gc,sizeof(t_norm1));
 	norm1->last_heredoc_fd = -1;
 	s = 0;
 	while (segment[s])
@@ -60,10 +59,10 @@ int	ft_ft5(char **tokens, t_all *parser, t_norm *norm)
 	norm->j = norm->k;
 	while (tokens[norm->j] && ft_strcmp(tokens[norm->j], "'|'") != 0)
 		norm->j++;
-	parser->segment = ft_subarray(tokens, norm->k, norm->j);
-	parser->clean = remove_redir_tokens(parser->segment);
+	parser->segment = ft_subarray(tokens, norm->k, norm->j, &parser->gc);
+	parser->clean = remove_redir_tokens(parser->segment, &parser->gc);
 	parser->joined = ft_join_with_space(parser->clean);
-	last_heredoc_fd = wait_loop(parser->segment);
+	last_heredoc_fd = wait_loop(parser->segment, &parser->gc);
 	if (pipe(norm->fd) == -1)
 		error();
 	norm->pid = fork();
@@ -95,9 +94,8 @@ void	ft_child2(char **tokens, t_all *parser, int last_heredoc_fd,
 int	if_its_pipe_red(char **tokens, t_list *new_pip, t_all *parser, char **envp)
 {
 	t_norm	*norm;
-
-	norm = malloc(sizeof(t_norm));
-	init(norm, new_pip, 0, tokens);
+	norm = gc_malloc(&parser->gc,sizeof(t_norm));
+	init(norm, new_pip, 0, tokens, &parser->gc);
 	while (tokens[norm->k])
 	{
 		norm->last_heredoc_fd = ft_ft5(tokens, parser, norm);

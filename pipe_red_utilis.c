@@ -12,12 +12,11 @@
 
 #include "minishell.h"
 
-char	**ft_subarray(char **tokens, int start, int end)
+char	**ft_subarray(char **tokens, int start, int end , t_gc *gc)
 {
 	char	**sub;
 	int		i;
-
-	sub = malloc(sizeof(char *) * (end - start + 1));
+	sub = gc_malloc(gc,sizeof(char *) * (end - start + 1));
 	i = 0;
 	while (start < end)
 		sub[i++] = ft_strdup(tokens[start++]);
@@ -68,16 +67,15 @@ int	count_tok_size(char **tokens)
 	return (count);
 }
 
-char	**remove_redir_tokens(char **tokens)
+char	**remove_redir_tokens(char **tokens , t_gc *gc)
 {
 	int		count;
 	char	**args;
 	int		i;
 	int		j;
-
 	count = 0;
 	count = count_tok_size(tokens);
-	args = malloc(sizeof(char *) * (count + 1));
+	args = gc_malloc(gc,sizeof(char *) * (count + 1));
 	j = 0;
 	i = 0;
 	while (tokens[i])

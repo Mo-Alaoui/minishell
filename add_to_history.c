@@ -12,16 +12,15 @@
 
 #include "minishell.h"
 
-t_history	*init_history(void)
+t_history	*init_history(t_gc *gc)
 {
 	t_history	*history;
-
-	history = malloc(sizeof(t_history));
+	history = gc_malloc(gc,sizeof(t_history));
 	if (!history)
 		return (NULL);
 	history->capacity = 500;
 	history->size = 0;
-	history->cmds = malloc(sizeof(char *) * history->capacity);
+	history->cmds =  gc_malloc(gc,sizeof(char *) * history->capacity);
 	if (!history->cmds)
 	{
 		free(history);

@@ -31,6 +31,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 	size_t	size;
 	char	*new;
 
+
 	if (!s1 || !set)
 		return (NULL);
 	while (s1 && ft_check_set(((char)*s1), set) == 1)
@@ -42,7 +43,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 	{
 		size--;
 	}
-	new = (char *)malloc(size * sizeof(char) + 1);
+	new = malloc(size * sizeof(char) + 1);
 	if (!new)
 		return (NULL);
 	ft_strlcpy(new, s1, size + 1);

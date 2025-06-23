@@ -46,15 +46,16 @@ int	ft_stor_status(int *pids, int i)
 	return (last_status);
 }
 
-void	init(t_norm *norm, t_list *new_pip, int flag, char **tokens)
+void	init(t_norm *norm, t_list *new_pip, int flag, char **tokens, t_gc *gc)
 {
+
 	if (flag == 1)
 	{
-		norm->pids = malloc(sizeof(ft_lstsize(new_pip)));
+		norm->pids = gc_malloc(gc,sizeof(ft_lstsize(new_pip)));
 	}
 	else
 	{
-		norm->pids = malloc(sizeof(ft_total_strings(tokens)));
+		norm->pids = gc_malloc(gc,sizeof(ft_total_strings(tokens)));
 	}
 	norm->last_heredoc_fd = -1;
 	norm->prev_fd = -1;
@@ -68,8 +69,8 @@ void	ft_ft4(char **token, t_all *parser, t_norm *norm)
 	norm->j = norm->k;
 	while (token[norm->j] && ft_strcmp(token[norm->j], "'|'") != 0)
 		norm->j++;
-	parser->segment = ft_subarray(token, norm->k, norm->j);
-	parser->clean = remove_redir_tokens(parser->segment);
+	parser->segment = ft_subarray(token, norm->k, norm->j, &parser->gc);
+	parser->clean = remove_redir_tokens(parser->segment, &parser->gc);
 	if (pipe(norm->fd) == -1)
 		error();
 	norm->pid = fork();
@@ -80,9 +81,8 @@ void	ft_ft4(char **token, t_all *parser, t_norm *norm)
 int	if_its_pipe(t_list *new_pip, char **token, t_all *parser, char **envp)
 {
 	t_norm	*norm;
-
-	norm = malloc(sizeof(t_norm));
-	init(norm, new_pip, 1, token);
+	norm =	gc_malloc(&parser->gc,sizeof(t_norm));
+	init(norm, new_pip, 1, token, &parser->gc);
 	while (new_pip)
 	{
 		ft_ft4(token, parser, norm);

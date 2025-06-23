@@ -16,12 +16,28 @@
 # include <stdint.h>
 # include <stdlib.h>
 # include <unistd.h>
+#include <stdio.h>
+
 
 typedef struct s_list
 {
 	char			*content;
 	struct s_list	*next;
 }					t_list;
+
+typedef struct s_garbage
+{
+	void				*ptr;
+	struct s_garbage	*next;
+}	t_garbage;
+
+typedef struct s_gc
+{
+	t_garbage	*head;
+}	t_gc;
+
+void	gc_free_all(t_gc *gc);
+//void	gc_malloc(t_gc *gc, size_t size);
 
 char				*ft_strndup(const char *s, size_t n);
 int					ft_isseparator(char c);

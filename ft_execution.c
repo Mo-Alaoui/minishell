@@ -41,10 +41,11 @@ char	*find_path(char *cmd, char **envp)
 	return (cmd);
 }
 
-void	ft_ex(char **cmd, int flag)
+void	ft_ex(char **cmd, int flag , t_all *parser)
 {
 	int	i;
 
+	//(void) parser;
 	if (flag == 1)
 	{
 		i = 0;
@@ -53,6 +54,7 @@ void	ft_ex(char **cmd, int flag)
 		while (cmd[i] != 0)
 			free(cmd[i++]);
 		free(cmd);
+		gc_free_all(&parser->gc);
 		exit(127);
 	}
 	else
@@ -60,6 +62,7 @@ void	ft_ex(char **cmd, int flag)
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd[0], 2);
 		ft_putendl_fd(": Is a directory", 2);
+		gc_free_all(&parser->gc);
 		exit(126);
 	}
 }
@@ -76,7 +79,7 @@ void	ft_execute(char *argv, char **token, t_all *parser, char **envp)
 		if (ft_strcmp(token[0], "exit") == 0 || ft_strcmp(token[0],
 				"unset") == 0 || ft_strcmp(token[0], "cd") == 0)
 			exit(0);
-		if (run_builtin_function(token, &parser->env, &parser->local_env) != 0)
+		if (run_builtin_function(token, &parser->env, &parser->local_env, &parser->gc) != 0)
 			exit(0);
 	}
 	if (check_his(argv, parser->history) == 1)
@@ -84,9 +87,9 @@ void	ft_execute(char *argv, char **token, t_all *parser, char **envp)
 	cmd = ft_split(argv, ' ');
 	path = find_path(cmd[0], envp);
 	if (is_directory(cmd[0]) == 1 && ft_strcmp(cmd[0], "..") != 0)
-		ft_ex(cmd, 0);
+		ft_ex(cmd, 0, parser);
 	if (execve(path, cmd, envp) == -1)
-		ft_ex(cmd, 1);
+		ft_ex(cmd, 1, parser);
 }
 
 void	ft_execute_2(char **token, char **envp)

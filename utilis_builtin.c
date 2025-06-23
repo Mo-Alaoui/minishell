@@ -62,7 +62,7 @@ static int	list_size(t_variables *head)
 	return (count);
 }
 
-char	**variables_to_array(t_variables *head)
+char	**variables_to_array(t_variables *head , t_gc *gc)
 {
 	int		total_len;
 	char	**array;
@@ -71,14 +71,14 @@ char	**variables_to_array(t_variables *head)
 	int		i;
 
 	size = list_size(head);
-	array = malloc(sizeof(char *) * (size + 1));
+	array = gc_malloc(gc,sizeof(char *) * (size + 1));
 	if (!array)
 		return (NULL);
 	i = 0;
 	while (head)
 	{
 		total_len = ft_strlen(head->variable_name) + ft_strlen(head->value) + 2;
-		tmp = malloc(total_len);
+		tmp = gc_malloc(gc,total_len);
 		if (!tmp)
 			return (NULL);
 		ft_strlcpy(tmp, head->variable_name, total_len);

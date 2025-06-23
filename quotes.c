@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	replacement_strings(char **words, t_variables *env)
+void	replacement_strings(char **words, t_variables *env , t_gc *gc)
 {
 	int	i;
 
@@ -22,14 +22,14 @@ void	replacement_strings(char **words, t_variables *env)
 	while (words[i])
 	{
 		if (is_special_characters(words[i]))
-			words[i] = handel_special_characters(words[i]);
+			words[i] = handel_special_characters(words[i], gc);
 		else if (words[i][0] != '\'')
 		{
 			if (words[i][0] == '"')
 			{
 				words[i] = ft_strtrim(words[i], "\"");
 			}
-			words[i] = replace_token(words[i], env);
+			words[i] = replace_token(words[i], env, gc);
 		}
 		else
 			words[i] = ft_strtrim(words[i], "'");
@@ -70,13 +70,12 @@ static void	parse_quoted_part(char **ret, char *token, t_split_variables *var)
 	add_word(ret, token, var);
 }
 
-char	**split_by_quotes(char *token, int max_parts)
+char	**split_by_quotes(char *token, int max_parts , t_gc *gc)
 {
 	t_split_variables	var;
 	char				**ret;
-
 	ft_memset(&var, 0, sizeof(var));
-	ret = malloc((max_parts + 1) * sizeof(char *));
+	ret = gc_malloc(gc,(max_parts + 1) * sizeof(char *));
 	if (!ret)
 		return (NULL);
 	while (token[var.i])
@@ -97,13 +96,13 @@ char	**split_by_quotes(char *token, int max_parts)
 	return (ret);
 }
 
-char	*handel_quotes(char *input, t_variables *env)
+char	*handel_quotes(char *input, t_variables *env , t_gc *gc)
 {
 	char	**words;
 	int		i;
 
-	words = split_by_quotes(input, 250);
-	replacement_strings(words, env);
+	words = split_by_quotes(input, 250, gc);
+	replacement_strings(words, env ,gc);
 	input = join_strings(words);
 	i = 0;
 	while (words[i])

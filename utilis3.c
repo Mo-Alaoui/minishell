@@ -28,7 +28,7 @@ char	**force_quote(char **token, t_all *parser)
 	i = 0;
 	while (token[i])
 	{
-		token[i] = handel_quotes(token[i], parser->env);
+		token[i] = handel_quotes(token[i], parser->env, &parser->gc);
 		i++;
 	}
 	return (token);

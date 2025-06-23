@@ -29,14 +29,14 @@ void	setup_signals(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-int	first_call(t_all *parser)
+int	first_call(t_all *parser , t_gc *gc)
 {
 	pid_t	pid;
 
 	parser->token = ft_runing(parser, parser->input);
 	if (!parser->token)
 		return (1);
-	parser->envp_p = variables_to_array(parser->env);
+	parser->envp_p = variables_to_array(parser->env, gc);
 	pid = fork();
 	if (pid == -1)
 		error();
@@ -44,6 +44,7 @@ int	first_call(t_all *parser)
 		ft_child(parser, parser->token, parser->flag, parser->envp_p);
 	else
 		ft_seg(pid, parser);
+	gc_free_all(&parser->gc);
 	if (WIFEXITED(parser->status))
 		g_terminate_program = WEXITSTATUS(parser->status);
 	else
@@ -51,27 +52,34 @@ int	first_call(t_all *parser)
 	return (0);
 }
 
+
 void	ft_propt(char **envp)
 {
 	t_all	*parser;
-
 	parser = malloc(sizeof(t_all));
-	ft_init_init(parser, envp);
+	parser = gc_malloc(&parser->gc,sizeof(t_all));
+	ft_init_init(parser, envp , &parser->gc);
 	while (1)
 	{
 		parser->input = readline("minishell>$ ");
-		if (ft_ver(parser) == 1)
+		if (ft_ver(parser, &parser->gc) == 1)
 			continue ;
 		if (*parser->input)
 		{
-			if (first_call(parser) == 1)
+			if (first_call(parser, &parser->gc) == 1)
+			{
+				gc_free_all(&parser->gc);
 				continue ;
+			}
 		}
+		printf("\n++++++++++++++++++++++++++++++++\n");
 		if (parser->token)
-			ft_check_builtin(parser->token, parser, parser->envp_p);
+			ft_check_builtin(parser->token, parser, parser->envp_p , &parser->gc);
+		gc_free_all(&parser->gc);
 	}
 	printf("\n++++++++++++++++++++++++++++++++\n");
-	printf("\n++++++++++++++++++++++++++++++++\n");
+	gc_free_all(&parser->gc);
+	parser->gc.head = NULL;
 	ft_for_leaks(parser, parser->token);
 }
 

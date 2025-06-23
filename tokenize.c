@@ -89,16 +89,16 @@ static int	ft_count_token(const char *input)
 	return (count);
 }
 
-char	**ft_tokenize(const char *input)
+char	**ft_tokenize(const char *input , t_gc *gc)
 {
 	t_token_data	data;
 	int				len;
 
 	ft_memset(&data, 0, sizeof(t_token_data));
 	len = ft_count_token(input);
-	data.tokens = malloc(sizeof(char *) * (len + 1));
+	data.tokens = gc_malloc(gc,sizeof(char *) * (len + 1));
 	if (!data.tokens)
-		return (NULL);
+		return (NULL); 
 	while (input[data.i])
 	{
 		process_token_character(input, &data);

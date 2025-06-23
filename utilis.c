@@ -16,7 +16,7 @@ void	init_all(t_all *parser, char **token)
 {
 	parser->flag = 0;
 	parser->status = 0;
-	parser->clean = remove_redir_tokens(token);
+	parser->clean = remove_redir_tokens(token , &parser->gc);
 	parser->joined = ft_join_with_space(parser->clean);
 	parser->new_pip = ft_parser(token, "'|'");
 	parser->new_her = ft_parser(token, "'<<'");
