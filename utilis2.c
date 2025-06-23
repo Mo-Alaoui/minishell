@@ -74,9 +74,8 @@ int	ft_ver(t_all *parser , t_gc *gc)
 	if (!parser->input)
 	{
 		printf("exit\n");
-		gc_free_all(gc);
+		//gc_free_all(gc);
 		gc->head = NULL;
-		///ft_for_leaks(parser, parser->token);
 		exit(0);
 	}
 	if (is_only_spaces(parser->input))

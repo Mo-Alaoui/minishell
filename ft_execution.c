@@ -45,7 +45,7 @@ void	ft_ex(char **cmd, int flag , t_all *parser)
 {
 	int	i;
 
-	//(void) parser;
+	(void) parser;
 	if (flag == 1)
 	{
 		i = 0;
@@ -54,7 +54,7 @@ void	ft_ex(char **cmd, int flag , t_all *parser)
 		while (cmd[i] != 0)
 			free(cmd[i++]);
 		free(cmd);
-		gc_free_all(&parser->gc);
+		//gc_free_all(&parser->gc);
 		exit(127);
 	}
 	else
@@ -62,7 +62,7 @@ void	ft_ex(char **cmd, int flag , t_all *parser)
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd[0], 2);
 		ft_putendl_fd(": Is a directory", 2);
-		gc_free_all(&parser->gc);
+		//gc_free_all(&parser->gc);
 		exit(126);
 	}
 }

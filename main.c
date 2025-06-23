@@ -44,7 +44,6 @@ int	first_call(t_all *parser , t_gc *gc)
 		ft_child(parser, parser->token, parser->flag, parser->envp_p);
 	else
 		ft_seg(pid, parser);
-	gc_free_all(&parser->gc);
 	if (WIFEXITED(parser->status))
 		g_terminate_program = WEXITSTATUS(parser->status);
 	else
@@ -62,25 +61,23 @@ void	ft_propt(char **envp)
 	while (1)
 	{
 		parser->input = readline("minishell>$ ");
+		ft_init_init(parser, envp , &parser->gc);
 		if (ft_ver(parser, &parser->gc) == 1)
 			continue ;
 		if (*parser->input)
 		{
 			if (first_call(parser, &parser->gc) == 1)
 			{
-				gc_free_all(&parser->gc);
+				//gc_free_all(&parser->gc);
 				continue ;
 			}
 		}
-		printf("\n++++++++++++++++++++++++++++++++\n");
+		//printf("\n++++++++++++++++++++++++++++++++\n");
 		if (parser->token)
 			ft_check_builtin(parser->token, parser, parser->envp_p , &parser->gc);
-		gc_free_all(&parser->gc);
 	}
 	printf("\n++++++++++++++++++++++++++++++++\n");
-	gc_free_all(&parser->gc);
-	parser->gc.head = NULL;
-	ft_for_leaks(parser, parser->token);
+	//ft_for_leaks(parser, parser->token);
 }
 
 int	main(int argc, char **argv, char **envp)
