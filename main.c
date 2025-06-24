@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 00:37:32 by saamouss          #+#    #+#             */
-/*   Updated: 2025/06/23 21:20:06 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/24 20:45:11 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,14 @@ void	ft_propt(char **envp)
 {
 	t_all	*parser;
 
-	parser = malloc(sizeof(t_all));
+	parser = ft_malloc(sizeof(t_all), 'A');
 	ft_init_init(parser, envp);
 	while (1)
 	{
 		parser->input = readline("minishell>$ ");
+		add_history(parser->input);
+		if (!parser->input)
+			return ;
 		if (ft_ver(parser) == 1)
 			continue ;
 		if (*parser->input)
@@ -70,7 +73,9 @@ void	ft_propt(char **envp)
 		if (parser->token)
 			ft_check_builtin(parser->token, parser, parser->envp_p);
 	}
-	ft_for_leaks(parser, parser->token);
+	clear_history();
+	// ft_for_leaks(parser, parser->token);
+	printf("--[here 2]\n");
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -79,5 +84,6 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	setup_signals();
 	ft_propt(envp);
+	ft_malloc(0, 'F');
 	return (0);
 }

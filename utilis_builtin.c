@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 15:27:00 by mohalaou          #+#    #+#             */
-/*   Updated: 2025/06/21 12:10:43 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/24 22:21:57 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,23 +71,29 @@ char	**variables_to_array(t_variables *head)
 	int		i;
 
 	size = list_size(head);
-	array = malloc(sizeof(char *) * (size + 1));
+	array = ft_malloc(sizeof(char *) * (size + 1), 'A');
 	if (!array)
 		return (NULL);
 	i = 0;
 	while (head)
 	{
 		total_len = ft_strlen(head->variable_name) + ft_strlen(head->value) + 2;
-		tmp = malloc(total_len);
+		tmp = ft_malloc(total_len, 'A');
 		if (!tmp)
 			return (NULL);
 		ft_strlcpy(tmp, head->variable_name, total_len);
 		ft_strlcat(tmp, "=", total_len);
 		ft_strlcat(tmp, head->value, total_len);
+		
 		array[i++] = tmp;
 		head = head->next;
 	}
 	array[i] = NULL;
+
+
+	// printf(" ---> [head->variable_name] [%p]", head->variable_name);
+	// printf...
+	
 	return (array);
 }
 

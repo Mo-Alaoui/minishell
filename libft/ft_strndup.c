@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:34:21 by mohalaou          #+#    #+#             */
-/*   Updated: 2025/06/18 15:40:26 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/24 18:48:49 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_strndup(const char *s, size_t n)
 	len = ft_strlen(s);
 	if (len > n)
 		len = n;
-	dup = malloc(len + 1);
+	dup = ft_malloc(len + 1, 'A');
 	if (!dup)
 		return (NULL);
 	ft_memcpy(dup, s, len);

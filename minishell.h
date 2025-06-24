@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 23:39:48 by saamouss          #+#    #+#             */
-/*   Updated: 2025/06/21 11:59:11 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/24 18:56:43 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 
 extern int				g_terminate_program;
 # endif
+
+
 
 typedef struct s_variables
 {
@@ -248,5 +250,8 @@ void					ft_helper(char **token);
 void					ft_helper1(char **token);
 int						check_input_type(char **token);
 void					ft_init_init(t_all *parser, char **envp);
+
+// ft_malloc
+// void					*ft_malloc(size_t size, char c);
 
 #endif

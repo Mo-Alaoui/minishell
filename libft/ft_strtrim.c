@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohalaou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:22:44 by mohalaou          #+#    #+#             */
-/*   Updated: 2024/11/08 15:56:59 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/24 18:50:54 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 	{
 		size--;
 	}
-	new = (char *)malloc(size * sizeof(char) + 1);
+	new = (char *)ft_malloc(size * sizeof(char) + 1, 'A');
 	if (!new)
 		return (NULL);
 	ft_strlcpy(new, s1, size + 1);

@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:23:36 by mohalaou          #+#    #+#             */
-/*   Updated: 2025/06/18 11:34:39 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/24 18:56:54 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,15 @@ typedef struct s_list
 	char			*content;
 	struct s_list	*next;
 }					t_list;
+
+
+void *ft_malloc(size_t size, char c);
+typedef struct s_gc_node 
+{
+    void *ptr;
+    struct s_gc_node *next;
+
+}  t_gc_node;
 
 char				*ft_strndup(const char *s, size_t n);
 int					ft_isseparator(char c);

@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 17:07:37 by mohalaou          #+#    #+#             */
-/*   Updated: 2025/06/21 11:40:25 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/24 20:32:53 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*replace_token(const char *str, t_variables *env)
 
 	var.ri = 0;
 	var.i = 0;
-	var.result = (char *)malloc(get_size(str, env) + 1);
+	var.result = (char *)ft_malloc(get_size(str, env) + 1, 'A');
 	if (!var.result)
 		return (NULL);
 	while (str[var.i])
@@ -69,7 +69,7 @@ char	*handel_special_characters(char *str)
 
 	int len, (i), (j);
 	len = ft_strlen(str);
-	ret = malloc((len + 3) * sizeof(char));
+	ret = ft_malloc((len + 3) * sizeof(char), 'A');
 	if (!ret)
 		return (NULL);
 	i = 0;

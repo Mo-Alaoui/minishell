@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_red.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saamouss <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 18:24:09 by saamouss          #+#    #+#             */
-/*   Updated: 2025/06/20 18:24:10 by saamouss         ###   ########.fr       */
+/*   Updated: 2025/06/24 20:32:07 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	wait_loop(char **segment)
 	int		s;
 	t_norm1	*norm1;
 
-	norm1 = malloc(sizeof(t_norm1));
+	norm1 = ft_malloc(sizeof(t_norm1), 'A');
 	norm1->last_heredoc_fd = -1;
 	s = 0;
 	while (segment[s])
@@ -96,7 +96,7 @@ int	if_its_pipe_red(char **tokens, t_list *new_pip, t_all *parser, char **envp)
 {
 	t_norm	*norm;
 
-	norm = malloc(sizeof(t_norm));
+	norm = ft_malloc(sizeof(t_norm), 'A');
 	init(norm, new_pip, 0, tokens);
 	while (tokens[norm->k])
 	{

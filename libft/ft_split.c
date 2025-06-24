@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohalaou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:23:50 by mohalaou          #+#    #+#             */
-/*   Updated: 2024/11/08 16:05:22 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/24 18:52:47 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static char	**ft_split_words(char const *s, char c, char **s2, int num_words)
 		word_len = 0;
 		while (s[i + word_len] && s[i + word_len] != c)
 			word_len++;
-		s2[word] = (char *)malloc(sizeof(char) * (word_len + 1));
+		s2[word] = (char *)ft_malloc(sizeof(char) * (word_len + 1), 'A');
 		if (!s2[word])
 			return (free_array(s2, word));
 		ft_putword(s2[word], s + i, word_len);
@@ -91,7 +91,7 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (0);
 	num_words = ft_count_words(s, c);
-	s2 = (char **)malloc(sizeof(char *) * (num_words + 1));
+	s2 = (char **)ft_malloc(sizeof(char *) * (num_words + 1), 'A');
 	if (!s2)
 		return (NULL);
 	s2 = ft_split_words(s, c, s2, num_words);

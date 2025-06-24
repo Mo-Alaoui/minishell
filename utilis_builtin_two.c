@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 15:24:21 by mohalaou          #+#    #+#             */
-/*   Updated: 2025/06/21 15:37:59 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/24 20:33:31 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	*get_string_before_char(const char *input_str, char c)
 	if (pos != NULL)
 	{
 		length = pos - input_str;
-		result = (char *)malloc(length + 1);
+		result = (char *)ft_malloc(length + 1, 'A');
 		if (result != NULL)
 		{
 			ft_memcpy(result, input_str, length);

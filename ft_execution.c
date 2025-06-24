@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execution.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saamouss <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 09:38:39 by saamouss          #+#    #+#             */
-/*   Updated: 2025/06/18 09:38:40 by saamouss         ###   ########.fr       */
+/*   Updated: 2025/06/24 18:25:44 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ void	ft_execute(char *argv, char **token, t_all *parser, char **envp)
 		if (run_builtin_function(token, &parser->env, &parser->local_env) != 0)
 			exit(0);
 	}
-	if (check_his(argv, parser->history) == 1)
-		exit(0);
+	// if (check_his(argv, parser->history) == 1)
+	// 	exit(0);
 	cmd = ft_split(argv, ' ');
 	path = find_path(cmd[0], envp);
 	if (is_directory(cmd[0]) == 1 && ft_strcmp(cmd[0], "..") != 0)

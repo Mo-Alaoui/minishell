@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe_red.c                                         :+:      :+:    :+:   */
+/*   pipe_red_utilis.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saamouss <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 18:24:09 by saamouss          #+#    #+#             */
-/*   Updated: 2025/06/20 18:24:10 by saamouss         ###   ########.fr       */
+/*   Updated: 2025/06/24 18:50:18 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	**ft_subarray(char **tokens, int start, int end)
 	char	**sub;
 	int		i;
 
-	sub = malloc(sizeof(char *) * (end - start + 1));
+	sub = ft_malloc(sizeof(char *) * (end - start + 1), 'A');
 	i = 0;
 	while (start < end)
 		sub[i++] = ft_strdup(tokens[start++]);
@@ -77,7 +77,7 @@ char	**remove_redir_tokens(char **tokens)
 
 	count = 0;
 	count = count_tok_size(tokens);
-	args = malloc(sizeof(char *) * (count + 1));
+	args = ft_malloc(sizeof(char *) * (count + 1), 'A');
 	j = 0;
 	i = 0;
 	while (tokens[i])

@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 18:52:34 by mohalaou          #+#    #+#             */
-/*   Updated: 2025/06/17 19:01:25 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/24 21:39:46 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_variables	*add_new_var(char *input)
 		free(name);
 		return (NULL);
 	}
-	new_var = (t_variables *)malloc(sizeof(t_variables));
+	new_var = (t_variables *)ft_malloc(sizeof(t_variables), 'A');
 	if (!new_var)
 	{
 		free(name);

@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:26:42 by mohalaou          #+#    #+#             */
-/*   Updated: 2025/06/19 17:09:31 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/24 18:50:31 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	**split_by_quotes(char *token, int max_parts)
 	char				**ret;
 
 	ft_memset(&var, 0, sizeof(var));
-	ret = malloc((max_parts + 1) * sizeof(char *));
+	ret = ft_malloc((max_parts + 1) * sizeof(char *), 'A');
 	if (!ret)
 		return (NULL);
 	while (token[var.i])

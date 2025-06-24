@@ -1,7 +1,7 @@
 NAME = minishell
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -Ilibft  #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -Ilibft # -fsanitize=address
 RLFLAGS = -lreadline
 
 SRCS = main.c tokenize_utilis.c utilis3.c utilis_builtin_two.c pipe_red_utilis.c \
@@ -32,3 +32,4 @@ fclean: clean
 	make fclean -C $(LIBFT_DIR)
 
 re: fclean all
+.SECONDARY : ${OBJS}

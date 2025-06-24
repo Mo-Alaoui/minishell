@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:20:05 by mohalaou          #+#    #+#             */
-/*   Updated: 2025/06/19 16:30:19 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/24 20:39:03 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char	**ft_tokenize(const char *input)
 
 	ft_memset(&data, 0, sizeof(t_token_data));
 	len = ft_count_token(input);
-	data.tokens = malloc(sizeof(char *) * (len + 1));
+	data.tokens = ft_malloc(sizeof(char *) * (len + 1), 'A');
 	if (!data.tokens)
 		return (NULL);
 	while (input[data.i])
