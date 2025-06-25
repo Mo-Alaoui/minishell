@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 19:07:22 by saamouss          #+#    #+#             */
-/*   Updated: 2025/06/25 14:59:25 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/25 18:13:48 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,11 @@ void	init(t_norm *norm, t_list *new_pip, int flag, char **tokens)
 {
 	if (flag == 1)
 	{
-		norm->pids = malloc(sizeof(ft_lstsize(new_pip)));
+		norm->pids = ft_malloc(ft_lstsize(new_pip) * sizeof(int *), 'A');
 	}
 	else
 	{
-		norm->pids = malloc(sizeof(ft_total_strings(tokens)));
+		norm->pids = ft_malloc(ft_total_strings(tokens) * sizeof(int *), 'A');
 	}
 	norm->last_heredoc_fd = -1;
 	norm->prev_fd = -1;
