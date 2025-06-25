@@ -14,26 +14,20 @@
 
 int	is_special_characters(char *str)
 {
-	if (!ft_strcmp(str, "$") || !ft_strcmp(str, "\\") || !ft_strcmp(str, "#")
-		|| !ft_strcmp(str, "=") || !ft_strcmp(str, "[") || !ft_strcmp(str, "]")
-		|| !ft_strcmp(str, "!") || !ft_strcmp(str, ">") || !ft_strcmp(str, "<")
-		|| !ft_strcmp(str, ">>") || !ft_strcmp(str, "<<") || !ft_strcmp(str,
-			"|") || !ft_strcmp(str, ";") || !ft_strcmp(str, "{")
-		|| !ft_strcmp(str, "}") || !ft_strcmp(str, "(") || !ft_strcmp(str, ")")
-		|| !ft_strcmp(str, "*") || !ft_strcmp(str, "~") || !ft_strcmp(str, "&")
-		|| !ft_strcmp(str, "?"))
+	int i = 0;
+	char c = '\0';
+	if(str[0] == '\'')
+		i++;
+	if (ft_isseparator(str[i]))
 	{
-		return (1);
+		c = str[i];
+		while ((str[i] && c == str[i]) || str[i] == '\'')
+			i++;
 	}
+	if (str[i] == '\0')
+		return (1);
 	return (0);
 }
-
-// void	free_words(char **ret, int count)
-// {
-// 	while (count--)
-// 		free(ret[count]);
-// 	free(ret);
-// }
 
 static int	get_variable_value_length(const char *str, int *index,
 		t_variables *env)

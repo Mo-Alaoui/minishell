@@ -28,12 +28,24 @@ char	**ft_runing(t_all *parser, char *input)
 	// add_history(input);
 	// add_to_history(parser->history, input);
 	token = ft_tokenize(input);
+	int i = 0;
+	while(token[i])
+	{
+		//printf("->>>before-force : %s\n", token[i]);
+		i++;
+	}
 	if (!token)
 	{
 		g_terminate_program = 1;
 		return (NULL);
 	}
 	token = force_quote(token, parser);
+	i = 0;
+	while(token[i])
+	{
+		//printf("->>>after-force : %s\n", token[i]);
+		i++;
+	}
 	check = is_valid_input(token);
 	if (check != NULL)
 	{

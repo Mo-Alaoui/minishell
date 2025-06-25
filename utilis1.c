@@ -31,7 +31,7 @@ int	is_metachar(char *s)
 {
 	return (!ft_strcmp(s, "'|'") || !ft_strcmp(s, "'<'") || !ft_strcmp(s, "'>'")
 		|| !ft_strcmp(s, "'>>'") || !ft_strcmp(s, "'<<'") || !ft_strcmp(s, "&&")
-		|| !ft_strcmp(s, "||") || !ft_strcmp(s, "&") || !ft_strcmp(s, ";")
+		|| !ft_strcmp(s, "'||'") || !ft_strcmp(s, "&") || !ft_strcmp(s, ";")
 		|| !ft_strcmp(s, ";;"));
 }
 
@@ -56,12 +56,14 @@ char	*is_valid_input(char **tokens)
 	i = 0;
 	while (tokens[i])
 	{
+		if(is_special_characters(tokens[i]) == 1 && tokens[i][0] == '\'')
+			return(tokens[i]);
 		if (is_metachar(tokens[i]))
 		{
 			if (!tokens[i + 1])
 				return (tokens[i]);
-			if (is_metachar(tokens[i + 1]))
-				return (tokens[i + 1]);
+			//if (is_metachar(tokens[i + 1]) || )
+				//return (tokens[i + 1]);
 		}
 		if ((tokens[1] == NULL && is_character(tokens[0][0]) == 1))
 			return (tokens[i]);

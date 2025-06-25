@@ -22,7 +22,6 @@ LIBC = ar rcs
 CC = cc
 RM = rm -f
 CFLAGS = -Wall -Wextra -Werror 
-
 .c.o:
 	${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
 

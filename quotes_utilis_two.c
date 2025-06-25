@@ -46,7 +46,8 @@ char	*replace_token(const char *str, t_variables *env)
 
 	var.ri = 0;
 	var.i = 0;
-	var.result = (char *)ft_malloc(get_size(str, env) + 1, 'A');
+	//printf("get_size(str, env) -> [%d]\n", get_size(str, env));
+	var.result = (char *)ft_malloc(get_size(str, env) + 10, 'A');
 	if (!var.result)
 		return (NULL);
 	while (str[var.i])

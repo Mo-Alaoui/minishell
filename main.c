@@ -45,18 +45,14 @@ int	first_call(t_all *parser)
 	if (pid == -1)
 		error();
 	if (pid == 0)
-	{
 		ft_child(parser, parser->token, parser->flag, parser->envp_p);
-		//ft_malloc(0, 'F');
-	}
 	else
 		ft_seg(pid, parser);
 	if (WIFEXITED(parser->status))
 		g_terminate_program = WEXITSTATUS(parser->status);
 	else
-		g_terminate_program = 1;
+		g_terminate_program = 130;
 
-	// ft_malloc(0, 'F');
 	return (0);
 }
 
@@ -70,8 +66,6 @@ void	ft_propt(char **envp)
 	{
 		parser->input = readline("minishell>$ ");
 		add_history(parser->input);
-		// if (!parser->input)
-		// 	break ;
 		if (ft_ver(parser) == 1)
 			continue ;
 		if (*parser->input)
@@ -85,8 +79,6 @@ void	ft_propt(char **envp)
 		parser->input = NULL;
 	}
 	clear_history();
-	///ft_malloc(0, 'F');
-	//ft_malloc(0, 'P');
 }
 
 int	main(int argc, char **argv, char **envp)

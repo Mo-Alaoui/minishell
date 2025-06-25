@@ -22,7 +22,10 @@ void	replacement_strings(char **words, t_variables *env)
 	while (words[i])
 	{
 		if (is_special_characters(words[i]))
+		{
+			//printf("[%s]\n", words[i]);
 			words[i] = handel_special_characters(words[i]);
+		}
 		else if (words[i][0] != '\'')
 		{
 			if (words[i][0] == '"')
