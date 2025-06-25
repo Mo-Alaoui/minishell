@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 19:00:13 by mohalaou          #+#    #+#             */
-/*   Updated: 2025/06/17 19:00:18 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:21:31 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,18 @@ int	is_valid_var_name(char *name)
 	return (1);
 }
 
-void	free_env_variables(t_variables *env_list)
-{
-	t_variables	*current;
-	t_variables	*next;
+// void	free_env_variables(t_variables *env_list)
+// {
+// 	t_variables	*current;
+// 	t_variables	*next;
 
-	current = env_list;
-	while (current)
-	{
-		next = current->next;
-		free(current->variable_name);
-		free(current->value);
-		free(current);
-		current = next;
-	}
-}
+// 	current = env_list;
+// 	while (current)
+// 	{
+// 		next = current->next;
+// 		free(current->variable_name);
+// 		free(current->value);
+// 		free(current);
+// 		current = next;
+// 	}
+// }

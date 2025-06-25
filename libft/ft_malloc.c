@@ -1,4 +1,5 @@
 #include "libft.h"
+#include <stdio.h>
 
 void *ft_malloc(size_t size, char c)
 {
@@ -29,8 +30,16 @@ void *ft_malloc(size_t size, char c)
         {
             t_gc_node *tmp = head;
             head = head->next;
-            free(tmp->ptr);
+
+            if (tmp->ptr)
+            {
+               // printf("------------> %p\n", tmp->ptr);
+                free(tmp->ptr);   // Still safe to call free(NULL), but this avoids unnecessary calls
+                tmp->ptr = NULL;  // Prevent dangling pointer (good if reused elsewhere)
+            }
+
             free(tmp);
+            tmp = NULL;
         }
     }
     else if (!size && c == 'P')
@@ -39,7 +48,6 @@ void *ft_malloc(size_t size, char c)
         node = head;
         while (node)
         {
-            //printf("GC[%d] -> %p\n", i++, node->ptr);
             node = node->next;
         }
     }

@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 18:34:02 by mohalaou          #+#    #+#             */
-/*   Updated: 2025/06/21 12:09:41 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:20:29 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ void	ft_unset(t_variables **env, char **name)
 					previous->next = current->next;
 				else
 					*env = current->next;
-				free(current->variable_name);
-				free(current->value);
-				free(current);
+				// free(current->variable_name);
+				// free(current->value);
+				// free(current);
 				break ;
 			}
 			previous = current;

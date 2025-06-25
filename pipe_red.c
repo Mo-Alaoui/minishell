@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 18:24:09 by saamouss          #+#    #+#             */
-/*   Updated: 2025/06/24 20:32:07 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:55:46 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	wait_loop2(t_norm1 *norm1)
 	write(norm1->heredoc_fd[1], norm1->line, ft_strlen(norm1->line));
 	write(norm1->heredoc_fd[1], "\n", 1);
 	free(norm1->line);
+	norm1->line = NULL;
 	return (0);
 }
 

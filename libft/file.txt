@@ -1,0 +1,106 @@
+minishell>$ ls
+add_to_history.c		ft_execution.c	pipe_red.c	     tokenize.o
+add_to_history.o		ft_execution.o	pipe_red.o	     tokenize_utilis.c
+a.out				ft_ft.c		pipe_red_utilis.c    tokenize_utilis.o
+builtin_functions.c		ft_ft.o		pipe_red_utilis.o    utilis1.c
+builtin_functions.o		libft		pipe_utilis.c	     utilis1.o
+builtin_functions_utilis.c	main.c		pipe_utilis.o	     utilis2.c
+builtin_functions_utilis.o	main.o		quotes.c	     utilis2.o
+check_herdoc.c			Makefile	quotes.o	     utilis3.c
+check_herdoc.o			minishell	quotes_utilis.c      utilis3.o
+environment_variables.c		minishell.h	quotes_utilis.o      utilis_builtin.c
+environment_variables.o		out		quotes_utilis_two.c  utilis_builtin.o
+environment_variables_utilis.c	parser.c	quotes_utilis_two.o  utilis_builtin_two.c
+environment_variables_utilis.o	parser.o	readline.supp	     utilis_builtin_two.o
+ft_calls.c			pipe.c		test_duble_free.c    utilis.c
+ft_calls.o			pipe.o		tokenize.c	     utilis.o
+minishell>$ 
+exit
+------------> 0x6020000057b0
+------------> 0x6030000016f0
+------------> 0x60b0000005c0
+------------> 0x6030000016c0
+------------> 0x608000000320
+------------> 0x603000001690
+------------> 0x603000001660
+------------> 0x6020000056b0
+------------> 0x604000000810
+------------> 0x6060000003e0
+------------> 0x602000005630
+------------> 0x603000001630
+------------> 0x6020000055d0
+------------> 0x6040000007d0
+------------> 0x603000001600
+------------> 0x604000000790
+------------> 0x604000000750
+------------> 0x6030000015d0
+------------> 0x606000000380
+------------> 0x61b000001c80
+------------> 0x606000000320
+------------> 0x610000000240
+------------> 0x602000005470
+------------> 0x6030000015a0
+------------> 0x603000001570
+------------> 0x604000000710
+------------> 0x603000001540
+------------> 0x603000001510
+------------> 0x6040000006d0
+------------> 0x6060000002c0
+------------> 0x60b000000510
+------------> 0x602000005330
+------------> 0x6030000014e0
+------------> 0x604000000690
+------------> 0x604000000650
+------------> 0x606000000260
+------------> 0x6030000014b0
+------------> 0x603000001480
+------------> 0x604000000610
+------------> 0x603000001450
+------------> 0x603000001420
+------------> 0x6030000013f0
+------------> 0x6040000005d0
+------------> 0x6030000013c0
+------------> 0x604000000590
+------------> 0x603000001390
+------------> 0x603000001360
+------------> 0x603000001330
+------------> 0x614000000840
+------------> 0x6020000050d0
+------------> 0x602000005090
+------------> 0x602000005050
+=================================================================
+==1760967==ERROR: AddressSanitizer: attempting double-free on 0x602000005050 in thread T0:
+    #0 0x49a002 in free (/goinfre/mohalaou/minishell/minishell+0x49a002)
+    #1 0x4de044 in ft_malloc (/goinfre/mohalaou/minishell/minishell+0x4de044)
+    #2 0x4d0e1e in ft_ver (/goinfre/mohalaou/minishell/minishell+0x4d0e1e)
+    #3 0x4cb732 in ft_propt (/goinfre/mohalaou/minishell/minishell+0x4cb732)
+    #4 0x4cb907 in main (/goinfre/mohalaou/minishell/minishell+0x4cb907)
+    #5 0x7f07f6631d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #6 0x7f07f6631e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #7 0x41f3a4 in _start (/goinfre/mohalaou/minishell/minishell+0x41f3a4)
+
+0x602000005050 is located 0 bytes inside of 1-byte region [0x602000005050,0x602000005051)
+freed by thread T0 here:
+    #0 0x49a002 in free (/goinfre/mohalaou/minishell/minishell+0x49a002)
+    #1 0x4d1bc3 in ft_parser2 (/goinfre/mohalaou/minishell/minishell+0x4d1bc3)
+    #2 0x4d00ae in init_all (/goinfre/mohalaou/minishell/minishell+0x4d00ae)
+    #3 0x4d54ca in ft_runing (/goinfre/mohalaou/minishell/minishell+0x4d54ca)
+    #4 0x4cb38c in first_call (/goinfre/mohalaou/minishell/minishell+0x4cb38c)
+    #5 0x4cb7b8 in ft_propt (/goinfre/mohalaou/minishell/minishell+0x4cb7b8)
+    #6 0x4cb907 in main (/goinfre/mohalaou/minishell/minishell+0x4cb907)
+    #7 0x7f07f6631d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+previously allocated by thread T0 here:
+    #0 0x49a26d in malloc (/goinfre/mohalaou/minishell/minishell+0x49a26d)
+    #1 0x4ddf32 in ft_malloc (/goinfre/mohalaou/minishell/minishell+0x4ddf32)
+    #2 0x4dce5e in ft_strdup (/goinfre/mohalaou/minishell/minishell+0x4dce5e)
+    #3 0x4d19b5 in ft_parser2 (/goinfre/mohalaou/minishell/minishell+0x4d19b5)
+    #4 0x4d00ae in init_all (/goinfre/mohalaou/minishell/minishell+0x4d00ae)
+    #5 0x4d54ca in ft_runing (/goinfre/mohalaou/minishell/minishell+0x4d54ca)
+    #6 0x4cb38c in first_call (/goinfre/mohalaou/minishell/minishell+0x4cb38c)
+    #7 0x4cb7b8 in ft_propt (/goinfre/mohalaou/minishell/minishell+0x4cb7b8)
+    #8 0x4cb907 in main (/goinfre/mohalaou/minishell/minishell+0x4cb907)
+    #9 0x7f07f6631d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: double-free (/goinfre/mohalaou/minishell/minishell+0x49a002) in free
+==1760967==ABORTING

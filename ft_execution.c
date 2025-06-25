@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 09:38:39 by saamouss          #+#    #+#             */
-/*   Updated: 2025/06/24 18:25:44 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:23:12 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,29 +30,29 @@ char	*find_path(char *cmd, char **envp)
 	{
 		path1 = ft_strjoin(path_part[i], "/");
 		path = ft_strjoin(path1, cmd);
-		free(path1);
+		//free(path1);
 		if (access(path, F_OK) == 0)
 			return (path);
-		free(path);
+		//free(path);
 		i++;
 	}
 	i = 0;
-	ft_free(path_part);
+	//ft_free(path_part);
 	return (cmd);
 }
 
 void	ft_ex(char **cmd, int flag)
 {
-	int	i;
+	//int	i;
 
 	if (flag == 1)
 	{
-		i = 0;
+		//i = 0;
 		ft_putstr_fd("minishell: command not found: ", 2);
 		ft_putendl_fd(cmd[0], 2);
-		while (cmd[i] != 0)
-			free(cmd[i++]);
-		free(cmd);
+		//while (cmd[i] != 0)
+			//free(cmd[i++]);
+		//free(cmd);
 		exit(127);
 	}
 	else
@@ -92,17 +92,17 @@ void	ft_execute(char *argv, char **token, t_all *parser, char **envp)
 void	ft_execute_2(char **token, char **envp)
 {
 	char	*path;
-	int		i;
+	//int		i;
 
-	i = 0;
+	//i = 0;
 	path = find_path(token[0], envp);
 	if (execve(path, token, envp) == -1)
 	{
 		ft_putstr_fd("minishell: command not found: ", 2);
 		ft_putendl_fd(token[0], 2);
-		while (token[i] != 0)
-			free(token[i++]);
-		free(token);
+		// while (token[i] != 0)
+		// 	free(token[i++]);
+		// free(token);
 		exit(127);
 	}
 }

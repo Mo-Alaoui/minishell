@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:23:50 by mohalaou          #+#    #+#             */
-/*   Updated: 2025/06/24 18:52:47 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/25 17:16:28 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@ static char	**free_array(char **ptr, int i)
 	{
 		i--;
 		free(ptr[i]);
+		ptr[i] = NULL;
 	}
 	free(ptr);
+	ptr = NULL;
 	return (0);
 }
 

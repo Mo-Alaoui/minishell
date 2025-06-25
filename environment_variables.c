@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 18:52:34 by mohalaou          #+#    #+#             */
-/*   Updated: 2025/06/24 21:39:46 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/25 17:12:48 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ t_variables	*add_new_var(char *input)
 	name = var_name(input);
 	if (!is_valid_var_name(name))
 	{
-		free(name);
+		//free(name);
 		return (NULL);
 	}
 	new_var = (t_variables *)ft_malloc(sizeof(t_variables), 'A');
 	if (!new_var)
 	{
-		free(name);
+		//free(name);
 		return (NULL);
 	}
 	new_var->variable_name = name;
@@ -47,9 +47,12 @@ int	insert_or_update_variable(t_variables **env_list, t_variables *new_var)
 		if (ft_strcmp(current->variable_name, new_var->variable_name) == 0)
 		{
 			free(current->value);
+			current->value = NULL;
 			current->value = new_var->value;
 			free(new_var->variable_name);
+			new_var->variable_name = NULL;
 			free(new_var);
+			    new_var = NULL;
 			return (0);
 		}
 		if (!current->next)

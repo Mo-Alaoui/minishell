@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 22:45:02 by saamouss          #+#    #+#             */
-/*   Updated: 2025/06/24 18:25:24 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/25 17:11:24 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,11 @@ void	free_history(t_history *history)
 	while (i < history->size)
 	{
 		free(history->cmds[i]);
+		history->cmds[i] = NULL;
 		i++;
 	}
 	free(history->cmds);
+	history->cmds = NULL;
 	free(history);
+	history = NULL;
 }

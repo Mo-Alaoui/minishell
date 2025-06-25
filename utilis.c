@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:55:23 by saamouss          #+#    #+#             */
-/*   Updated: 2025/06/21 11:46:32 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:30:28 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,20 @@ void	init_all(t_all *parser, char **token)
 	parser->new_in_out = ft_parser2(token);
 }
 
-void	free_char_array(char **ptr)
-{
-	int	i;
+// void	free_char_array(char **ptr)
+// {
+// 	int	i;
 
-	i = 0;
-	if (!ptr)
-		return ;
-	while (ptr[i])
-	{
-		free(ptr[i]);
-		i++;
-	}
-	free(ptr);
-}
+// 	i = 0;
+// 	if (!ptr)
+// 		return ;
+// 	while (ptr[i])
+// 	{
+// 		free(ptr[i]);
+// 		i++;
+// 	}
+// 	free(ptr);
+// }
 
 int	check_his(char *token, t_history *history)
 {

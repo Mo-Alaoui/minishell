@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:33:02 by mohalaou          #+#    #+#             */
-/*   Updated: 2025/06/19 09:47:48 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:26:01 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ int	is_special_characters(char *str)
 	return (0);
 }
 
-void	free_words(char **ret, int count)
-{
-	while (count--)
-		free(ret[count]);
-	free(ret);
-}
+// void	free_words(char **ret, int count)
+// {
+// 	while (count--)
+// 		free(ret[count]);
+// 	free(ret);
+// }
 
 static int	get_variable_value_length(const char *str, int *index,
 		t_variables *env)

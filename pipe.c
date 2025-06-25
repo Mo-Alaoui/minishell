@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saamouss <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 19:07:22 by saamouss          #+#    #+#             */
-/*   Updated: 2025/06/20 19:07:24 by saamouss         ###   ########.fr       */
+/*   Updated: 2025/06/25 14:59:25 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	if_its_pipe(t_list *new_pip, char **token, t_all *parser, char **envp)
 {
 	t_norm	*norm;
 
-	norm = malloc(sizeof(t_norm));
+	norm = ft_malloc(sizeof(t_norm), 'A');
 	init(norm, new_pip, 1, token);
 	while (new_pip)
 	{

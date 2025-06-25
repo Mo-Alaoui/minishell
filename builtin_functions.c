@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 18:06:29 by mohalaou          #+#    #+#             */
-/*   Updated: 2025/06/17 18:35:16 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/25 17:24:19 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	ft_exit(char **args)
 	if (len_args == 1)
 	{
 		printf("exit\n");
+		//ft_malloc(0,'F');
 		exit(g_terminate_program);
 	}
 	else
@@ -74,6 +75,7 @@ void	ft_exit(char **args)
 			printf("%s", args[1]);
 			printf(": numeric argument required\n");
 			g_terminate_program = 2;
+				//ft_malloc(0,'F');	
 			exit(g_terminate_program);
 		}
 		exit_utils(args, len_args);

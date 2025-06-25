@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:54:46 by saamouss          #+#    #+#             */
-/*   Updated: 2025/06/23 21:27:13 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/25 17:34:04 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,49 +26,13 @@ int	is_only_spaces(char *str)
 	return (1);
 }
 
-void    ft_for_leaks(t_all *parser, char **token)
-{
-    if (parser->new_pip)
-        ft_lstclear(&parser->new_pip, free);
-    if (parser->new_her)
-        ft_lstclear(&parser->new_her, free);
-    if (parser->new_red_in)
-        ft_lstclear(&parser->new_red_in, free);
-    if (parser->new_red_out)
-        ft_lstclear(&parser->new_red_out, free);
-    if (parser->new_red_out_a)
-        ft_lstclear(&parser->new_red_out_a, free);
-    if (parser->new_in_out)
-        ft_lstclear(&parser->new_in_out, free);
-    if (parser->clean)
-        free_char_array(parser->clean);
-    if (parser->segment)
-        free_char_array(parser->segment);
-    if (parser->joined)
-        free(parser->joined);
-    if (parser->token)
-        free_char_array(token);
-    if (parser->input)
-        free(parser->input);
-    
-    if (parser->envp_p)
-        free_char_array(parser->envp_p);
-    
-    if (parser->env)
-        free_env_variables(parser->env);
-    if (parser->local_env)
-        free_env_variables(parser->local_env);
-        
-    //ft_lstclear(&parser->new_pip, free);
-  //  free_history(parser->history);
-}
 
 int	ft_ver(t_all *parser)
 {
 	if (!parser->input)
 	{
 		printf("exit\n");
-		//ft_for_leaks(parser, parser->token);
+		//ft_malloc(0, 'F');
 		exit(0);
 	}
 	if (is_only_spaces(parser->input))
@@ -102,13 +66,13 @@ void	ft_check_builtin(char **token, t_all *parser, char **envp_p)
 		|| (ft_strcmp(token[0], "unset") == 0 && check_input_type(token) == 0))
 	{
 		run_builtin_function(token, &parser->env, &parser->local_env);
-			//ft_for_leaks(parser, parser->token);
 		if ((ft_strcmp(token[0], "unset") == 0 && check_input_type(token) == 0))
 			envp_p = variables_to_array(parser->env);
 			
 	}
 	if (ft_strcmp(token[0], "exit") == 0 && token[1] != NULL
 		&& ft_strcmp(token[1], "'|'"))
+	{
 		run_builtin_function(token, &parser->env, &parser->env);
-			//ft_for_leaks(parser, parser->token);
+	}
 }

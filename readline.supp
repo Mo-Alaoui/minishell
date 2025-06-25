@@ -1,10 +1,107 @@
 {
-   readline_still_reachable
+   ignore_readline_history
    Memcheck:Leak
    match-leak-kinds: reachable
    fun:malloc
    fun:xmalloc
-   fun:readline_internal_setup
-   fun:readline
+   fun:history_*
 }
 
+{
+   ignore_readline_completion
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:*completion*
+}
+
+{
+   ignore_readline_keymap
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:*keymap*
+}
+
+{
+   ignore_readline_library_init
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:*
+   obj:*/libreadline.so*
+}
+
+{
+   ignore_readline_library_malloc
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:*
+   obj:*/libreadline.so*
+}
+
+{
+   ignore_readline_library_realloc
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:*
+   obj:*/libreadline.so*
+}
+
+{
+   ignore_readline_rl_initialize
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_initialize
+}
+
+{
+   ignore_readline_using_history
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:using_history
+}
+
+{
+   ignore_readline_add_history
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:add_history
+}
+
+{
+   ignore_ncurses_leaks
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:*
+   obj:*/libncurses*
+}
+
+{
+   ignore_ncurses_tinfo_leaks
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:*
+   obj:*/libtinfo*
+}
+
+{
+   ignore_termcap_leaks
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:*
+   obj:*/libtermcap*
+}
