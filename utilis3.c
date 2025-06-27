@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 19:06:47 by saamouss          #+#    #+#             */
-/*   Updated: 2025/06/25 16:30:48 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/26 16:40:58 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,15 @@ void	error(void)
 	exit(1);
 }
 
-// void	ft_free(char **str)
-// {
-// 	int	i;
+void	ft_free(char **str)
+{
+	int	i;
 
-// 	i = 0;
-// 	while (str[i] != 0)
-// 		free(str[i++]);
-// 	free(str);
-// }
+	i = 0;
+	while (str[i] != 0)
+		free(str[i++]);
+	free(str);
+}
 
 void	ft_seg(pid_t pid, t_all *parser)
 {

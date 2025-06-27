@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 23:00:10 by saamouss          #+#    #+#             */
-/*   Updated: 2025/06/25 17:11:56 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/26 16:32:50 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,11 @@ static int	ft_loop(char **toknize, int *fd, int i)
 		line = readline("heredoc> ");
 		if (!line || ft_strcmp(line, delimiter) == 0)
 		{
-			free(line);
 			line = NULL;
 			break ;
 		}
 		write(fd[1], line, ft_strlen(line));
 		write(fd[1], "\n", 1);
-		free(line);
 		line = NULL;
 	}
 	close(fd[1]);

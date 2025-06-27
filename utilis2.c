@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:54:46 by saamouss          #+#    #+#             */
-/*   Updated: 2025/06/25 17:34:04 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/26 17:07:02 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,11 @@ int	is_only_spaces(char *str)
 	return (1);
 }
 
-
 int	ft_ver(t_all *parser)
 {
 	if (!parser->input)
 	{
 		printf("exit\n");
-		//ft_malloc(0, 'F');
 		exit(0);
 	}
 	if (is_only_spaces(parser->input))
@@ -68,7 +66,6 @@ void	ft_check_builtin(char **token, t_all *parser, char **envp_p)
 		run_builtin_function(token, &parser->env, &parser->local_env);
 		if ((ft_strcmp(token[0], "unset") == 0 && check_input_type(token) == 0))
 			envp_p = variables_to_array(parser->env);
-			
 	}
 	if (ft_strcmp(token[0], "exit") == 0 && token[1] != NULL
 		&& ft_strcmp(token[1], "'|'"))

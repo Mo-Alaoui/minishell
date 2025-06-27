@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 15:27:00 by mohalaou          #+#    #+#             */
-/*   Updated: 2025/06/24 22:21:57 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/26 16:40:13 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	ft_child(t_all *parser, char **token, int flag, char **envp)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+	if (token[0][0] == '\0' && token[1] == NULL)
+		ft_ex(token, 1);
 	if (check_input_type(token) == 3)
 		exit(if_its_pipe_red(token, parser->new_pip, parser, envp));
 	if (check_input_type(token) == 2)
@@ -84,16 +86,10 @@ char	**variables_to_array(t_variables *head)
 		ft_strlcpy(tmp, head->variable_name, total_len);
 		ft_strlcat(tmp, "=", total_len);
 		ft_strlcat(tmp, head->value, total_len);
-		
 		array[i++] = tmp;
 		head = head->next;
 	}
 	array[i] = NULL;
-
-
-	// printf(" ---> [head->variable_name] [%p]", head->variable_name);
-	// printf...
-	
 	return (array);
 }
 

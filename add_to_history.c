@@ -6,29 +6,11 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 22:45:02 by saamouss          #+#    #+#             */
-/*   Updated: 2025/06/25 17:11:24 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/26 16:27:39 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// t_history	*init_history(void)
-// {
-// 	t_history	*history;
-
-// 	history = malloc(sizeof(t_history));
-// 	if (!history)
-// 		return (NULL);
-// 	history->capacity = 500;
-// 	history->size = 0;
-// 	history->cmds = malloc(sizeof(char *) * history->capacity);
-// 	if (!history->cmds)
-// 	{
-// 		free(history);
-// 		return (NULL);
-// 	}
-// 	return (history);
-// }
 
 void	add_to_history(t_history *history, char *line)
 {

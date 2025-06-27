@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 23:39:48 by saamouss          #+#    #+#             */
-/*   Updated: 2025/06/24 18:56:43 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/26 17:10:40 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@
 
 extern int				g_terminate_program;
 # endif
-
-
 
 typedef struct s_variables
 {
@@ -136,7 +134,6 @@ int						check_his(char *token, t_history *history);
 void					ft_child(t_all *parser, char **token, int flag,
 							char **envp);
 void					error(void);
-void					ft_free(char **str);
 char					*find_path(char *cmd, char **envp);
 t_list					*ft_parser(char **tokenize, char *s);
 t_list					*ft_parser2(char **tokenize);
@@ -153,15 +150,10 @@ char					**ft_tokenize(const char *input);
 
 // handle_pipe//
 void					init_all(t_all *parser, char **token);
-char					**ft_subarray(char **tokens, int start, int end);
 int						if_its_pipe(t_list *new_pip, char **token,
 							t_all *parser, char **envp);
 char					**remove_redir_tokens(char **tokens);
-int						check_input_type(char **token);
-char					*ft_join_with_space(char **tokens);
 int						check_parser(char **token);
-void					ft_helper1(char **token);
-void					ft_helper(char **token);
 int						if_its_pipe_red(char **tokens, t_list *new_pip,
 							t_all *parser, char **envp);
 // builtin functions//
@@ -206,8 +198,6 @@ void					replacement_strings(char **words, t_variables *env);
 char					*handel_special_characters(char *str);
 char					*replace_token(const char *str, t_variables *env);
 // for norminette ///
-// void					ft_child(t_all *parser, char **token, int flag,
-// 							char **envp);
 void					ft_ft(char *check);
 int						ft_ft1(char **toknize, int last_fd);
 int						ft_ft2(char **tokenize, int i, int flag);
@@ -225,11 +215,9 @@ void					ft_call4(t_all *parser, int flag, char **envp);
 char					**ft_runing(t_all *parser, char *input);
 int						ft_ver(t_all *parser);
 void					ft_for_leaks(t_all *parser, char **token);
-char					**force_quote(char **token, t_all *parser);
 void					ft_check_builtin(char **token, t_all *parser,
 							char **envp_p);
 int						get_size(const char *str, t_variables *env);
-void					free_words(char **ret, int count);
 char					*join_strings(char **words);
 void					add_token(t_token_data *data, const char *input,
 							int start, int end);
@@ -239,8 +227,6 @@ void					sort_ascii(char **arr);
 char					**ft_subarray(char **tokens, int start, int end);
 char					*ft_join_with_space(char **tokens);
 int						count_tok_size(char **tokens);
-char					**remove_redir_tokens(char **tokens);
-char					**remove_redir_tokens(char **tokens);
 int						wait_loop1(char *line, char *heredoc_delim);
 void					ft_seg(pid_t pid, t_all *parser);
 int						ft_close(int last_heredoc_fd, int *heredoc_fd);
@@ -250,8 +236,7 @@ void					ft_helper(char **token);
 void					ft_helper1(char **token);
 int						check_input_type(char **token);
 void					ft_init_init(t_all *parser, char **envp);
-
-// ft_malloc
-// void					*ft_malloc(size_t size, char c);
+int	is_only_spaces(char *str);
+void	ft_ex(char **cmd, int flag);
 
 #endif

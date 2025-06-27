@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 00:37:32 by saamouss          #+#    #+#             */
-/*   Updated: 2025/06/25 17:48:08 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/26 16:35:01 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,12 @@ void	sigint_handler(int sig)
 	write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_redisplay();
-	//g_terminate_program = 130;
 }
 
 void	setup_signals(void)
 {
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
-
 }
 
 int	first_call(t_all *parser)
@@ -37,9 +35,7 @@ int	first_call(t_all *parser)
 
 	parser->token = ft_runing(parser, parser->input);
 	if (!parser->token)
-	{
 		return (1);
-	}
 	parser->envp_p = variables_to_array(parser->env);
 	pid = fork();
 	if (pid == -1)
@@ -52,7 +48,6 @@ int	first_call(t_all *parser)
 		g_terminate_program = WEXITSTATUS(parser->status);
 	else
 		g_terminate_program = 130;
-
 	return (0);
 }
 
@@ -78,7 +73,7 @@ void	ft_propt(char **envp)
 		free(parser->input);
 		parser->input = NULL;
 	}
-	clear_history();
+	rl_clear_history();
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -87,6 +82,6 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	setup_signals();
 	ft_propt(envp);
-	//ft_malloc(0, 'F');
+	ft_malloc(0, 'F');
 	return (0);
 }

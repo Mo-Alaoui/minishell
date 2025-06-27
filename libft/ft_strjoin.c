@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:22:03 by mohalaou          #+#    #+#             */
-/*   Updated: 2025/06/24 18:48:20 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/26 17:05:30 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	j = 0;
 	if (!s1 || !s2)
 		return (NULL);
-	res = (char *)ft_malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1), 'A');
+	res = ft_malloc(sizeof(char)
+			* (ft_strlen(s1) + ft_strlen(s2) + 1), 'A');
 	if (res == NULL)
 		return (NULL);
 	while (s1[i])

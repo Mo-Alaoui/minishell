@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:33:02 by mohalaou          #+#    #+#             */
-/*   Updated: 2025/06/25 16:26:01 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/26 16:38:30 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 
 int	is_special_characters(char *str)
 {
-	int i = 0;
-	char c = '\0';
-	if(str[0] == '\'')
+	int		i;
+	char	c;
+
+	i = 0;
+	c = '\0';
+	if (str[0] == '\'')
 		i++;
 	if (ft_isseparator(str[i]))
 	{

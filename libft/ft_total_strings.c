@@ -12,7 +12,7 @@
 
 int	ft_total_strings(char **s)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (s[i])

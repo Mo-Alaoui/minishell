@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:26:42 by mohalaou          #+#    #+#             */
-/*   Updated: 2025/06/25 16:26:26 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/26 16:54:19 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ void	replacement_strings(char **words, t_variables *env)
 	while (words[i])
 	{
 		if (is_special_characters(words[i]))
-		{
-			//printf("[%s]\n", words[i]);
 			words[i] = handel_special_characters(words[i]);
-		}
 		else if (words[i][0] != '\'')
 		{
 			if (words[i][0] == '"')
@@ -51,10 +48,7 @@ static void	add_word(char **ret, char *input, t_split_variables *var)
 	{
 		ret[var->ret_count] = ft_strndup(input + start, end - start);
 		if (!ret[var->ret_count])
-		{
-			//free_words(ret, var->ret_count);
 			exit(1);
-		}
 		(var->ret_count)++;
 	}
 }
@@ -109,11 +103,11 @@ char	*handel_quotes(char *input, t_variables *env)
 	replacement_strings(words, env);
 	input = join_strings(words);
 	i = 0;
-	// while (words[i])
-	// {
-	// 	free(words[i]);
-	// 	i++;
-	// }
-	// free(words);
+	while (words[i])
+	{
+		free(words[i]);
+		i++;
+	}
+	free(words);
 	return (input);
 }

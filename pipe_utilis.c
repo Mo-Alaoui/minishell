@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 19:07:43 by saamouss          #+#    #+#             */
-/*   Updated: 2025/06/25 12:15:45 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/26 17:08:03 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	ft_init_init(t_all *parser, char **envp)
 {
 	parser->flag1 = 0;
-	// parser->history = init_history();
 	parser->env = init_env_variables(envp);
 	parser->envp_p = variables_to_array(parser->env);
 }
@@ -25,28 +24,14 @@ char	**ft_runing(t_all *parser, char *input)
 	char	**token;
 	char	*check;
 
-	// add_history(input);
-	// add_to_history(parser->history, input);
 	token = ft_tokenize(input);
-	int i = 0;
-	while(token[i])
-	{
-		//printf("->>>before-force : %s\n", token[i]);
-		i++;
-	}
 	if (!token)
 	{
 		g_terminate_program = 1;
 		return (NULL);
 	}
-	token = force_quote(token, parser);
-	i = 0;
-	while(token[i])
-	{
-		//printf("->>>after-force : %s\n", token[i]);
-		i++;
-	}
 	check = is_valid_input(token);
+	token = force_quote(token, parser);
 	if (check != NULL)
 	{
 		ft_ft(check);

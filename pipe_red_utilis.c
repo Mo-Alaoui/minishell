@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 18:24:09 by saamouss          #+#    #+#             */
-/*   Updated: 2025/06/25 16:55:32 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/26 16:37:26 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ char	**remove_redir_tokens(char **tokens)
 		i++;
 	}
 	args[j] = NULL;
-	
 	return (args);
 }
 
@@ -100,7 +99,7 @@ int	wait_loop1(char *line, char *heredoc_delim)
 {
 	if (!line || ft_strcmp(line, heredoc_delim) == 0)
 	{
-		//free(line);
+		free(line);
 		return (1);
 	}
 	return (0);

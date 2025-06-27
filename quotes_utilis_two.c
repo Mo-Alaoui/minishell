@@ -6,25 +6,26 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 17:07:37 by mohalaou          #+#    #+#             */
-/*   Updated: 2025/06/25 16:25:46 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/26 17:12:59 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	process_variable_token(const char *str, t_token_variables *var,
-	t_variables *env)
+		t_variables *env)
 {
 	t_process_var	v;
 
 	v.j = var->i + 1;
-	if (str[v.j] == '?')
+	if (str[v.j] && str[v.j] == '?')
 	{
 		v.g_num_str = ft_itoa(g_terminate_program);
-		ft_memcpy(var->result + var->ri, v.g_num_str, ft_strlen(v.g_num_str));
+		if (v.g_num_str)
+			ft_memcpy(var->result + var->ri, v.g_num_str,
+				ft_strlen(v.g_num_str));
 		var->ri += ft_strlen(v.g_num_str);
 		var->i += 2;
-		//free(v.g_num_str);
 		return ;
 	}
 	while (str[v.j] && (ft_isalnum(str[v.j]) || str[v.j] == '_'))
@@ -46,15 +47,14 @@ char	*replace_token(const char *str, t_variables *env)
 
 	var.ri = 0;
 	var.i = 0;
-	//printf("get_size(str, env) -> [%d]\n", get_size(str, env));
-	var.result = (char *)ft_malloc(get_size(str, env) + 10, 'A');
+	var.result = (char *)ft_malloc(get_size(str, env) + 1, 'A');
 	if (!var.result)
 		return (NULL);
 	while (str[var.i])
 	{
 		if (str[var.i] == '$' && (ft_isalnum(str[var.i + 1])
-				|| str[var.i + 1] == '_'
-				|| str[var.i + 1] == '?') && !ft_isdigit(str[var.i + 1]))
+				|| str[var.i + 1] == '_' || str[var.i + 1] == '?')
+			&& !ft_isdigit(str[var.i + 1]))
 			process_variable_token(str, &var, env);
 		else
 			var.result[var.ri++] = str[var.i];

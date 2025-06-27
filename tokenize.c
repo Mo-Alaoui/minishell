@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:20:05 by mohalaou          #+#    #+#             */
-/*   Updated: 2025/06/25 16:30:19 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/26 16:39:57 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ void	add_token(t_token_data *data, const char *input, int start, int end)
 		data->tokens[data->token_count] = ft_strndup(input + start, num);
 		if (!data->tokens[data->token_count])
 		{
-			// while (data->token_count--)
-			// 	free(data->tokens[data->token_count]);
-			// free(data->tokens);
+			while (data->token_count--)
+				free(data->tokens[data->token_count]);
+			free(data->tokens);
 			exit(EXIT_FAILURE);
 		}
 		data->token_count++;
@@ -37,13 +37,11 @@ static void	skip_quote(const char *input, int *i, int *count)
 
 	quote = '\0';
 	quote = input[*i];
-	while (input[++(*i)] != quote)
+	while (input[*i + 1] && input[*i + 1] != quote)
+		(*i)++;
+	if (input[*i] == '\0')
 	{
-		if (input[*i] == '\0')
-		{
-			(*count)++;
-			return ;
-		}
+		(*count)++;
 	}
 }
 
@@ -96,7 +94,7 @@ char	**ft_tokenize(const char *input)
 
 	ft_memset(&data, 0, sizeof(t_token_data));
 	len = ft_count_token(input);
-	data.tokens = ft_malloc(sizeof(char *) * (len + 1), 'A');
+	data.tokens = ft_malloc(sizeof(char *) * (len * 2), 'A');
 	if (!data.tokens)
 		return (NULL);
 	while (input[data.i])
