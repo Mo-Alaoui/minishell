@@ -126,7 +126,7 @@ typedef struct s_norm1
 int						check_red(char **tokenize);
 int						redirect_output(const char *filename, int append);
 int						redirect_input(char *filename);
-int						check_herdoc(char **toknize, char **envp);
+int	check_herdoc(t_all *parser, char **toknize, char **envp);
 void					ft_execute(char *argv, char **token, t_all *parser,
 							char **envp);
 void					ft_execute_2(char **token, char **envp);

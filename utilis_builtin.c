@@ -36,7 +36,7 @@ void	ft_child(t_all *parser, char **token, int flag, char **envp)
 		exit(if_its_pipe(parser->new_pip, token, parser, envp));
 	if (check_input_type(token) == 0)
 	{
-		if (check_herdoc(token, envp) == 1)
+		if (check_herdoc(parser,token, envp) == 1)
 			ft_call(parser, flag, envp);
 		else if (check_red(token) == 1)
 			ft_call1(parser, flag, envp);

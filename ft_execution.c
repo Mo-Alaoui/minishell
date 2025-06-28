@@ -69,6 +69,11 @@ void	ft_execute(char *argv, char **token, t_all *parser, char **envp)
 	char	**cmd;
 	char	*path;
 
+
+	if (!argv || argv[0] == '\0')
+		exit(0);
+	if (!token || !token[0])
+		exit(0);
 	if(is_only_spaces(token[0]) == 1 || (token[0][0] == '\0' && token[1] == NULL))
 	    ft_ex(token, 1);
 	if (ft_strcmp(token[0], "touch") == 0 || ft_strcmp(token[0], "awk") == 0)

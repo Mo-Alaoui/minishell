@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int	ft_loop(char **toknize, int *fd, int i)
+static int	ft_loop(char **toknize, int *fd, int i , t_variables *env)
 {
 	int		last_fd;
 	char	*delimiter;
@@ -30,6 +30,7 @@ static int	ft_loop(char **toknize, int *fd, int i)
 			line = NULL;
 			break ;
 		}
+		line = replace_token(line, env);
 		write(fd[1], line, ft_strlen(line));
 		write(fd[1], "\n", 1);
 		line = NULL;
@@ -41,7 +42,7 @@ static int	ft_loop(char **toknize, int *fd, int i)
 	return (last_fd);
 }
 
-int	check_herdoc(char **toknize, char **envp)
+int	check_herdoc(t_all *parser, char **toknize, char **envp)
 {
 	int	i;
 	int	fd[2];
@@ -54,7 +55,7 @@ int	check_herdoc(char **toknize, char **envp)
 	{
 		if (ft_strcmp(toknize[i], "'<<'") == 0 && toknize[i + 1])
 		{
-			last_fd = ft_loop(toknize, fd, i);
+			last_fd = ft_loop(toknize, fd, i , parser->env);
 			i += 1;
 		}
 		i++;
