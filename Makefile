@@ -1,7 +1,19 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/06/29 20:04:03 by mohalaou          #+#    #+#              #
+#    Updated: 2025/06/29 20:09:02 by mohalaou         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = minishell
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -Ilibft -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -Ilibft
 RLFLAGS = -lreadline
 
 SRCS = main.c tokenize_utilis.c utilis3.c utilis_builtin_two.c pipe_red_utilis.c \

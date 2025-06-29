@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:55:14 by saamouss          #+#    #+#             */
-/*   Updated: 2025/06/26 16:40:32 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/29 20:10:18 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,27 +44,22 @@ char *is_valid_input(char **tokens)
 
     if (!tokens || !tokens[0])
         return NULL;
-
     if (is_pipe(tokens[0]) || (tokens[i + 1] == NULL && is_pipe(tokens[i])))
         return tokens[i];
-
     while (tokens[i])
     {
         if (is_invalid_token(tokens[i]))
             return tokens[i];
-
         if (is_pipe(tokens[i]))
         {
             if (!tokens[i + 1] || is_pipe(tokens[i + 1]))
                 return tokens[i];
         }
-
         if (is_redir(tokens[i]))
         {
             if (!tokens[i + 1] || is_redir(tokens[i + 1]) || is_pipe(tokens[i + 1]))
                 return tokens[i];
         }
-
         i++;
     }
     return NULL;

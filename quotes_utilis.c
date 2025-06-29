@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:33:02 by mohalaou          #+#    #+#             */
-/*   Updated: 2025/06/26 16:38:30 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/29 17:38:06 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,16 @@ static int	get_variable_value_length(const char *str, int *index,
 	return (0);
 }
 
+int gloval_number_len()
+{
+	if (g_terminate_program < 10)
+		return (1);
+	else if (g_terminate_program < 100)
+		return (2);
+	else
+		return (3);
+}
+
 int	get_size(const char *str, t_variables *env)
 {
 	int	len;
@@ -65,6 +75,13 @@ int	get_size(const char *str, t_variables *env)
 
 	len = 0;
 	i = 0;
+
+	if (ft_strcmp((char *)str, "$?") == 0)
+	{
+		// printf("[$? = %d]\n", gloval_number_len());
+		return (gloval_number_len());
+	}
+
 	while (str[i])
 	{
 		if (str[i] == '$')

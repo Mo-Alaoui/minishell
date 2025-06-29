@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 17:07:37 by mohalaou          #+#    #+#             */
-/*   Updated: 2025/06/26 17:12:59 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/29 19:00:29 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	process_variable_token(const char *str, t_token_variables *var,
 			ft_memcpy(var->result + var->ri, v.g_num_str,
 				ft_strlen(v.g_num_str));
 		var->ri += ft_strlen(v.g_num_str);
-		var->i += 2;
+		var->i = v.j;
 		return ;
 	}
 	while (str[v.j] && (ft_isalnum(str[v.j]) || str[v.j] == '_'))

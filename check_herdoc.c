@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 23:00:10 by saamouss          #+#    #+#             */
-/*   Updated: 2025/06/26 16:32:50 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/29 20:11:51 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,15 @@
 static int	ft_loop(char **toknize, int *fd, int i , t_variables *env)
 {
 	int		last_fd;
-	char	*delimiter;
 	char	*line;
 
 	if (pipe(fd) == -1)
 		return (1);
-	delimiter = toknize[i + 1];
 	last_fd = -1;
 	while (1)
 	{
 		line = readline("heredoc> ");
-		if (!line || ft_strcmp(line, delimiter) == 0)
+		if (!line || ft_strcmp(line, toknize[i + 1]) == 0)
 		{
 			line = NULL;
 			break ;

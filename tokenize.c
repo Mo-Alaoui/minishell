@@ -6,7 +6,7 @@
 /*   By: mohalaou <mohalaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:20:05 by mohalaou          #+#    #+#             */
-/*   Updated: 2025/06/26 16:39:57 by mohalaou         ###   ########.fr       */
+/*   Updated: 2025/06/29 18:54:46 by mohalaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,36 +31,30 @@ void	add_token(t_token_data *data, const char *input, int start, int end)
 	}
 }
 
-static void	skip_quote(const char *input, int *i, int *count)
+static void skip_quote(const char *input, int *i)
 {
-	char	quote;
-
-	quote = '\0';
-	quote = input[*i];
-	while (input[*i + 1] && input[*i + 1] != quote)
+	char quote = input[*i];
+	(*i)++;
+	while (input[*i] && input[*i] != quote)
 		(*i)++;
-	if (input[*i] == '\0')
-	{
-		(*count)++;
-	}
+	if (input[*i] == quote)
+		(*i)++;
 }
 
-static int	handle_whitespace_separator(const char *input, int *i, int *count)
+static int handle_whitespace_separator(const char *input, int *i, int *count)
 {
-	char	sep;
+	char sep;
 
-	sep = '\0';
 	if (ft_isspace(input[*i]))
 	{
-		*count += 1;
 		while (ft_isspace(input[*i]))
 			(*i)++;
 		return (1);
 	}
 	if (ft_isseparator(input[*i]))
 	{
-		*count += 2;
 		sep = input[*i];
+		(*count) += 2;
 		while (input[++(*i)] == sep)
 			;
 		return (1);
@@ -68,24 +62,43 @@ static int	handle_whitespace_separator(const char *input, int *i, int *count)
 	return (0);
 }
 
-static int	ft_count_token(const char *input)
+static int ft_count_token(const char *input)
 {
-	int count, (i);
-	count = 0;
+	int i, (count), (in_token);
+	
 	i = 0;
-	input = ft_strtrim(input, " ");
+	count = 0;
+	in_token = 0;
 	while (input[i])
 	{
-		if (input[i] == '"' || input[i] == '\'')
-			skip_quote(input, &i, &count);
 		if (handle_whitespace_separator(input, &i, &count))
-			continue ;
+		{
+			in_token = 0;
+			continue;
+		}
+		if (input[i] == '"' || input[i] == '\'')
+		{
+			skip_quote(input, &i);
+			count++;
+			in_token = 1;
+			continue;
+		}
+		if (!ft_isspace(input[i]) && !ft_isseparator(input[i]))
+		{
+			if (!in_token)
+			{
+				count++;
+				in_token = 1;
+			}
+		}
+		else
+			in_token = 0;
 		i++;
 	}
-	if (i > 0 && !ft_isspace(input[i - 1]))
-		count++;
-	return (count);
+	return count;
 }
+
+
 
 char	**ft_tokenize(const char *input)
 {
@@ -94,6 +107,7 @@ char	**ft_tokenize(const char *input)
 
 	ft_memset(&data, 0, sizeof(t_token_data));
 	len = ft_count_token(input);
+	
 	data.tokens = ft_malloc(sizeof(char *) * (len * 2), 'A');
 	if (!data.tokens)
 		return (NULL);
