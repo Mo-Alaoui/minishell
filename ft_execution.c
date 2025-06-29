@@ -66,9 +66,7 @@ void	ft_ex(char **cmd, int flag)
 
 void	ft_execute(char *argv, char **token, t_all *parser, char **envp)
 {
-	char	**cmd;
 	char	*path;
-
 
 	if (!argv || argv[0] == '\0')
 		exit(0);
@@ -86,12 +84,11 @@ void	ft_execute(char *argv, char **token, t_all *parser, char **envp)
 		if (run_builtin_function(token, &parser->env, &parser->local_env) != 0)
 			exit(0);
 	}
-	cmd = ft_split(argv, ' ');
-	path = find_path(cmd[0], envp);
-	if (is_directory(cmd[0]) == 1 && ft_strcmp(cmd[0], "..") != 0)
-		ft_ex(cmd, 0);
-	if (execve(path, cmd, envp) == -1)
-		ft_ex(cmd, 1);
+	path = find_path(token[0], envp);
+	if (is_directory(token[0]) == 1 && ft_strcmp(token[0], "..") != 0)
+		ft_ex(&token[0], 0);
+	if (execve(path, &token[0], envp) == -1)
+		ft_ex(&token[0], 1);
 }
 
 void	ft_execute_2(char **token, char **envp)

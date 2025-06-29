@@ -74,6 +74,7 @@ int	check_red(char **tokenize)
 			return (ft_ft2(tokenize, i, 1));
 		else if (ft_strcmp(tokenize[i], "'>'") == 0)
 		{
+		    redirect_output(tokenize[i + 1], 1);
 			if (ft_ft2(tokenize, i, 0) == 4)
 				return (2);
 		}

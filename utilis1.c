@@ -35,7 +35,7 @@ int is_pipe(char *s)
 int is_invalid_token(char *s)
 {
     return (!ft_strncmp(s, "||",2) || !ft_strcmp(s, "><") ||
-    	 !ft_strncmp(s, ">>",2));
+    	 !ft_strncmp(s, ">>>",3));
 }
 
 char *is_valid_input(char **tokens)

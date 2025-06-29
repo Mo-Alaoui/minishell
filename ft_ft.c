@@ -83,7 +83,7 @@ int	ft_ft7(char **tokenize, int j)
 			redirect_input(tokenize[j + 1]);
 			break ;
 		}
-		--j;
+		j--;
 	}
 	return (4);
 }
@@ -104,7 +104,7 @@ int	ft_ft2(char **tokenize, int i, int flag)
 			return (ft_ft7(tokenize, j));
 		else if (ft_strcmp(tokenize[j], "'>>'") == 0)
 			return (ft_ft7(tokenize, j));
-		j--;
+		--j;
 	}
 	return (1);
 }
